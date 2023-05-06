@@ -1,42 +1,64 @@
 ---
-import Layout from "../layouts/Layout.astro";
+import Html from "../layouts/Html.astro";
 import Card from "../components/Card.astro";
+import { Link } from "../components/link";
 import { Counter } from "../components/reactExample";
+import { WipHeader } from "../components/wip";
 ---
 
-<Layout title="Welcome to Astro.">
+<Html title="Home" description="CTD Course Pages Home">
+  <WipHeader />
   <main>
-    <h1>Welcome to <span class="text-gradient">Astro</span></h1>
-    <p class="instructions">
-      To get started, open the directory <code>src/pages</code> in your project.<br
-      />
-      <strong>Code Challenge:</strong> Tweak the "Welcome to Astro" message above.
-    </p>
-    <ul role="list" class="link-card-grid">
-      <Card
-        href="https://docs.astro.build/"
-        title="Documentation"
-        body="Learn how Astro works and explore the official API docs."
-      />
-      <Card
-        href="https://astro.build/integrations/"
-        title="Integrations"
-        body="Supercharge your project with new frameworks and libraries."
-      />
-      <Card
-        href="https://astro.build/themes/"
-        title="Themes"
-        body="Explore a galaxy of community-built starter themes."
-      />
-      <Card
-        href="https://astro.build/chat/"
-        title="Community"
-        body="Come say hi to our amazing Discord community. ❤️"
-      />
-    </ul>
+    <div class="prose bg-fuchsia-50 rounded p-4 m-8">
+      <h1>CTD Course Pages</h1>
+      <p>Welcome to CTD Course Pages! This is a heavily WIP website</p>
+      <p>
+        Below is a bit of the Astro Boilerplate, which I've left behind as new
+        contributors will be familiarizing themselves with it!
+      </p>
+      <p>
+        Here are some entrypoints into the content we are working on:
+        <ul>
+          <li><Link href="/node-express/home">Node Express Course</Link></li>
+        </ul>
+      </p>
+    </div>
+    <div class="rounded p-2 border-black border hover:bg-gray-100">
+      <div class="text-right">
+        <span class="text-sm text-right italic">astro boilerplate...</span>
+      </div>
+      <h1>Welcome to Astro!</h1>
+      <p class="instructions">
+        To get started, open the directory <code>src/pages</code> in your project.<br
+        />
+        <strong>Code Challenge:</strong> Tweak the "Welcome to Astro" message above.
+      </p>
+      <ul role="list" class="link-card-grid">
+        <Card
+          href="https://docs.astro.build/"
+          title="Documentation"
+          body="Learn how Astro works and explore the official API docs."
+        />
+        <Card
+          href="https://astro.build/integrations/"
+          title="Integrations"
+          body="Supercharge your project with new frameworks and libraries."
+        />
+        <Card
+          href="https://astro.build/themes/"
+          title="Themes"
+          body="Explore a galaxy of community-built starter themes."
+        />
+        <Card
+          href="https://astro.build/chat/"
+          title="Community"
+          body="Come say hi to our amazing Discord community. ❤️"
+        />
+      </ul>
+    </div>
   </main>
   <Counter client:visible />
-</Layout>
+</Html>
 
 <style>
   main {
@@ -48,13 +70,6 @@ import { Counter } from "../components/reactExample";
     font-size: 3rem;
     font-weight: 800;
     margin: 0;
-  }
-  .text-gradient {
-    background-image: var(--accent-gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-size: 400%;
-    background-position: 0%;
   }
   .instructions {
     line-height: 1.6;

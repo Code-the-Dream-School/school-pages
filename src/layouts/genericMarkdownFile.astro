@@ -1,0 +1,30 @@
+---
+/**
+ * Layout for a generic markdown file. The layout script will validate at
+ * runtime that a title and description are present in the frontmatter
+ * properties for the markdown file. This is required for meta tags and social
+ * media link previews!
+ */
+import Html from "./Html.astro";
+import { WipHeader } from "../components/wip";
+
+export interface Props {
+  title: string;
+  description: string;
+  /**
+   * For social media link previews
+   */
+  thumbnail?: string | undefined;
+}
+---
+
+<Html
+  title={Astro.props.title}
+  description={Astro.props.description}
+  thumbnail={Astro.props.thumbnail}
+>
+  <WipHeader />
+  <div class="prose">
+    <slot />
+  </div>
+</Html>
