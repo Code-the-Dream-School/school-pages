@@ -8,7 +8,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "fmt": "prettier -w .",
+    "fmt": "prettier --write .",
     "check:fmt": "prettier --check .",
     "check:types": "tsc --noEmit",
     "lint": "eslint",
