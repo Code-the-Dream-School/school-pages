@@ -35,3 +35,13 @@ configure your editor to format files with prettier when you save.
 
 You may also use the formatting script if you would not like to use prettier in
 your editor; simply run `npm run fmt` to format everything!
+
+### Common Issues & Troubleshooting
+
+> Linting errors from `npm run check:astro` do not appear in my editor
+
+Astro has a special Language Support Protocol (LSP) server for its templating
+language. For VS Code, you can install the Astro plugin, which is recommend in
+this repository's `.vscode/extensions.json` file. For neovim users, you can
+install the Astro LSP with `nvim-lspconfig` following the directions here:
+https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#astro
