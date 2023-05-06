@@ -9,10 +9,11 @@
     "preview": "astro preview",
     "astro": "astro",
     "fmt": "prettier --write .",
+    "check:astro": "astro check",
     "check:fmt": "prettier --check .",
     "check:types": "tsc --noEmit",
     "lint": "eslint",
-    "check": "npm run check:fmt && npm run check:types && npm run lint"
+    "check": "astro check && npm run check:fmt && npm run check:types && npm run lint"
   },
   "dependencies": {
     "@astrojs/react": "^2.1.3",
