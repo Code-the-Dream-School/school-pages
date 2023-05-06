@@ -1,0 +1,33 @@
+---
+/**
+ * This is the base template for the entire website.
+ */
+
+export interface Props {
+  title: string;
+  description: string;
+  /**
+   * For social media link previews
+   */
+  thumbnail?: string | undefined;
+}
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <title>{Astro.props.title}</title>
+    <meta name="description" content={Astro.props.description} />
+    <meta
+      name="og:image"
+      content={Astro.props.thumbnail || Astro.url + "defaultPostThumbnail.webp"}
+    />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
