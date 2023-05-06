@@ -1,0 +1,62 @@
+on:
+  push:
+    branch: ["main"]
+  pull_request:
+
+jobs:
+  check-prettier:
+    name: check formatting
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        id: cache-npm-deps
+        with:
+          node-version: 18
+          # Used to specify a package manager for caching in the default
+          # directory. Supported values: npm, yarn, pnpm. Package manager
+          # should be pre-installed
+          cache: "npm"
+
+          # Used to specify the path to a dependency file: package-lock.json,
+          # yarn.lock, etc.
+          # It will generate hash from the target file for primary key. It works
+          # only If cache is specified.
+          #
+          # Supports wildcards or a list of file names for caching multiple
+          # dependencies.
+          cache-dependency-path: "package-lock.json"
+      - name: install dependencies
+        run: npm ci --prefer-offline
+      - name: check formatting
+        run: npm run check:fmt
+  check-typescript:
+    name: check typescript types
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        id: cache-npm-deps
+        with:
+          node-version: 18
+          cache: "npm"
+          cache-dependency-path: "package-lock.json"
+      - name: install dependencies
+        run: npm ci --prefer-offline
+      - name: check types
+        run: npm run check:types
+  check-lint:
+    name: linting (eslint)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        id: cache-npm-deps
+        with:
+          node-version: 18
+          cache: "npm"
+          cache-dependency-path: "package-lock.json"
+      - name: install dependencies
+        run: npm ci --prefer-offline
+      - name: check types
+        run: npm run lint
