@@ -18,7 +18,7 @@ jobs:
       - name: install dependencies
         run: npm ci --prefer-offline
       - name: astro check (includes type-checking astro templates)
-        run: npm astro -- check
+        run: npm run astro -- check
   check-prettier:
     name: check formatting
     runs-on: ubuntu-latest
