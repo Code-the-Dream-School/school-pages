@@ -18,7 +18,24 @@ jobs:
       - name: install dependencies
         run: npm ci --prefer-offline
       - name: astro check (includes type-checking astro templates)
-        run: npm run astro -- check
+        run: npm run check:astro
+  # This will catch type-errors in `.ts` or `.tsx` (react) files that the
+  # astro-check above will not catch
+  check-typescript:
+    name: check typescript types
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        id: cache-npm-deps
+        with:
+          node-version: 18
+          cache: "npm"
+          cache-dependency-path: "package-lock.json"
+      - name: install dependencies
+        run: npm ci --prefer-offline
+      - name: check types
+        run: npm run check:types
   check-prettier:
     name: check formatting
     runs-on: ubuntu-latest
@@ -45,21 +62,6 @@ jobs:
         run: npm ci --prefer-offline
       - name: check formatting
         run: npm run check:fmt
-  check-typescript:
-    name: check typescript types
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        id: cache-npm-deps
-        with:
-          node-version: 18
-          cache: "npm"
-          cache-dependency-path: "package-lock.json"
-      - name: install dependencies
-        run: npm ci --prefer-offline
-      - name: check types
-        run: npm run check:types
   check-lint:
     name: linting (eslint)
     runs-on: ubuntu-latest
