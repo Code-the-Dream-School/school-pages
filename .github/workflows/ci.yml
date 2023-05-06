@@ -26,6 +26,8 @@ jobs:
           # Supports wildcards or a list of file names for caching multiple
           # dependencies.
           cache-dependency-path: "package-lock.json"
+      - name: debug
+        run: ls -al
       - name: install dependencies
         if: steps.cache-npm-deps.outputs.cache-hit != 'true'
         run: npm ci
