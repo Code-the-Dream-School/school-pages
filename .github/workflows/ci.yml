@@ -1,0 +1,46 @@
+on:
+  push:
+    branch: ['main']
+  pull_request:
+
+jobs:
+  ci:
+    name: check formatting
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v3
+        with:
+          # Used to specify a package manager for caching in the default
+          # directory. Supported values: npm, yarn, pnpm. Package manager
+          # should be pre-installed
+          cache: 'npm'
+
+          # Used to specify the path to a dependency file: package-lock.json,
+          # yarn.lock, etc.
+          # It will generate hash from the target file for primary key. It works
+          # only If cache is specified.
+          #
+          # Supports wildcards or a list of file names for caching multiple
+          # dependencies.
+          cache-dependency-path: 'package-lock.json'
+      - name: check formatting
+        run: npm run check:fmt
+    name: check typescript types
+    steps:
+      - uses: actions/setup-node@v3
+        with:
+          # Used to specify a package manager for caching in the default
+          # directory. Supported values: npm, yarn, pnpm. Package manager
+          # should be pre-installed
+          cache: 'npm'
+
+          # Used to specify the path to a dependency file: package-lock.json,
+          # yarn.lock, etc.
+          # It will generate hash from the target file for primary key. It works
+          # only If cache is specified.
+          #
+          # Supports wildcards or a list of file names for caching multiple
+          # dependencies.
+          cache-dependency-path: 'package-lock.json'
+      - name: check types
+        run: npm run check:types
