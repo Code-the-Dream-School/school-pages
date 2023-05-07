@@ -11,6 +11,7 @@ module.exports = {
           // The 500 hue is the exact same color used on the CTD site and also
           // the default
           DEFAULT: "#f15c39",
+          50: "#ffece7",
           100: "#ffc2b3",
           200: "#ff9d85",
           300: "#ff9d85",
