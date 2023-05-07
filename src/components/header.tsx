@@ -1,3 +1,4 @@
+import { HamburgerIcon } from "./hamburger";
 import { navLocations } from "./nav";
 
 export const Header = () => (
@@ -17,6 +18,9 @@ export const Header = () => (
         )
       )}
     </div>
+    <a className="sm:hidden" href="/mobile-nav">
+      <HamburgerIcon />
+    </a>
   </header>
 );
 
