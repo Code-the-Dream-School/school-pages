@@ -1,17 +1,19 @@
 ---
 import Html from "../layouts/Html.astro";
-import Card from "../components/Card.astro";
 import { Link } from "../components/link";
-import { Counter } from "../components/reactExample";
 import Header from "../components/header.astro";
 ---
 
 <Html title="Home" description="CTD Course Pages Home">
   <Header />
   <main>
-    <div class="prose bg-fuchsia-50 rounded p-4 m-8">
+    <div class="prose rounded p-4 m-8">
       <h1>CTD Course Pages</h1>
-      <p>Welcome to CTD Course Pages! This is a heavily WIP website</p>
+      <p>
+        Welcome to CTD Course Pages! This is a heavily WIP website which will
+        become the future home of CTD curriculum content (for at least the
+        node-express course)!
+      </p>
       <p>
         Below is a bit of the Astro Boilerplate, which I've left behind as new
         contributors will be familiarizing themselves with it!
@@ -24,41 +26,7 @@ import Header from "../components/header.astro";
         </ul>
       </p>
     </div>
-    <div class="rounded p-2 border-black border hover:bg-gray-100">
-      <div class="text-right">
-        <span class="text-sm text-right italic">astro boilerplate...</span>
-      </div>
-      <h1>Welcome to Astro!</h1>
-      <p class="instructions">
-        To get started, open the directory <code>src/pages</code> in your project.<br
-        />
-        <strong>Code Challenge:</strong> Tweak the "Welcome to Astro" message above.
-      </p>
-      <ul role="list" class="link-card-grid">
-        <Card
-          href="https://docs.astro.build/"
-          title="Documentation"
-          body="Learn how Astro works and explore the official API docs."
-        />
-        <Card
-          href="https://astro.build/integrations/"
-          title="Integrations"
-          body="Supercharge your project with new frameworks and libraries."
-        />
-        <Card
-          href="https://astro.build/themes/"
-          title="Themes"
-          body="Explore a galaxy of community-built starter themes."
-        />
-        <Card
-          href="https://astro.build/chat/"
-          title="Community"
-          body="Come say hi to our amazing Discord community. ❤️"
-        />
-      </ul>
-    </div>
   </main>
-  <Counter client:visible />
 </Html>
 
 <style>
