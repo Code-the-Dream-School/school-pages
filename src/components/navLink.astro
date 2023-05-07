@@ -1,0 +1,10 @@
+---
+export interface Props {
+  href: string;
+}
+---
+
+<a
+  class="underline font-bold hover:bg-salmon-100 rounded p-1 transition"
+  href={Astro.props.href}><slot /></a
+>
