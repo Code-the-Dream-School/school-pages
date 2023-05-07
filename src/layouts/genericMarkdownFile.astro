@@ -7,6 +7,7 @@
  */
 import Html from "./Html.astro";
 import Header from "../components/header.astro";
+import { WipBanner } from "../components/wip";
 
 export interface Props {
   title: string;
@@ -23,8 +24,15 @@ export interface Props {
   description={Astro.props.description}
   thumbnail={Astro.props.thumbnail}
 >
-  <Header />
-  <div class="prose">
-    <slot />
+  <div class="flex flex-col min-h-screen">
+    <Header />
+    <div
+      class="flex flex-grow pt-8 bg-salmon-50 sm:bg-white justify-center w-screen"
+    >
+      <div class="prose m-2 sm:bg-salmon-50 sm:p-2 rounded">
+        <slot />
+      </div>
+    </div>
+    <WipBanner />
   </div>
 </Html>
