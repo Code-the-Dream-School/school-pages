@@ -1,5 +1,5 @@
 ---
-layout: "../../layouts/genericMarkdownFile.astro"
+layout: "../layouts/genericMarkdownFile.astro"
 title: Node Express Course Home
 description: Homepage for the Node & Express Code the Dream Course
 ---
