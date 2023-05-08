@@ -7,8 +7,11 @@ This site will include pages for the Node, React, Intro, and Rails classes, as
 well as general purpose supplementary content like git guidance, SQL, life as a
 programmer, how to overcome adversity, et cetera.
 
-To contribute, fork and clone this repository, and then add or modify files. In
-general, contributions should be in markdown format, and should be put in one
+To contribute, fork and clone this repository, create a branch for each change, and then add or modify files.
+When the contribution is ready, push it to github and create a pull request. The staging branch should
+be the target of the pull request.
+
+In general, contributions should be in markdown format, and should be put in one
 of the folders under src/pages. Markdown files should have the following front matter:
 
 ```
