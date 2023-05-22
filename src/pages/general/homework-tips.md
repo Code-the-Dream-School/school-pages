@@ -1,6 +1,6 @@
 ---
 layout: "../../layouts/genericMarkdownFile.astro"
-title: Homework Submission
+title: Tips on Submitting Your Homework
 description: Student guidance on homework submission.
 ---
 
