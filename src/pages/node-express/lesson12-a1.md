@@ -284,7 +284,7 @@ Next, create the template for adding a task. Create a file views/pages/addTask.e
     <label for="name">Name:</label><br>
     <input name="name"><br>
     <label for="complete">Completed: </label>
-    <input type="checkbox" name="complete" value="true"><br><br>
+    <input type="checkbox" name="isTaskComplete" id="complete-checkbox" value="true"><br><br>
     <button type="submit">Add</button>
 </form>
     </div>
@@ -318,13 +318,10 @@ This is simpler. It is a straightforward form with a submit button. There isn't 
     <form action=<%= "/tasks/update/" + task.id %> method="post">
         <label for="name">Name:</label> <br>
         <input name="name" value="<%=task.name %>"><br>
-        <label for="complete">Completed: </label>
-        <% if (task.completed) { %>
-        <input type="checkbox" name="complete" value="true" checked><br><br>
-        <% } else { %>
-            <input type="checkbox" name="complete" value="false"><br><br>
-            <% } %>
-            <button type="submit">Update</button>
+        <label for="complete-checkbox">Completed: </label>
+        <input type="checkbox" name="isTaskComplete" id="complete-checkbox" value="true"
+           <%= task.completed ? "checked" : "" %>><br><br>
+        <button type="submit">Update</button>
     </form>
     </div>
     </main>
@@ -355,7 +352,7 @@ This just renders the addTask.ejs template, with a message if any. Change the cr
 ```
 const createTask = async (req, res) => {
     try {
-        if (req.body.complete) {
+        if (req.body.isTaskComplete === "true") {
             req.body.completed = true;
         }
         await Task.create(req.body);
@@ -402,7 +399,7 @@ const updateTask = async (req, res) => {
     const oldTask = false;
     try {
     oldTask = await Task.findByID(req.params.id);
-    if (req.body.complete) {
+    if (req.body.isTaskComplete === "true") {
         req.body.completed = true;
     }
     const task = await Task.findByIdAndUpdate(req.params.id, req.body, {
@@ -440,7 +437,7 @@ const getTasks = async (req, res) => {
     res.render("pages/tasks", { tasks });
     } catch (err) {
     req.flash("error", "Something went wrong.");
-    res.render("/tasks", { tasks: []);
+    res.render("/tasks", { tasks: []});
     }
 };
 ```
