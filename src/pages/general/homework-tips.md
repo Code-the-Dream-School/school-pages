@@ -14,7 +14,9 @@ copy to your clipboard. In your laptop terminal session, change to the directory
 will keep your code. Before you clone, do a git status to make sure you are not in a git
 repository. The git status command should return an error, showing that you are not in a git
 repository. If it doesn't, you need to switch to a different directory. You never create
-one git repository inside another! (In some later assignments, you won't start with a
+one git repository inside another!
+
+(In some later assignments, you won't start with a
 starter repository. You create your own new repository by creating a new directory and doing
 a git init. You should do a git status before you create the new directory, to be sure
 you don't create it inside an existing git repository.)
@@ -66,13 +68,11 @@ If changes are necessary, you make them to the same lesson branch. Then you add,
 your changes. The additional changes are automatically added to the same pull request.
 Once your reviewer has approved your lesson pull request, THEN you merge the pull request.
 
-Suppose you start working on the assignment for week2 in a week2 branch, and then your reviewer asks
-for changes to your week1 assignment. Do a "git stash" to save your week2 changes. Then checkout the
-week1 branch. While the week1 branch is active, make the changes that your reviewer has requested, add those
-changes, and push them to the week1 branch of your github repository. Then checkout the week2
-branch again. Do "git merge week1". This will add your week1 updates to your week2 branch. Then
-do "git stash apply" to get back the work for week2. (Once in a while, you may get a merge conflict
-when doing these steps. Ask a mentor to help you resolve the merge conflict.)
+Suppose you start working on the assignment for week2 in a week2 branch, and then your reviewer asks for changes to your week1 assignment. While you are still on the week2 branch, git add and commit your changes. Then git checkout week1. Make the changes your reviewer has requested and git add, commit, and push those changes. They will be added to your pull request automatically. Next, checkout week2 again. Then do a git merge week1. This will move all the changes you just made in the week1 branch into week2.
+
+Sometimes, at this point, you will get a merge conflict, because your week1 and week2 changes overlap in the same files. You should learn to resolve merge conflicts. There is a good tutorial
+**[here.](https://www.youtube.com/watch?v=lz5OuKzvadQ)**
+Ask a mentor to help you resolve the merge conflict if you have trouble.
 
 ## Creativity and Experimentation
 
