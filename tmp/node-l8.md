@@ -1,5 +1,4 @@
-Concepts: Authentication with JWT Tokens
-----------------------------------------
+## Concepts: Authentication with JWT Tokens
 
 When you deploy a web application that allows users to create entries in a database, you typically need to protect that application with a logon. Each user registers with the application, specifying a user identifier and a password. This information is stored by the application, typically in a database. If the application stores this information in MongoDB, you will have a User model. The model stores the user ID, a hash of the password, and perhaps other information. The password itself is never stored, because that would make the application a risky repository of user passwords. Instead, a cryptographic hash of the password is stored, and this information allows the user password to be validated at logon time, without storing the password itself.
 
@@ -15,8 +14,7 @@ But, there is one more hitch. When a cookie is used, an attacker can then do cro
 
 For the next few assignments, you will follow the approach the instructor recommends -- but do not do it in a production application! Actually, the approach where the caller saves the JWT for use in the authorization header is fine, but only when one server is talking to another. In that case, the calling server can store the JWT without using browser local storage.
 
-Protecting Routes
------------------
+## Protecting Routes
 
 To protect routes in your Express application, you create authentication middleware, which runs before the route handler for each protected request. The authentication middleware checks that the token is present with the HTTP request, typically as the bearer token in the Authentication header. Then it validates the token cryptographically, making sure the signature matches the secret. Then, it stores the user ID and perhaps other information about that user in the req.user hash, so that it can be used by the controller functions handling each request. For example, the controllers could return only the information that the logged on user is authorized to see.
 
@@ -24,14 +22,13 @@ Some routes are not protected by the authentication middleware, including in par
 
 Cryptography is complicated, and you shouldn't try do your own. In this assignment we use the jsonwebtoken npm module to create the tokens (at logon time) and to validate tokens (in the middleware). For this lesson, we won't store the user information, which means that the user is not registered and the password is not validated. (We'll do that in a later lesson.) Instead, the user enters an ID and password and a JWT token is created. Then the token is used to access the protected route.
 
-Concepts: Error Handling
-------------------------
+## Concepts: Error Handling
 
 The instructor shows how to throw errors, such as authentication errors, and how to handle them in an error handler. The elements of error handling are as follows:
 
-*   The express-async-errors package to catch errors thrown in your controllers and send them on to the process error handler
-*   A StatusError class that can be instantiated when an error occurs. This class should extend the built in Error class. It should have a constructor that takes two parameters, the error message and a number that is the HTTP status code.
-*   Error handling middleware. This is called as a result of an app.use() statement that appears after all of your routes. It must be declared with four parameters, which are named err, req, res, and next.
+- The express-async-errors package to catch errors thrown in your controllers and send them on to the process error handler
+- A StatusError class that can be instantiated when an error occurs. This class should extend the built in Error class. It should have a constructor that takes two parameters, the error message and a number that is the HTTP status code.
+- Error handling middleware. This is called as a result of an app.use() statement that appears after all of your routes. It must be declared with four parameters, which are named err, req, res, and next.
 
 The error handler has to return something to the caller, as otherwise the caller would just hang waiting on the HTTP response. So it returns an appropriate HTTP result code, along with a descriptive error message. As this is an API, the error message is returned as JSON. If there is an error in your code, the error handler is invoked. Some errors are expected, such as authentication errors, and in this case the error handler can return a descriptive errror message and an appropriate HTTP result code to the caller. For example, you might have a validation error when creating or updating an entry. In your error handler, you need to parse the validation error to get a useful error message, such as how one or several attributes fail validation. Authentication errors (bad user email or password) are also expected. Cast errors can occur if the request includes an ID that is not a valid Mongo entry ID, so this is an expected error and you can return a 404. Please look at the instructor’s code to see how these cases are handled.
 
@@ -52,19 +49,17 @@ That way, if your authentication middleware finds that the JWT token is missing 
 
 Then you add appropriate code to the error handler to handle this case, sending back the status code and an appropriate JSON message to the caller.
 
-**Lesson Materials**
---------------------
+## **Lesson Materials**
 
 The video instruction for this lesson starts at 5:05:30 of **[this video](https://www.youtube.com/watch?v=rltfdjcXjmk&t=23313s)** and continues to 6:28:35.
 
-**Assignments**
----------------
+## **Assignments**
 
 We want to give you an opportunity to get creative and to do your own work, so for this assignment, you should try creating your own Express applications. If you think this is still too hard for you, you can just emulate the instructor in the video as before. For either assignment, please complete the section below on how to automatically save the authentication token in Postman.
 
 ### Preferred Coding Assignment
 
-You continue to work in the node-express-course repository. For this lesson, you work in the 05-JWT-Basics directory. Create a new branch, week8. This branch should be created when the week7 branch is active. Create a folder called preferred inside the 05-JWT-Basics directory. Inside that folder, create an Express application. You'll need to do an npm init inside that folder (you can accept all the defaults), and you'll need to npm install the express, jsonwebtoken, and dotenv packages. You also need to create a .gitignore file with .env and /node\_modules as lines in that file. Follow best practices in organizing this application: you should have an app.js and then, in separate directories, your routes, middleware, and controllers. (You only need one file in each of these folders for this assignment.)
+You continue to work in the node-express-course repository. For this lesson, you work in the 05-JWT-Basics directory. Create a new branch, week8. This branch should be created when the week7 branch is active. Create a folder called preferred inside the 05-JWT-Basics directory. Inside that folder, create an Express application. You'll need to do an npm init inside that folder (you can accept all the defaults), and you'll need to npm install the express, jsonwebtoken, and dotenv packages. You also need to create a .gitignore file with .env and /node_modules as lines in that file. Follow best practices in organizing this application: you should have an app.js and then, in separate directories, your routes, middleware, and controllers. (You only need one file in each of these folders for this assignment.)
 
 You'll need to call two functions from the jsonwebtoken package. The functions are documented [here.](https://www.npmjs.com/package/jsonwebtoken) The functions you need are jwt.sign (to create the token) and jwt.verify (in your authentication middleware). Ideally you would use the asynchronous forms of these functions, with a callback for each, but if that sounds too complicated, just use the synchronous forms. If you use the synchronous calls, be sure that you do a try/catch for the jwt.verify(), as it will throw an error if the token isn't valid.
 
@@ -97,8 +92,7 @@ Next, open the GET request authorization again. Click on authorization, Bearer. 
 
 Your mindset assignment for this week can be found here: **[Willingness to Experiment](https://learn.codethedream.org/mindset-curriculum-willingness-to-experiment/)**
 
-**Submitting Your Work**
-------------------------
+## **Submitting Your Work**
 
 When you are done, do the following, use the same procedure as for previous lessons. You do a git add, git commit, and git push for the week8 branch, create your pull request on github, and put a link to your pull request in your assignment submission form below.
 

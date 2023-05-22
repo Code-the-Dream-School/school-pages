@@ -166,5 +166,5 @@ So, you can chain a collection of async calls with .then statements, and one .ca
 6.  Have a look at 17-http-stream.js. You don’t need to write a program, but observe how the chunks that are read from the stream are piped to the res object that is returned from the http request. Try to understand this program. Usually, if you are sending back voluminous data in response to an HTTP request, you want to break it up into chunks.
 
 When you have completed your programming assignment, do a git add for all your changes to the branch,
-commit the changes, and push the changes to your repository.  Then create a pull request.  A link
+commit the changes, and push the changes to your repository. Then create a pull request. A link
 to the pull request is to be included in your homework submisson.

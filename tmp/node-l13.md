@@ -1,5 +1,4 @@
-**Lesson Materials**
---------------------
+## **Lesson Materials**
 
 When you are creating APIs, you can perform authentication using JavaScript Web Tokens (JWTs). The front end makes an API call passing credentials to the back end, and the back end returns a token, either in the body of the response or by setting a cookie. The front end then passes this token to the back end on all subsequent requests. When the application does not have a separate front end to invoke the APIs, only the cookie approach can work. The browser is making the requests, and browsers can't call APIs or send authorization headers. But there has to be some way to save state, such as the state of being logged on. For applications that are not based on APIs, such as server side rendered applications, this is done using sessions, and sessions are established and maintained using cookies.
 
@@ -7,15 +6,13 @@ This is the flow: The browser requests a page from the server. The server includ
 
 The user session keeps information on whether the user is logged on, and if so, which user it is. A logon sends user credentials from an HTML form, and if that succeeds, the session is updated. A logoff deletes the user session information.
 
-**Assignments**
----------------
+## **Assignments**
 
 **Coding Assignment**
 
 In this lesson, you use the express-session, passport, and passport-local packages to handle user authentication, from within a server-side rendered application.
 
-First Steps
------------
+## First Steps
 
 The lesson begins at this link: [Authentication Basics | The Odin Project](https://www.theodinproject.com/lessons/nodejs-authentication-basics) . You should do your work in a passport-demo directory, which would be in the same directory as the node-express-course folder. Be sure that this folder is not inside of another repository folder, such as the one for the node-express-class. There are some additional steps you need to take, and explanations on unclear points, and these are below. The information at the link recommends that you put the Mongo URL, including a password, into the code. This is a very bad practice, so **don't do it**. The lesson at the link also has you put the session secret in the code, using the value "cats". This is also a very bad practice. Instead, use dotenv and an .env file to store these values. The lesson simplifies some things, which makes it a little crude: all the code is in a single app.js file, so there aren't separate model, view, routes, and controllers directories. **This is a bad practice!** All that is done in this lesson could be refactored to have separate model, view, routes, and controllers directories.
 
@@ -24,7 +21,7 @@ For the npm install, you will need to do also:
     npm install dotenv
     npm install nodemon --save-dev
 
-Create a .env file in the passport-demo. This must have a line for the MONGO\_URI. You use the same MONGO\_URI as for the previous lesson, except you use a new database name, PASSPORT-DEMO. The .env file must also have a line for SESSION\_SECRET, and the value should be a long, difficult to guess string. Create also a .gitignore file, also in the passport-demo directory. You will submit this work to github, so you need to make sure that the .env file is not stored on github. The .gitignore should read:
+Create a .env file in the passport-demo. This must have a line for the MONGO_URI. You use the same MONGO_URI as for the previous lesson, except you use a new database name, PASSPORT-DEMO. The .env file must also have a line for SESSION_SECRET, and the value should be a long, difficult to guess string. Create also a .gitignore file, also in the passport-demo directory. You will submit this work to github, so you need to make sure that the .env file is not stored on github. The .gitignore should read:
 
     .env
     /node_modules
@@ -104,8 +101,7 @@ This is kind of a crude approach for simplicity. It would be better to extend th
 
 Test the application to make sure it works. You now add some things.
 
-Additions to the Lesson
------------------------
+## Additions to the Lesson
 
 Within the browser window that is running the application, bring up developer tools. In the Chrome developer tools you click on application. Then on the left side of the screen you see a section for cookies. Click on the cookie for http://localhost:3000. You see a cookie with the name of connect.sid. This is the cookie stored by express.session. It does not actually contain the session data. Instead it contains a cryptographically signed key into the session data stored on the server.
 
@@ -170,7 +166,7 @@ This code redirects the user to the logon page with a message if the user attemp
     </head>
     <body>
        <p>This page is restricted.  You can't see it unless you are logged on.</p>
-       <p>You have visited this page <%= pageCount %> times since logon.</p> 
+       <p>You have visited this page <%= pageCount %> times since logon.</p>
     </body>
     </html>
 
@@ -187,20 +183,19 @@ Then, create the route statement that loads the page, as follows:
 
 Here the code shows also how the session can be used to store state, in this case the number of page visits.
 
-A Production Grade Session Store
---------------------------------
+## A Production Grade Session Store
 
 The code, as written, stores session data in memory. That is the default for express-session. However, this approach should never be used in production, because (a) if the application is restarted, all session data is lost, and (b) session data could fill up memory. A production application stores session data another way, and there are a variety of choices. Here we use MongoDB.
 
 First, do an npm install of connect-mongodb-session. Then add the following lines to app.js underneath your existing require statements:
 
     const MongoDBStore = require('connect-mongodb-session')(session)
-    
+
     var store = new MongoDBStore({
       uri: process.env.MONGO_URI,
       collection: 'sessions'
     });
-    
+
     // Catch errors
     store.on('error', function (error) {
       console.log(error);
@@ -215,8 +210,7 @@ Then change the app.use for session to read:
 
 Retest the application. It should work as before. Logon to your mongodb.com account and check out the PASSPORT-DEMO database. You see two collections, one for users and one for sessions, and you can check to see what information is stored in the session record.
 
-Fixing the Security
--------------------
+## Fixing the Security
 
 Passport is using the session cookie to determine if the user is logged in. This creates a security vulnerability called cross site request forgery (CSRF). We will demonstrate this.
 
@@ -229,16 +223,16 @@ Add the following to the bottom of restricted.ejs, just above the </body> tag:
     <p>The secret string is <%= secretString %></p>
     <p>To change it, put in a new value below</p>
     <form action="/restricted" method="POST">
-    
+
         <input name="secretString" type="text" />
-    
-    
+
+
         <button>Submit</button>
       </form>
 
 Then, change the res.render statement for /restricted to read:
 
-    res.render('restricted', { pageCount: req.session.pageCount, 
+    res.render('restricted', { pageCount: req.session.pageCount,
       secretString });
 
 Then, add the following in app.js:
@@ -254,7 +248,7 @@ You should have two browser tabs open, one for localhost:3000, and one for local
 
 You see, the other application sends a request to your application in the context of your browser -- and that request automatically includes the cookie. So, the application thinks the request comes from a logged on user, and honors it. If the application, as a result of a form post, makes database changes, or even transfers money, the attacker could do that as well.
 
-So, how to fix this? In the ejs-demo project, do an npm install of host-csrf and also of cookie-parser. Then follow the instructions **[here](https://www.npmjs.com/package/host-csrf)** to integrate the package with your application. You will need to change app.js as well as each of the forms in your ejs files. You can use process.env.SESSION\_SECRET as your cookie-parser secret. Note that the app.use for the csrf middleware must come after the cookie parser middleware and after the body parser middleware, but before any of the routes. You will see a message logged to the console that the CSRF protection is not secure. That is because you are using HTTP, not HTTPS, so the package is less secure in this case, but you would be using HTTPS in production. As you will see, it stops the attack.
+So, how to fix this? In the ejs-demo project, do an npm install of host-csrf and also of cookie-parser. Then follow the instructions **[here](https://www.npmjs.com/package/host-csrf)** to integrate the package with your application. You will need to change app.js as well as each of the forms in your ejs files. You can use process.env.SESSION_SECRET as your cookie-parser secret. Note that the app.use for the csrf middleware must come after the cookie parser middleware and after the body parser middleware, but before any of the routes. You will see a message logged to the console that the CSRF protection is not secure. That is because you are using HTTP, not HTTPS, so the package is less secure in this case, but you would be using HTTPS in production. As you will see, it stops the attack.
 
 Retest, first to see that your application still works, and second, to see that the attack no longer works. (A moral: Always log off of sensitive applications before you surf, in case the sensitive application is vulnerable in this way. Also note that it does not help to close the application, as the cookie is still present in the browser. You have to log off to clear the cookie.)
 
@@ -262,8 +256,7 @@ Retest, first to see that your application still works, and second, to see that 
 
 Your mindset assignment for this week can be found here: **[Debugging - part 2](https://learn.codethedream.org/mindset-curriculum-debugging-part-2/)**
 
-**Submitting Your Work**
-------------------------
+## **Submitting Your Work**
 
 You submit your work via github, as you did for the ejs-demo application. **Be careful that you have a .gitignore file that lists .env, so that you do not disclose your MongoDB password on github. The steps are**
 

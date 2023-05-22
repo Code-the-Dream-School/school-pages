@@ -1,12 +1,10 @@
-Thinking About Your Final Project
----------------------------------
+## Thinking About Your Final Project
 
 In this lesson, as in the previous one, you can choose to implement some content different from what the instructor shows. The instructor shows CRUD operations for job records, and uses a Job model. However, you can choose to store objects of a different kind instead of job records. Try to imagine something for an application you'd like to invent! This work could then comprise the beginning of your final project. Look at the final project rubric **[here](https://learn.codethedream.org/node-express-final-project-latest/)** to see what is required. (Bear in mind, though, that there are two ways to go in the final project -- either using a front end and back end, or using server side rendering, which we haven't covered yet.)
 
 If you do implement a model different from the Job model, it should still have a createdBy attribute, which is a reference to a User record, to associate each entry with a particular users, and the createdBy attribute should be of type mongoose.Types.ObjectId. This is for access control: A particular user can do CRUD operations only on their own records. Your model should also have an entry that is an enum. You use an enum when an attribute can take only a small set of values, like vanilla, chocolate, and strawberry. See the instructor's work for the Job model in the final directory for an example, both of how to do the createdBy attribute and how to do an enum. You are encouraged to use a variety of data types in your model such as numbers, strings, and dates.
 
-Concepts
---------
+## Concepts
 
 ### Authentication with JWT Tokens
 
@@ -20,15 +18,13 @@ The purpose of createdBy is to limit access to certain entries. For each of your
 
 For this lesson, you create only an API. Although the instructor mentions a front end, he does not provide one, so each of your routes must be tested using Postman.
 
-**Lesson Materials**
---------------------
+## **Lesson Materials**
 
 This lesson runs from 6:28:35 to 8:20:35 of **[this video](https://www.youtube.com/watch?v=rltfdjcXjmk&t=23313s)**. **Read the Coding Assignment Instructions before watching the video so you know how your assignment will differ from the video instructions.**
 
 As for previous lessons, you duplicate the work that the instructor shows, except that instead of creating a Job model, you can choose to create a model of your own choosing. (You can use the Job model the instructor uses if you prefer, but it would have to be extended to make a final project.)
 
-**Assignments**
----------------
+## **Assignments**
 
 **Coding Assignment**
 
@@ -40,8 +36,7 @@ There is a **new repository** for this lesson. It is [**here**](https://github.c
 
 Your mindset assignment for this week can be found here: **[Information Literacy](https://learn.codethedream.org/mindset-curriculum-information-literacy/)**
 
-**Submitting Your Work**
-------------------------
+## **Submitting Your Work**
 
 When you are done, do the following, use the same procedure as for previous lessons. You do a git add, git commit, and git push for the week9 branch, create your pull request on github, and put a link to your pull request in your assignment submission form below.
 

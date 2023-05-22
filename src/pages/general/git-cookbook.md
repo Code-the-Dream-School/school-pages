@@ -177,11 +177,11 @@ One great thing about git is that you can always restore files to the state they
 
 4. You have made changes to several files, you have not committed them yet, and you want to save those changes, but you want to restore the project to the state it was in before the last commit. Do:
 
-    ```
-    git stash
-    ```
-    
-    You could then get those changes back with git stash apply.
+   ```
+   git stash
+   ```
+
+   You could then get those changes back with git stash apply.
 
 5. You have changed a file, you don't want to keep the change, and you have committed the change. For example, you may have accidentally deleted the file and then committed the change. To recover, first use git log to find the commit number where the file was in a good state. Then do:
 

@@ -1,29 +1,27 @@
-**Lesson Materials**
---------------------
+## **Lesson Materials**
 
 In this lesson, you create a front end for the Jobs API you created in the previous lesson. Front ends may be created in various ways, for example using React, and they may run in various environments, such as an app for a smart phone. The front end for this lesson is created using just HTML and JavaScript. It runs in a browser, and is loaded from the same Express instance as the API it calls. **There is no video for this lesson. Instead there are the detailed instructions below.**
 
 **Note: This lesson appears to be mostly copy/paste -- but it isn't!** You create forms and tables, but if you used a data model different from Job, as was recommended in lessons 9 and 10, you must modify the HTML and JavaScript so that the forms, tables, and JavaScript variables match your data model. This may seem like a lot of work, and perhaps it is, but once you have completed it, if you used a data model different from the Job model used by the instructor (or you at least substantially extended that model) then you are well on your way to completing your class final project.
 
-**Assignments**
----------------
+## **Assignments**
 
 **Coding Assignment**
 
-Continue working in the 06-jobs-api repository that you used for lessons 9 and 10. Before you start, create a new branch as usual, with a branch name of week12. (Week 11 was a catch up week, so you create the week12 branch when the week10 branch is active.)  
-  
+Continue working in the 06-jobs-api repository that you used for lessons 9 and 10. Before you start, create a new branch as usual, with a branch name of week12. (Week 11 was a catch up week, so you create the week12 branch when the week10 branch is active.)
+
 Create a public directory under starter. This is for the HTML and JavaScript files for the front end. The HTML file is already created, and the code is below. Put that in the public directory with a file name of index.html. (Reminder: You do have to change the form, which below is for a job, to match your data model.)
 
     <!DOCTYPE html>
     <html lang="en">
-    
+
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Jobs List</title>
     </head>
-    
+
     <body>
         <h1>Jobs List</h1>
         <button type="button" id="logoff" style="display:none;">logoff</button>
@@ -153,8 +151,8 @@ There are various divs and controls to be manipulated by this JavaScript. (Again
       const addingJob = document.getElementById("adding-job");
       const jobsMessage = document.getElementById("jobs-message");
       const editCancel = document.getElementById("edit-cancel");
-    
-      // section 2 
+
+      // section 2
     });
 
 (The section 2 comment is added to show where the next code will go.) At various times in the application, the home page must be displayed. The home page will show a logon button and a register button if the user is not logged in. If the user is logged in, the logoff button is shown, as well as a table of jobs entries, if the user has any. Because the home page must be brought up at various points in the application, you create an event listener for it, and trigger its display by dispatching an event. This is the next section of code to be added, after the line that says section 2:
@@ -186,13 +184,12 @@ There are various divs and controls to be manipulated by this JavaScript. (Again
           logonRegister.style.display = "block";
         }
       });
-    
+
       var thisEvent = new Event("startDisplay");
       document.dispatchEvent(thisEvent);
       var suspendInput = false;
-    
+
       // section 3
-    
 
 In the code above, several operational variables (token, showing, thisEvent, and suspendInput) are created. The token is retrieved from local storage. Local storage persists even if the page is refreshed. If the token is not present in local storage, that means the user is not logged in, so the logon/register div is shown. Otherwise the logoff button and the jobs div are shown. The jobs div contains the table for jobs entries, and this is shown only if the user has jobs entries. The showing variable keeps track of which div is being shown. The thisEvent variable is used to create an event, which, when dispatched, triggers the home page display. Divs are shown and hidden by setting the style.display for the div to "block" or "none".
 
@@ -202,8 +199,8 @@ This section of code calls a function, buildJobsTable. This function does the co
         return 0
     }
 
-This function is async because it will eventually await a fetch call to retrieve the list of jobs. It returns the number of jobs retrieved. Right now of course, it just returns 0.  
-  
+This function is async because it will eventually await a fetch call to retrieve the list of jobs. It returns the number of jobs retrieved. Right now of course, it just returns 0.
+
 The flow of the application is controlled by button clicks, so you need an event listener to catch those. The first button click to handle is the logon. The callback for the click event listener is async, because there are awaits for fetch calls in the body of that function. So next, add these lines of code after the section 3 comment:
 
     document.addEventListener("click", async (e) => {
@@ -315,8 +312,8 @@ The logoff button clears the token and removes it from local storage, so the use
 
 The logon button causes the logonDiv to be shown. The home screen is hidden by setting the style.display of showing to "none". Similarly the register button causes the registerDiv to be shown. THe logonCancel and registerCancel buttons just trigger the display of the home page.
 
-The logonButton button causes user input (email and password) to be collected. Then (!!!) a jobs API is called, using fetch. This is done inside of a try/catch block, in case of error conditions. If a successful (status 200) response is recieved, the body of the response contains the JWT token, so this is stored in local storage and the home page display is triggered. Otherwise the body of the response contains a message, which is displayed in the message paragraph. Note that the URL for the API call is a relative URL, /api/v1/login . This means that the web address to be called is the same one as for the index.html page.  
-  
+The logonButton button causes user input (email and password) to be collected. Then (!!!) a jobs API is called, using fetch. This is done inside of a try/catch block, in case of error conditions. If a successful (status 200) response is recieved, the body of the response contains the JWT token, so this is stored in local storage and the home page display is triggered. Otherwise the body of the response contains a message, which is displayed in the message paragraph. Note that the URL for the API call is a relative URL, /api/v1/login . This means that the web address to be called is the same one as for the index.html page.
+
 The registerButton button works similarly, except that the user is registered, instead of logging in an existing user.
 
 At this point, after the code above has been added and saved, go to the localhost:3000 page and refresh it. You will find that several functions now work, including register, logon, and logoff. Try them out. Of course, there is nothing to handle the CRUD operations: creating, reading, updating, or deleting jobs entries. Let's add that next.
@@ -340,7 +337,7 @@ Add the following code below the section 4 comment:
           thisEvent = new Event("startDisplay");
           document.dispatchEvent(thisEvent);
         } else if (e.target === addingJob) {
-    
+
           if (!editJob.dataset.id) {
             // this is an attempted add
             suspendInput = true;
@@ -405,7 +402,7 @@ Add the following code below the section 4 comment:
                 message.textContent = data.msg;
               }
             } catch (err) {
-    
+
               message.textContent = "A communication error occurred.";
             }
           }
@@ -454,7 +451,6 @@ Go to the top of the jobs.js file. Replace the buildJobsTable function there wit
         return 0;
       }
     }
-    
 
 In this code, there is a GET request for all of the jobs entries. If no entries are returned, the function just returns 0. If entries are returned, they must be added to the table in the following columns: company, position, status, edit button, delete button. The rows of the table are accumulated in a loop, with the first row being the table header row. The tricky part is the buttons. We need to identify whether a button represents an add or delete. This is done with the editButton and deleteButton classes. We also have to record which jobs entry corresponds to which button. This is done with the dataset.id attribute, which is set in the HTML using dataset-id. Then the HTML for each row is created and turned into a DOM entry. The table is updated with the rows using a replaceChildren() call.
 
@@ -509,24 +505,22 @@ If you do not make this change, an exception is thrown on the front end when you
 
 Once you have everything working, do a git, add, and commit to the week12 branch, and push it to your github repository. Then modify the Render.com deployment you have to point to the new branch. This will cause your new code to be deployed to Render.com. Verify that your application front end is working on Render.com.
 
-Tips on Getting the Delete to Work
-----------------------------------
+## Tips on Getting the Delete to Work
 
 This is a little cheat sheet so that you don't find it too hard.
 
-*   How do you know it is a delete? In the buildJobsTable function, each of the delete buttons is given a class of deleteButton. You check for that class in the e.target.
-*   How do you know which entry to delete? The id of the entry is stored in the data-id of the button, as done in the buildJobsTable function.
-*   How do you do the delete? You need a call to fetch with a method of DELETE giving the URL of that entry. Be sure you include the authorization header. Also, remember that fetch is asynchronous, and should be called in a try/catch block.
-*   What do you do if the delete succeeds? First, you put a message in the text content of the message paragraph. Second, you redraw the table showing the updated list of entries. You can redraw the table by dispatching an event to startDisplay. You'll see other places in the code where this is done?
-*   What do you do if the delete fails? Put a message indicating the failure in the message paragraph.
-*   Anything else? You don't want to take input while these asynchronous operations are in progress, so you set the suspendInput flag before you start them, and clear it afterwards.
+- How do you know it is a delete? In the buildJobsTable function, each of the delete buttons is given a class of deleteButton. You check for that class in the e.target.
+- How do you know which entry to delete? The id of the entry is stored in the data-id of the button, as done in the buildJobsTable function.
+- How do you do the delete? You need a call to fetch with a method of DELETE giving the URL of that entry. Be sure you include the authorization header. Also, remember that fetch is asynchronous, and should be called in a try/catch block.
+- What do you do if the delete succeeds? First, you put a message in the text content of the message paragraph. Second, you redraw the table showing the updated list of entries. You can redraw the table by dispatching an event to startDisplay. You'll see other places in the code where this is done?
+- What do you do if the delete fails? Put a message indicating the failure in the message paragraph.
+- Anything else? You don't want to take input while these asynchronous operations are in progress, so you set the suspendInput flag before you start them, and clear it afterwards.
 
 **Mindset Assignment**
 
 Your mindset assignment for this week can be found here: **[Design Concepts](https://learn.codethedream.org/mindset-curriculum-design-concepts/)**
 
-**Submitting Your Work**
-------------------------
+## **Submitting Your Work**
 
 When you are done, do the following, use the same procedure as for previous lessons. You do a git add, git commit, and git push for the week12 branch, create your pull request on github, and put a link to your pull request in your assignment submission form below.
 

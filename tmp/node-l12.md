@@ -1,5 +1,4 @@
-**Lesson Materials**
---------------------
+## **Lesson Materials**
 
 In this lesson, you learn EJS, a templating language for Express. The templates contain embedded JavaScript, which is executed on the server side. This constructs an ordinary HTML page, but with dynamic content. Because the embedded JavaScript runs on the server, before the page is sent to the client, dynamic content can be delivered, such as information from a database. This is called server side rendering. Except for the embedded JavaScript, the templates are ordinary HTML pages, which may be combined with CSS and client side JavaScript.
 
@@ -15,15 +14,13 @@ All are encased in the <% %> sequence. The one with the minus in front does an i
 
 Please be sure that you understand where each piece of JavaScript executes! The JavaScript for your controllers, routes, middleware, etc. executes on the server side. If you do a console.log for this code, it appears in the server console. The code you put into an EJS file also executes on the server side, to customize the page with variable data before it is sent to the browser. However, you can also put JavaScript into an HTML page, or load it from a page, where the JavaScript is not within the EJS "<% %>" enclosure. That JavaScript is loaded by the browser and runs in the browser context, which means that it has access to the window and the DOM, but it does not have access to server side data and the database.
 
-**Assignments**
----------------
+## **Assignments**
 
 **Coding Assignment**
 
 Create an ejs-demo directory. This should not be inside the node-express-course directory. It should be alongside the node-express-course directory, that is, node-express-course and ejs-demo should have the same parent. Go to the following link and follow the instructions: [https://www.digitalocean.com/community/tutorials/how-to-use-ejs-to-template-your-node-application](https://www.digitalocean.com/community/tutorials/how-to-use-ejs-to-template-your-node-application) . This creates a working application that you should test by opening it with your browser, at localhost:8080.
 
-Saving Your Work to Github
---------------------------
+## Saving Your Work to Github
 
 This assignment did not begin with a starter git repository. You must create a new one to be able to submit your work. Within the ejs-demo directory, type the following terminal commands:
 
@@ -42,8 +39,7 @@ except it has your git id in the origin line. Execute each of these commands in 
 
 ... But we are just getting started.
 
-Adding Code to Do CRUD Operations with MongoDB
-----------------------------------------------
+## Adding Code to Do CRUD Operations with MongoDB
 
 Now you add the code to the ejs-demo application to do database operations, using the task manager database from a previous lesson. Do the following commands:
 
@@ -59,11 +55,11 @@ Now you add the code to the ejs-demo application to do database operations, usin
 Edit the db/connect.js file, which was copied from the earlier project. Mongoose has changed, so some of the options used in that file no longer work. It should read as follows:
 
     const mongoose = require('mongoose');
-    
+
     const connectDB = (url) => {
       return mongoose.connect(url);
     }
-    
+
     module.exports = connectDB;
 
 Edit the .env file, to add a line like:
@@ -78,7 +74,7 @@ It is not critical what value you use for the session secret, except that it sho
         "dev": "nodemon server"
       },
 
-Once you have done this, you can do npm start to start the server, but you can also do npm run dev to start the server under nodemon, so that it will automatically restart when you make code changes. You have copied the .env file from the 03-task-manager project, and this contains the MONGO\_URI. You have also copied the db directory, which has code to connect to the database. You also need to set up a session, for reasons described further on in this lesson. To get those loaded in, add the following lines to the top of server.js:
+Once you have done this, you can do npm start to start the server, but you can also do npm run dev to start the server under nodemon, so that it will automatically restart when you make code changes. You have copied the .env file from the 03-task-manager project, and this contains the MONGO_URI. You have also copied the db directory, which has code to connect to the database. You also need to set up a session, for reasons described further on in this lesson. To get those loaded in, add the following lines to the top of server.js:
 
     require('dotenv').config();
     const connectDB = require('./db/connect');
@@ -102,20 +98,19 @@ with these:
         console.log(error);
       }
     };
-    
+
     start();
 
 At this point, you may want to start the server and make sure it still works. The only real change is that you are connecting to the database.
 
-Adding Routes, Controllers, and Middleware
-------------------------------------------
+## Adding Routes, Controllers, and Middleware
 
 Under the ejs-demo directory, create a routes directory, a middleware directory, and a controllers directory.
 
 Within the routes directory, create a file tasks.js with the following contents:
 
     const express = require("express");
-    
+
     const router = express.Router();
     const {
       addTask,
@@ -125,46 +120,45 @@ Within the routes directory, create a file tasks.js with the following contents:
       updateTask,
       editTask,
     } = require("../controllers/tasks");
-    
+
     router.route("/").post(createTask).get(getTasks);
     router.route("/edit/:id").get(editTask);
     router.route("/delete/:id").get(deleteTask);
     router.route("/update/:id").post(updateTask);
     router.route("/add").get(addTask);
-    
+
     module.exports = router;
-    
 
 Note that we use only get and post operations. These operations are to be performed by the browser. A browser can't send delete, put, or patch operations.
 
 Next, create a file also called tasks.js inside the controller directory, with the following contents:
 
     const Task = require('../models/Task');
-    
+
     const addTask = (req, res) => {
         res.send("in addTask");
     }
-    
+
     const createTask = async (req, res) => {
          res.send("in createTask");
     }
-    
+
     const deleteTask = async (req, res) => {
         res.send("in deleteTask");
     }
-    
+
     const editTask = async (req, res) => {
         res.send("in editTask");
     }
-    
+
     const updateTask = async (req, res) => {
        res.send("in updateTask");
     }
-    
+
     const getTasks = async (req, res) => {
         res.send("in getTasks");
     }
-    
+
     module.exports = {
         addTask,
         createTask,
@@ -197,8 +191,7 @@ You should now test the following routes using the browser:
 
 You can't test the post routes, because you need to create forms to do the posts. But now we need some views.
 
-Creating Templates for Views
-----------------------------
+## Creating Templates for Views
 
 We want to display the flash messages, so we will add to the partials/header.ejs. Add these lines at the bottom:
 
@@ -216,11 +209,11 @@ In the views/pages directory, create a file tasks.ejs with the following content
       <%- include('../partials/head'); %>
     </head>
     <body class="container">
-    
+
     <header>
       <%- include('../partials/header'); %>
     </header>
-    
+
     <main>
       <div class="jumbotron">
         <% if (tasks.length > 0) { %>
@@ -239,11 +232,11 @@ In the views/pages directory, create a file tasks.ejs with the following content
         <a href="/tasks/add" class="btn btn-primary">Add a Task</a>
       </div>
     </main>
-    
+
     <footer>
       <%- include('../partials/footer'); %>
     </footer>
-    
+
     </body>
     </html>
 
@@ -257,11 +250,11 @@ Next, create the template for adding a task. Create a file views/pages/addTask.e
       <%- include('../partials/head'); %>
     </head>
     <body class="container">
-    
+
     <header>
       <%- include('../partials/header'); %>
     </header>
-    
+
     <main>
     <form action="/tasks" method="post">
       <label for="name">Name:</label><br>
@@ -272,11 +265,11 @@ Next, create the template for adding a task. Create a file views/pages/addTask.e
     </form>
       </div>
     </main>
-    
+
     <footer>
       <%- include('../partials/footer'); %>
     </footer>
-    
+
     </body>
     </html>
 
@@ -284,17 +277,17 @@ This is simpler. It is a straightforward form with a submit button. There isn't 
 
     <!DOCTYPE html>
     <html lang="en">
-    
+
     <head>
       <%- include('../partials/head'); %>
     </head>
-    
+
     <body class="container">
-    
+
       <header>
         <%- include('../partials/header'); %>
       </header>
-    
+
       <main>
         <form action=<%= "/tasks/update/" + task.id %> method="post">
           <label for="name">Name:</label> <br>
@@ -309,19 +302,18 @@ This is simpler. It is a straightforward form with a submit button. There isn't 
         </form>
         </div>
       </main>
-    
+
       <footer>
         <%- include('../partials/footer'); %>
       </footer>
-    
+
     </body>
-    
+
     </html>
 
 This is a little trickier. When the template is loaded, it is passed a task variable for the task being edited. The name of the task is set as the initial value in the entry field for name. There is a checkbox for completed, and this is checked if task.completed is true.
 
-Finishing the Tasks Controller
-------------------------------
+## Finishing the Tasks Controller
 
 To display these new pages and to perform database operations, you must add code to the controller, controllers/tasks.js. Within that file, change the addTask method to read:
 
@@ -342,13 +334,12 @@ This just renders the addTask.ejs template, with a message if any. Change the cr
       } catch (err) {
         if (err.name === "ValidationError") {
           req.flash("error", "Validation error.");
-        } else 
+        } else
           req.flash("error", "Something went wrong.");
         }
         res.render("pages/addTask");
       }
     };
-    
 
 Here you are using the values posted in req.body to create a task. That may succeed or fail, depending on the validation of values. req.body.complete may have the string value "true" for complete, which must be changed to the boolean value of true for completed. If the create is successful, a flash message (which is displayed after a redirect operation) gives the user feedback, and a redirect is sent back to display the tasks page again. If the create fails, the user is given a message, which might be a schema validation error, and the add page is rendered again. Note that the method must be async so that you can await the result of the create operation.
 
@@ -431,8 +422,7 @@ At this point, try the application out. You should be able to view, add, and edi
 
 Your mindset assignment for this week can be found here: **[Accessibility](https://learn.codethedream.org/mindset-curriculum-accessibility-a11y/)**
 
-**Submitting Your Work**
-------------------------
+## **Submitting Your Work**
 
 When you are done, do the following, use the same procedure as for previous lessons. You do a git add, git commit, and git push for the week13 branch, create your pull request on github, and put a link to your pull request in your assignment submission form below.
 

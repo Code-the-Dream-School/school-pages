@@ -1,10 +1,8 @@
-**Lesson Materials**
---------------------
+## **Lesson Materials**
 
 Any large development project requires automated testing to ensure that nothing is broken as the application is maintained and as features are added. The testing also ensures that the program works to specifications. Manual testing with Postman or other tools is time consuming and error prone. This lesson gives practice in developing an API and shows how to do automated Express testing.
 
-**Assignments**
----------------
+## **Assignments**
 
 **Coding Assignment**
 
@@ -16,8 +14,7 @@ You are instructed to complete the tests, which are the files tests/tests.js and
 
 Your mindset assignment for this week can be found here: **[Asking for Help - part 2](https://learn.codethedream.org/mindset-curriculum-asking-for-help-part-2/)**
 
-**Submitting Your Work**
-------------------------
+## **Submitting Your Work**
 
 When you are done, use the same procedure as for previous lessons. You do a git add, git commit, and git push for the week15 branch, create your pull request on github, and put a link to your pull request in your assignment submission form below.
 

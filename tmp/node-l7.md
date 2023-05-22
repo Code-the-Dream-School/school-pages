@@ -1,10 +1,8 @@
-**Lesson Materials**
---------------------
+## **Lesson Materials**
 
 In this lesson, you parse the query parameters passed with the REST request, appending the search filters that result to your find operation. As in the previous lesson, you communicate with a MongoDB database. The lesson starts at 3:07 of **[this video](https://www.youtube.com/watch?v=rltfdjcXjmk&t=23313s)**, and continues to 5:05:34.
 
-Concept: Thenables
-------------------
+## Concept: Thenables
 
 One part of this assignment is a little confusing. You will see code like this:
 
@@ -18,8 +16,7 @@ One part of this assignment is a little confusing. You will see code like this:
 
 How can this work? Isn't Product.find asynchronous? The reason it works is that Product.find doesn't return a Promise. It returns something that works like a Promise, but has extended capabilities. This is called a thenable. In this case, the thenable allows the search to be further qualified. The Product.find call does not send anything to the Mongo database, until await (or .then) is called on the thenable. Then the fully qualified search is sent to the database, the Promise is resolved, and the products found by the search are returned.
 
-**Assignments**
----------------
+## **Assignments**
 
 **Coding Assignment**
 
@@ -31,8 +28,7 @@ Continue to work in the node-express-course repository. Create a new branch, wee
 
 Your mindset assignment for this week can be found here: **[Asking for Help](https://learn.codethedream.org/mindset-curriculum-asking-for-help-part-1/)**
 
-**Submitting Your Work**
-------------------------
+## **Submitting Your Work**
 
 When you are done, do the following, use the same procedure as for previous lessons. You do a git add, git commit, and git push for the week7 branch, create your pull request on github, and put a link to your pull request in your assignment submission form below.
 

@@ -46,11 +46,13 @@ Create the following programs for this lesson, all within the answers directory.
     For example, you could change the input field to be a dropdown with various colors, and you could set the background color of the body to be what the user chooses. Or, you could make a number guessing game: Start with a random number from 1 to 100, let the user guess, and tell the user if their guess is low or high. In this case, you’d change the input field so that it accepts only numeric input (but when it is returned in the hash, it will be a string, so you’d have to convert it.)
 
 When you are done, do the following to submit your work:
+
 ```
 git commit -m "answers for lesson 1"
 git push origin week1
 ```
-Then go to your github repository – the one you created with a fork. Create a pull request. The target of the pull request should be the main branch of the repository you created when you forked -- not the Code-the-Dream-School main branch! Once you have created the pull request, include the link to the pull request in your homework submission form.  The homework submission form
-is on the main page for this lesson.  This will be the general procedure for submitting homework for
-this course.  When you submit your homework, you also submit your answers to the mindset assignment,
+
+Then go to your github repository – the one you created with a fork. Create a pull request. The target of the pull request should be the main branch of the repository you created when you forked -- not the Code-the-Dream-School main branch! Once you have created the pull request, include the link to the pull request in your homework submission form. The homework submission form
+is on the main page for this lesson. This will be the general procedure for submitting homework for
+this course. When you submit your homework, you also submit your answers to the mindset assignment,
 if there is one for that lesson.

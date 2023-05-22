@@ -5,14 +5,15 @@ description: Material link for lesson 10 of the node/express class
 ---
 
 # Node/Express Lesson 10
+
 # Jobs API Part 2
 
 In this lesson, you complete implementation of the CRUD operations for the API, using either the Job model as the instructor does, or the model you invented in the last lesson. You test with Postman as you go. Your Postman configuration should have environment variables for the URL and, as the instructor explains, the accessToken. You improve the error handling to return meaningful error messages to the user when Mongoose validation errors occur. You then add security protection for the application so that it can be deployed on the Internet. The security configuration uses the following node packages:
 
-*   helmet
-*   cors
-*   xss-clean
-*   express-rate-limit
+- helmet
+- cors
+- xss-clean
+- express-rate-limit
 
 These packages must be used whenever you deploy an application publicly, to minimize the chance of a security exposure. For your class final project, you will use these same packages, because you will deploy your final project on the Internet, and you want it to be secure.
 
