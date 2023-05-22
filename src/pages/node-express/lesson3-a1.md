@@ -41,14 +41,12 @@ You continue working in the node-express-course repository, but for this week, y
     const idToFind = parseInt(req.productID) // because this will be a string, and we need an integer
     const product = products.find(p => p.id = idToFind)
 
-
     Change the app.get statement so that it returns JSON for the product. Test it out.
 
 11. The user may request a product that is not there, for example with a url like /api/v1/products/5000 or /api/v1/products/nottthere. So in that case, you’d return a 404 status code and JSON for { message: “That product was not found.”} Add this logic to the app.get statement, and test that it works.
 12. The user may also want to do a simple search, instead of getting all the products. In this case, the url would contain a query string, like:
 
     /api/v1/query?search=al&limit=5
-
 
     What this means, in this case, is that the user wants to see all products where the name starts with al, but the user wants to see no more than 5 products. When the app.get for /api/v1/query is called, req.query is a hash that may contain values for search or limit or both or neither, depending on what the user puts in the query string. Again, there are array methods you can use to find that list. They are Array.filter() and Array.slice(). Add a new app.get statement for /api/v1/query, and include logic to handle these query strings. Then test it out.
 
