@@ -6,7 +6,7 @@ description: Node/Express Lesson 1 Coding Assignment
 
 ## Node/Express Lesson 1 Coding Assignment
 
-You should already have done the steps described in the getting started page **[here](node-setup)**. That page describes how to get git, the VSCode Editor, Node, and Postman. All of those should be installed when you start this lesson.
+You should already have done the steps described in the getting started page **[here](../node-setup)**. That page describes how to get git, the VSCode Editor, Node, and Postman. All of those should be installed when you start this lesson.
 
 The next step is to do a git fork of your starter repository for this lesson, which is found **[here](https://github.com/Code-the-Dream-School/node-express-course)**. The fork button is on the upper right of that page. Once the fork is complete, you clone your fork. Please don’t clone the original repository, as if you do that, you will not be able to push your work to github.
 
