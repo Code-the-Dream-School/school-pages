@@ -35,3 +35,4 @@ description: A probably temporary file that shows the Node/Express course stuff 
 - <https://school-pages.vercel.app/node-express/lesson13-a1/>
 - <https://school-pages.vercel.app/node-express/lesson14-m1/>
 - <https://school-pages.vercel.app/node-express/lesson14-a1/>
+- <https://school-pages.vercel.app/node-express/node-cheatsheet/>
