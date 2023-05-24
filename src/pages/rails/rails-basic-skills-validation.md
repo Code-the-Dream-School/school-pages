@@ -1,6 +1,6 @@
 ---     
 layout: "../../layouts/genericMarkdownFile.astro"     
-title: Rails Basic Skills: Validation     
+title: Rails Basic Skills; Validation     
 description: imported from WordPress, Rails Basic Skills: Validation     
 ---
 

@@ -1,6 +1,6 @@
 ---     
 layout: "../../layouts/genericMarkdownFile.astro"     
-title: Back End Lesson 3.2: Rails Active Record Associations     
+title: Back End Lesson 3.2; Rails Active Record Associations     
 description: imported from WordPress, Back End Lesson 3.2: Rails Active Record Associations     
 ---
 

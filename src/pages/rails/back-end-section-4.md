@@ -1,6 +1,6 @@
 ---     
 layout: "../../layouts/genericMarkdownFile.astro"     
-title: Back End Lesson 2.2: Methods, Classes, Blocks     
+title: Back End Lesson 2.2; Methods, Classes, Blocks     
 description: imported from WordPress, Back End Lesson 2.2: Methods, Classes, Blocks     
 ---
 

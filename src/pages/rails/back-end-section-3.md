@@ -1,6 +1,6 @@
 ---     
 layout: "../../layouts/genericMarkdownFile.astro"     
-title: Back End Lesson 2.1: Ruby Collections     
+title: Back End Lesson 2.1; Ruby Collections     
 description: imported from WordPress, Back End Lesson 2.1: Ruby Collections     
 ---
 

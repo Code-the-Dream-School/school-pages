@@ -1,6 +1,6 @@
 ---     
 layout: "../../layouts/genericMarkdownFile.astro"     
-title: Rails Basic Skills: Exception Handling     
+title: Rails Basic Skills; Exception Handling     
 description: imported from WordPress, Rails Basic Skills: Exception Handling     
 ---
 

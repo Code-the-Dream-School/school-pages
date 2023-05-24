@@ -1,6 +1,6 @@
 ---     
 layout: "../../layouts/genericMarkdownFile.astro"     
-title: Back End Lesson 1.2: More SQL, Ruby Introduction     
+title: Back End Lesson 1.2; More SQL, Ruby Introduction     
 description: imported from WordPress, Back End Lesson 1.2: More SQL, Ruby Introduction     
 ---
 

@@ -1,6 +1,6 @@
 ---     
 layout: "../../layouts/genericMarkdownFile.astro"     
-title: Rails: Calling REST with Fetch     
+title: Rails; Calling REST with Fetch     
 description: imported from WordPress, Rails: Calling REST with Fetch     
 ---
 

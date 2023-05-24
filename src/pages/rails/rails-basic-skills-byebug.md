@@ -1,6 +1,6 @@
 ---     
 layout: "../../layouts/genericMarkdownFile.astro"     
-title: Rails Basic Skills: Byebug     
+title: Rails Basic Skills; Byebug     
 description: imported from WordPress, Rails Basic Skills: Byebug     
 ---
 

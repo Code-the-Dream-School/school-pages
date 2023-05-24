@@ -1,6 +1,6 @@
 ---     
 layout: "../../layouts/genericMarkdownFile.astro"     
-title: Back End Lesson 3.1: Rails Basics     
+title: Back End Lesson 3.1; Rails Basics     
 description: imported from WordPress, Back End Lesson 3.1: Rails Basics     
 ---
 

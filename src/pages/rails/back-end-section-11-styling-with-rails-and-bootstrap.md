@@ -1,6 +1,6 @@
 ---     
 layout: "../../layouts/genericMarkdownFile.astro"     
-title: Back End Lesson 4.4: Styling with Rails and Bootstrap     
+title: Back End Lesson 4.4; Styling with Rails and Bootstrap     
 description: imported from WordPress, Back End Lesson 4.4: Styling with Rails and Bootstrap     
 ---
 

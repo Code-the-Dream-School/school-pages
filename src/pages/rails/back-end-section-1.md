@@ -1,6 +1,6 @@
 ---     
 layout: "../../layouts/genericMarkdownFile.astro"     
-title: Back End Lesson 1.1: SQL Basics     
+title: Back End Lesson 1.1; SQL Basics     
 description: imported from WordPress, Back End Lesson 1.1: SQL Basics     
 ---
 

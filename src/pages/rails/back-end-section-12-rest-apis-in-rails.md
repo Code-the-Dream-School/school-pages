@@ -1,6 +1,6 @@
 ---     
 layout: "../../layouts/genericMarkdownFile.astro"     
-title: Back End Lesson 5.1: REST APIs in Rails     
+title: Back End Lesson 5.1; REST APIs in Rails     
 description: imported from WordPress, Back End Lesson 5.1: REST APIs in Rails     
 ---
 

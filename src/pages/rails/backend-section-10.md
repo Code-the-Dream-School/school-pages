@@ -1,6 +1,6 @@
 ---     
 layout: "../../layouts/genericMarkdownFile.astro"     
-title: Back End Lesson 4.3: Rails Comprehensive Assignment     
+title: Back End Lesson 4.3; Rails Comprehensive Assignment     
 description: imported from WordPress, Back End Lesson 4.3: Rails Comprehensive Assignment     
 ---
 
