@@ -1,330 +1,80 @@
 ---
 layout: "../../layouts/genericMarkdownFile.astro"
-title: Authentication with Passport
-description: imported from WordPess, Authentication with Passport
+title: "Back End (Ruby on Rails) Final Project"
+description: "imported from WordPress,Back End (Ruby on Rails) Final Project"
 ---
 
-# # Authentication with Passport
+# Back End (Ruby on Rails) Final Project
 
-## **Lesson Materials**
+## Developing Your Own Rails Application
 
-When you are creating APIs, you can perform authentication using JavaScript Web Tokens (JWTs). The front end makes an API call passing credentials to the back end, and the back end returns a token, either in the body of the response or by setting a cookie. The front end then passes this token to the back end on all subsequent requests. When the application does not have a separate front end to invoke the APIs, only the cookie approach can work. The browser is making the requests, and browsers can’t call APIs or send authorization headers. But there has to be some way to save state, such as the state of being logged on. For applications that are not based on APIs, such as server side rendered applications, this is done using sessions, and sessions are established and maintained using cookies.
+For the final project, you will each design and develop your own Rails application. You will have two weeks to complete the project. As that is a short time for a fully functional application, the applications will have to be relatively simple, with only a few features implemented.
 
-This is the flow: The browser requests the logon page from the server, and then posts the id and password obtained from the user. The server verifies the id and password, and if verification is successful, the server sends a response that includes a set-cookie header in the response to the browser. The cookie is a cryptographically signed string, signed with a secret key so that it can’t be counterfeited by a malicious user. The browser automatically includes the cookie in the header of all subsequent requests to the same URL, until the cookie expires. For all protected requests, the server has middleware that validates the cookie. Different browser sessions from different users have different cookie values, so the server can tell which user is making the request. On the server side, the cookie is used as a key to access session state data, which is kept on the server. This state data is the user’s session.
+For students who would like to become interns with Code the Dream, the final project is very important, because it is the best indication of how well you would succeed as an intern.
 
-## **Assignments**
+## Goal of the Application
 
-**Coding Assignment**
+The goal of the project is to showcase what you have learned during class. You will have the opportunity to demonstrate your knowledge and creativity. You are required to create a Rails application from scratch. A proposal for what your application will do is required to be submitted before you start working on the project.
 
-In this lesson, you use the express-session, passport, and passport-local packages to handle user authentication, from within a server-side rendered application.
+Code the Dream primarily develops applications that help organizations deliver services to the community, or contribute toward social good in other ways. You can see descriptions of some of the applications now in production here: <https://www.codethedream.org/portfolio/>.
 
-## First Steps
+For your final project, ideas for applications that could contribute in this way are strongly encouraged. The COVID-19 virus creates some new needs that may inspire you.
 
-The lesson begins at this link: [Authentication Basics | The Odin Project](https://www.theodinproject.com/lessons/nodejs-authentication-basics) . You should do your work in a passport-demo directory, which would be in the same directory as the node-express-course folder. Be sure that this folder is not inside of another repository folder, such as the one for the node-express-class. There are some additional steps you need to take, and explanations on unclear points, and these are below. The information at the link recommends that you put the Mongo URL, including a password, into the code. This is a very bad practice, so **don’t do it**. The lesson at the link also has you put the session secret in the code, using the value “cats”. This is also a very bad practice. Instead, use dotenv and an .env file to store these values. The lesson simplifies some things, which makes it a little crude: all the code is in a single app.js file, so there aren’t separate model, view, routes, and controllers directories. **This is a bad practice!** All that is done in this lesson could be refactored to have separate model, view, routes, and controllers directories.
+However, don’t let this limit you. Other types of applications will also be considered.
 
-For the npm install, you will need to do also:
+Please don’t think you have to match any of the applications in the Code The Dream portfolio. Those applications are many person months of hard work. You just have to demonstrate some key skills.
 
-```
-npm install dotenv
-npm install nodemon --save-dev
-```
+## Examples
 
-Create a .env file in the passport-demo. This must have a line for the MONGO_URI. You use the same MONGO_URI as for the previous lesson, except you use a new database name, PASSPORT-DEMO. The .env file must also have a line for SESSION_SECRET, and the value should be a long, difficult to guess string. Create also a .gitignore file, also in the passport-demo directory. You will submit this work to github, so you need to make sure that the .env file is not stored on github. The .gitignore should read:
+Check out [this playlist of final project presentation videos](https://www.youtube.com/playlist?list=PLYvE5YXWTfw9hLc71nvvfqeXcxtmvBFDW) by previous CTD students to give you some ideas.
 
-```
-.env
-/node_modules
-```
+## Before You Start
 
-Edit the package.json file to add these lines to the scripts section.
+Please discuss your proposal with us. You will fill out a form to describe your proposal, saying what you would like to do. We will evaluate the proposal to make sure:
 
-```
-    "start": "node app",
-    "dev": "nodemon app"
-```
+- That it is doable in the allotted time. If the project seems too complicated, we may suggest that it be limited to just a few features.
+- That it demonstrates the skills you have learned in the class series so far. It should not be so simple that it doesn’t show key skills.
+- That it gives you an opportunity to demonstrate creativity, which is important for a developer.
 
-This way, you can test your application using “npm run dev”.
+You may find that you want to use some concepts, technologies, or gems we didn’t cover, which is worth some extra points so long as it doesn’t get too hard.
 
-When you create the app.js, add this line to the top of the file:
+## Requirements for the Project (Rubric)
 
-```
-require('dotenv').config();
-```
+1. Create a full Rails application from scratch using ActiveRecord and a database. It must contain the following elements:
 
-Also, the line that reads
+#### Models & Controllers
 
-```
-const mongoDb = "YOUR MONGO URL HERE";
-```
+1. At least two ActiveRecord models
+2. Model attributes should use different data types (integer, string, boolean, etc)
+3. At least one association is required, **one-to-many** or **many-to-many** (Please don’t make this too simple. More models, nested associations, or many to many associations are encouraged.)
+4. Validation of your attributes to prevent the creation of invalid records
+5. Implement all the CRUD (create, read, update, delete) operations for your models in your controllers
+6. **Bonus**: implement some non-CRUD operations (like sorting, paging, etc.)
 
-should be changed to read
+#### Views
 
-```
-const mongoDb = process.env.MONGO_URI;
-```
+1. Implement the views for the CRUD operations for each model:
+   - Index – view to list all the records for that model
+   - New – form to create a new record
+   - Edit – form to update an existing record
+   - Show – view to see a specific record
+2. Form controls should include several types of input fields, including but not limited to inputs, textareas, dropdowns, checkboxes, and radio buttons. There should be some links to connect the application together
+3. Links or buttons to help the users navigate the application.
+4. Style your application by adding CSS; the use of Bootstrap controls, such as Navbars, is highly recommended.
+5. The application should be attractive with inclusion of images, color, fonts and other CSS styling.
 
-And, the line that reads
+#### Testing
 
-```
-app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));
-```
+1. Include at least some minimal testing using Rspec for some of the CRUD operations.
 
-should be changed to read
+#### Bonus
 
-```
-app.use(session({ secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: true }));
-```
+14\. Do something extra. This could be the implementation of a more complicated data model, or the use of gems such as Devise for authentication or Active Storage for file storage, or implementing a REST API with a front end — your choice, whatever fits for application.
 
-Continue with the lesson, until you come to the part about “A Quick Tip”. That’s not clear. Add the recommended middleware above your routes. You can then change
+## Submission
 
-```
-  res.render("index", { user: req.user });
-```
+You should submit a link to your Github repository which contains your application. It **is highly encouraged that you use git branches to implement each feature.** We will share a link to a form before the due-date which you can use to submit your link.
 
-to read just
+## Presentation
 
-```
-  res.render("index");
-```
-
-You also change index.ejs so that instead of if (user) it has if (currentUser) and instead of user.username, it has currentUser.username. The point is that the variables in res.locals are always available inside of the templates.
-
-The section on bcrypt.hash and bcrypt.compare is also a little unclear. Once you have installed bcryptjs and added the require statement for it, you change the app.post for “/sign-up” to read
-
-```
-app.post("/sign-up", async (req, res, next) => {
-  try {
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    await User.create({ username: req.body.username, password: hashedPassword });
-    res.redirect("/");
-  } catch (err) {
-    return next(err);
-  }
-});
-```
-
-and you change the passport.use section to read
-
-```
-passport.use(
-  new LocalStrategy(async (username, password, done) => {
-    try {
-      const user = await User.findOne({ username: username });
-      if (!user) {
-        return done(null, false, { message: "Incorrect username" });
-      }
-      bcrypt.compare(password, user.password, (err, result) => {
-        if (result) {
-          return done(null, user);
-        } else {
-          return done(null, false, { message: "Incorrect password" });
-        }
-      });
-    } catch (err) {
-      return done(err);
-    }
-  })
-);
-```
-
-This is kind of a crude approach for simplicity. It would be better to extend the schema for User as was done in earlier lessons on JWT authentication, but this is one way to do it.
-
-Test the application to make sure it works. You now add some things.
-
-## Additions to the Lesson
-
-Within the browser window that is running the application, bring up developer tools. In the Chrome developer tools you click on application. Then on the left side of the screen you see a section for cookies. Click on the cookie for http://localhost:3000\. You see a cookie with the name of connect.sid. This is the cookie stored by express.session. It does not actually contain the session data. Instead it contains a cryptographically signed key into the session data stored on the server.
-
-The code now does a req.logout() when the user logs off. It is better to delete all the session information at logoff time. So change that code as follows:
-
-```
-app.get("/log-out", (req, res) => {
-  req.session.destroy(function (err) {
-    res.redirect("/");
-  });
-});
-```
-
-Notice that if you attempt to logon with an incorrect password, it just redisplays the logon form. The message is not returned to the user. Let’s fix that. First, change the passport.authenticate part to read:
-
-```
-  passport.authenticate("local", {
-    successRedirect: "/",
-    failureRedirect: "/",
-    failureMessage: true
-  });
-```
-
-Passport documentation is clumsy, but this is the way Passport error messages into the session, so that they can be displayed on subsequent screens. The messages are put in an array, req.session.messages. This can then be displayed in the index.ejs. First, change the route that displays index.ejs so that it reads:
-
-```
-app.get("/", (req, res) => {
-  let messages = [];
-  if (req.session.messages) {
-    messages = req.session.messages;
-    req.session.messages = [];
-  }
-  res.render("index", { messages });
-});
-```
-
-Then, change index.ejs to add these lines, right under the <h1> for Please Log In:
-
-```
-    <% messages.forEach((msg) =>{ %>
-       <p><%= msg %></p>
-    <% }) %>
-```
-
-Then, try logging on with an incorrect password. You should see an error message.
-
-Once authentication is enabled, you need to perform access control, so that certain pages are restricted only to those users that log in. This is done with middleware. Add the following code above your routes:
-
-```
-const authMiddleware = (req, res, next) => {
-  if (!req.user) {
-    if (!req.session.messages) {
-      req.session.messages = [];
-    }
-    req.session.messages.push("You can't access that page before logon.");
-    res.redirect('/');
-  } else {
-    next();
-  }
-}
-```
-
-This code redirects the user to the logon page with a message if the user attempts to access a restricted page without being logged in. To test this, first create a page that will be restricted, restricted.ejs:
-
-```
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Restricted</title>
-</head>
-<body>
-   <p>This page is restricted.  You can't see it unless you are logged on.</p>
-   <p>You have visited this page <%= pageCount %> times since logon.</p>
-</body>
-</html>
-```
-
-Then, create the route statement that loads the page, as follows:
-
-```
-app.get('/restricted', authMiddleware, (req, res) => {
-  if (!req.session.pageCount) {
-    req.session.pageCount = 1;
-  } else {
-    req.session.pageCount++;
-  }
-  res.render('restricted', { pageCount: req.session.pageCount });
-})
-```
-
-Here the code shows also how the session can be used to store state, in this case the number of page visits.
-
-## A Production Grade Session Store
-
-The code, as written, stores session data in memory. That is the default for express-session. However, this approach should never be used in production, because (a) if the application is restarted, all session data is lost, and (b) session data could fill up memory. A production application stores session data another way, and there are a variety of choices. Here we use MongoDB.
-
-First, do an npm install of connect-mongodb-session. Then add the following lines to app.js underneath your existing require statements:
-
-```
-const MongoDBStore = require('connect-mongodb-session')(session)
-
-var store = new MongoDBStore({
-  uri: process.env.MONGO_URI,
-  collection: 'sessions'
-});
-
-// Catch errors
-store.on('error', function (error) {
-  console.log(error);
-});
-```
-
-Then change the app.use for session to read:
-
-```
-app.use(session({
-  secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: true,
-  store: store
-}));
-```
-
-Retest the application. It should work as before. Logon to your mongodb.com account and check out the PASSPORT-DEMO database. You see two collections, one for users and one for sessions, and you can check to see what information is stored in the session record.
-
-## Fixing the Security
-
-Passport is using the session cookie to determine if the user is logged in. This creates a security vulnerability called cross site request forgery (CSRF). We will demonstrate this.
-
-Add the following to the top of the app.js:
-
-```
-let secretString = "Beginning value";
-```
-
-Add the following to the bottom of restricted.ejs, just above the </body> tag:
-
-```
-<p>The secret string is <%= secretString %></p>
-<p>To change it, put in a new value below</p>
-<form action="/restricted" method="POST">
-
-    <input name="secretString" type="text" />
-
-
-    <button>Submit</button>
-  </form>
-```
-
-Then, change the res.render statement for /restricted to read:
-
-```
-res.render('restricted', { pageCount: req.session.pageCount,
-  secretString });
-```
-
-Then, add the following in app.js:
-
-```
-app.post('/restricted', authMiddleware, (req,res) => {
-  secretString = req.body.secretString;
-  res.redirect('/restricted');
-})
-```
-
-Then, test it out with your browser. You see that you can change the secret string. And the route that posts to the /restricted URL is protected, right, because of the authMiddleware? Well — it isn’t. To see this, clone **[this repository](https://github.com/Code-the-Dream-School/sample-attack)** into a separate directory, outside passport-demo. Then, within the directory you cloned, do an “npm install” and a “node app”. This will start another express application listening on port 4000 of your local machine. This is the attacking code. It could be running anywhere on the Internet — that has nothing to do with the attack.
-
-You should have two browser tabs open, one for localhost:3000, and one for localhost:4000\. The one at localhost:4000 just shows a button that says Click Me! Don’t click it yet. Use the ejs-demo application in the 3000 tab to set the secret string to some value. Then log off. Then click the button in the 4000 tab. Then log back on in the 3000 tab and check the value of the secret string. So far so good — it still has the value you set. Now, while still logged in, click the button in the 4000 tab. Now, back in the 3000 tab, refresh the /restricted page. Hey, what happened! (By the way, this attack would succeed even if you closed the 3000 tab entirely.)
-
-You see, the other application sends a request to your application in the context of your browser — and that request automatically includes the cookie. So, the application thinks the request comes from a logged on user, and honors it. If the application, as a result of a form post, makes database changes, or even transfers money, the attacker could do that as well.
-
-So, how to fix this? In the ejs-demo project, do an npm install of host-csrf and also of cookie-parser. Then follow the instructions **[here](https://www.npmjs.com/package/host-csrf)** to integrate the package with your application. You will need to change app.js as well as each of the forms in your ejs files. You can use process.env.SESSION_SECRET as your cookie-parser secret. Note that the app.use for the csrf middleware must come after the cookie parser middleware and after the body parser middleware, but before any of the routes. You will see a message logged to the console that the CSRF protection is not secure. That is because you are using HTTP, not HTTPS, so the package is less secure in this case, but you would be using HTTPS in production. As you will see, it stops the attack.
-
-Retest, first to see that your application still works, and second, to see that the attack no longer works. (A moral: Always log off of sensitive applications before you surf, in case the sensitive application is vulnerable in this way. Also note that it does not help to close the application, as the cookie is still present in the browser. You have to log off to clear the cookie.)
-
-**Mindset Assignment**
-
-Your mindset assignment for this week can be found here: **[Debugging – part 2](https://learn.codethedream.org/mindset-curriculum-debugging-part-2/)**
-
-## **Submitting Your Work**
-
-You submit your work via github, as you did for the ejs-demo application. **Be careful that you have a .gitignore file that lists .env, so that you do not disclose your MongoDB password on github. The steps are**
-
-1. Create a passport-demo repository on github.
-2. Within the passport-demo directory on your machine, do a git init.
-3. git add -A
-4. git commit -m “first commit”
-5. git remote add origin < the github repository URL for passport-demo >
-6. git push -u origin main
-
-When you are done, use the same procedure as for previous lessons. You do a git add, git commit, and git push for the week14 branch, create your pull request on github, and put a link to your pull request in your assignment submission form below.
-
-**When you’ve completed your Coding Assignment and Mindset Assignment this week, submit all of your work using:**
-
-[**Homework Assignment Submission Form**](https://airtable.com/shrBpqHbS6wgInoF9)
+Each student will present their application in a Zoom meeting. You will only have 5 minutes for each presentation, but we will have reviewed your application with you ahead of time.

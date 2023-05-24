@@ -1,330 +1,547 @@
 ---
 layout: "../../layouts/genericMarkdownFile.astro"
-title: Authentication with Passport
-description: imported from WordPess, Authentication with Passport
+title: "Documenting REST APIs with Swagger"
+description: "imported from WordPress,Documenting REST APIs with Swagger"
 ---
 
-# # Authentication with Passport
+# Documenting REST APIs with Swagger
 
-## **Lesson Materials**
+When you create a REST API, you also need (a) an automated way to test the API, something easier than curl, and (b) a way to document the API, so that implementers of front end applications that call the API can know how to call it. RSpec may be used to test APIs as well as to test Rails UI applications. The standard and best way to document the API is to create a special user interface for it called Swagger.
 
-When you are creating APIs, you can perform authentication using JavaScript Web Tokens (JWTs). The front end makes an API call passing credentials to the back end, and the back end returns a token, either in the body of the response or by setting a cookie. The front end then passes this token to the back end on all subsequent requests. When the application does not have a separate front end to invoke the APIs, only the cookie approach can work. The browser is making the requests, and browsers can’t call APIs or send authorization headers. But there has to be some way to save state, such as the state of being logged on. For applications that are not based on APIs, such as server side rendered applications, this is done using sessions, and sessions are established and maintained using cookies.
+We will create a partial set of RSpec tests. These tests will be of a particular format, so that they can be used to generate the Swagger UI.
 
-This is the flow: The browser requests the logon page from the server, and then posts the id and password obtained from the user. The server verifies the id and password, and if verification is successful, the server sends a response that includes a set-cookie header in the response to the browser. The cookie is a cryptographically signed string, signed with a secret key so that it can’t be counterfeited by a malicious user. The browser automatically includes the cookie in the header of all subsequent requests to the same URL, until the cookie expires. For all protected requests, the server has middleware that validates the cookie. Different browser sessions from different users have different cookie values, so the server can tell which user is making the request. On the server side, the cookie is used as a key to access session state data, which is kept on the server. This state data is the user’s session.
+Be sure that your swagger branch is active.
 
-## **Assignments**
+## Setting Up for Rspec and Swagger
 
-**Coding Assignment**
+Add the following lines to your Gemfile:
 
-In this lesson, you use the express-session, passport, and passport-local packages to handle user authentication, from within a server-side rendered application.
-
-## First Steps
-
-The lesson begins at this link: [Authentication Basics | The Odin Project](https://www.theodinproject.com/lessons/nodejs-authentication-basics) . You should do your work in a passport-demo directory, which would be in the same directory as the node-express-course folder. Be sure that this folder is not inside of another repository folder, such as the one for the node-express-class. There are some additional steps you need to take, and explanations on unclear points, and these are below. The information at the link recommends that you put the Mongo URL, including a password, into the code. This is a very bad practice, so **don’t do it**. The lesson at the link also has you put the session secret in the code, using the value “cats”. This is also a very bad practice. Instead, use dotenv and an .env file to store these values. The lesson simplifies some things, which makes it a little crude: all the code is in a single app.js file, so there aren’t separate model, view, routes, and controllers directories. **This is a bad practice!** All that is done in this lesson could be refactored to have separate model, view, routes, and controllers directories.
-
-For the npm install, you will need to do also:
+First, in the section before the group :development, :test line, add these lines to get the swagger gem:
 
 ```
-npm install dotenv
-npm install nodemon --save-dev
+gem 'rspec-rails'
+gem 'rexml'
+gem 'rswag'
 ```
 
-Create a .env file in the passport-demo. This must have a line for the MONGO_URI. You use the same MONGO_URI as for the previous lesson, except you use a new database name, PASSPORT-DEMO. The .env file must also have a line for SESSION_SECRET, and the value should be a long, difficult to guess string. Create also a .gitignore file, also in the passport-demo directory. You will submit this work to github, so you need to make sure that the .env file is not stored on github. The .gitignore should read:
+The rswag line is to add the swagger gem. Then, add a group :test section to your Gemfile, near the bottom, which should look like:
 
 ```
-.env
-/node_modules
+group :test do
+  gem 'factory_bot_rails'
+  gem 'faker'
+  gem 'rails-controller-testing'
+end
 ```
 
-Edit the package.json file to add these lines to the scripts section.
+When all of these changes have been made, do a bundle install to load the new gems. Then, complete the installation of the rswag and rspec-rails gems with these commands:
 
 ```
-    "start": "node app",
-    "dev": "nodemon app"
+bin/rails generate rspec:install
+bin/rails generate rswag:install
 ```
 
-This way, you can test your application using “npm run dev”.
+## Factories and RSpec Tests
 
-When you create the app.js, add this line to the top of the file:
-
-```
-require('dotenv').config();
-```
-
-Also, the line that reads
+You will need FactoryBot factories for test user, member, and fact entries. In this section and in the sections that follow, it is typically necessary to create the directories that contain these files, as well as the files themselves. Create spec/factories/users.rb as follows:
 
 ```
-const mongoDb = "YOUR MONGO URL HERE";
+require 'faker'
+
+FactoryBot.define do
+  factory :user do |f|
+    f.email { Faker::Internet.email }
+    f.password { Faker::Internet.password }
+  end
+end
 ```
 
-should be changed to read
+Create also spec/factories/members.rb as follows:
 
 ```
-const mongoDb = process.env.MONGO_URI;
+require 'faker'
+
+FactoryBot.define do
+  factory :member do |f|
+    f.first_name { Faker::Name.name }
+    f.last_name { Faker::Lorem.word }
+  end
+end
 ```
 
-And, the line that reads
+Create also spec/factories/facts.rb as follows:
 
 ```
-app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));
+FactoryBot.define do
+  factory :fact do
+    fact_text { Faker::ChuckNorris.fact }
+    likes { Faker::Number.number(digits: 3).to_i }
+    association :member
+  end
+end
 ```
 
-should be changed to read
+## Creating the Rspec Tests
+
+We need to create tests for each of the controllers. First, create spec/requests/registrations_spec.rb, as follows:
 
 ```
-app.use(session({ secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: true }));
-```
+require 'swagger_helper'
 
-Continue with the lesson, until you come to the part about “A Quick Tip”. That’s not clear. Add the recommended middleware above your routes. You can then change
-
-```
-  res.render("index", { user: req.user });
-```
-
-to read just
-
-```
-  res.render("index");
-```
-
-You also change index.ejs so that instead of if (user) it has if (currentUser) and instead of user.username, it has currentUser.username. The point is that the variables in res.locals are always available inside of the templates.
-
-The section on bcrypt.hash and bcrypt.compare is also a little unclear. Once you have installed bcryptjs and added the require statement for it, you change the app.post for “/sign-up” to read
-
-```
-app.post("/sign-up", async (req, res, next) => {
-  try {
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    await User.create({ username: req.body.username, password: hashedPassword });
-    res.redirect("/");
-  } catch (err) {
-    return next(err);
-  }
-});
-```
-
-and you change the passport.use section to read
-
-```
-passport.use(
-  new LocalStrategy(async (username, password, done) => {
-    try {
-      const user = await User.findOne({ username: username });
-      if (!user) {
-        return done(null, false, { message: "Incorrect username" });
+RSpec.describe 'user/registrations', type: :request do
+  path '/users' do
+    post 'create user' do
+      tags 'Registrations'
+      consumes 'application/json'
+      produces 'application/json'
+      parameter name: :user, in: :body, required: true, schema: {
+        type: :object,
+        required: %i[email password],
+        properties: { user: { properties: {
+          email: { type: :string },
+          password: { type: :string }
+        }}}
       }
-      bcrypt.compare(password, user.password, (err, result) => {
-        if (result) {
-          return done(null, user);
-        } else {
-          return done(null, false, { message: "Incorrect password" });
+      response(201, 'successful') do
+        let(:user1) { FactoryBot.attributes_for(:user) }
+        let(:user) do
+          { user: {
+              email: user1[:email],
+              password: user1[:password]
+          }}
+        end
+        after do |example|
+          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
+        end
+        run_test!
+      end
+    end
+  end
+end
+```
+
+The swagger gem is here introducing some domain specific language into rspec. This is done so that the Swagger UI can be generated from the rspec tests. You have a series of path statements corresponding to your rails routes, and get/post/put/patch/delete statements also corresponding to the routes. We also specify the parameters and their types. We are just testing that a valid return code and json body comes back. Good rspec testing would add a number of expect statements to make sure the body is valid, and additional test cases would be provided for invalid data. So what we have is too limited to be a comprehensive test, but it suffices to generate swagger code. (The swagger gem has the capability to generate an outline for these test files. It is not used in this lesson, because of previous problems with it, but it works well now.)
+
+We also need tests for the sessions controller. We will need to enable authentication for some of these tests. There are helper routines in Devise JWT to facilitate this. To have access to these helper routines, add the following line to the top of spec/spec_helper.rb:
+
+```
+require 'devise/jwt/test_helpers'
+```
+
+Create spec/requests/sessions_spec.rb as follows:
+
+```
+require 'swagger_helper'
+
+describe 'sessions API' do
+  #Creates swagger for documentaion for login
+  path '/users/sign_in' do
+
+    post 'Creates a session' do
+      let(:user1) { FactoryBot.create(:user) }
+      tags 'sessions'
+      consumes 'application/json'
+      produces 'application/json'
+      parameter name: :user, in: :body, required: true, schema: {
+        type: :object,
+        properties: { user: { properties: {
+          email: { type: :string },
+          password: { type: :string}
+        }}},
+        required: [ 'email', 'password' ]
+      }
+
+      response '201', 'session jwt token created' do
+        let(:user) do
+          { user: {
+              email: user1.email,
+              password: user1.password
+          }}
+        end
+        run_test!
+      end
+
+      response '401', 'Unauthorized' do
+        let(:user) do
+          { user: {
+              email: user1.email,
+              password: ""
+          } }
+        end
+        run_test!
+      end
+    end
+  end
+
+#Swagger documentation for logout.
+  path '/users/sign_out' do
+
+    delete 'Destroy JWT token' do
+      let(:user) { FactoryBot.create(:user) }
+      let (:auth_header) {"Bearer "+Warden::JWTAuth::UserEncoder.new.call(user, :user,nil)[0]}
+      tags 'sessions'
+      consumes 'application/json'
+      produces 'application/json'
+      security [Bearer: {}]
+      #This includes a valid auth token header
+        response '200', 'blacklist token' do
+          let(:"Authorization") {auth_header}
+          run_test!
+        end
+        #This does not include anything in the header so it fails
+      response '401', 'no token to blacklist' do
+        let(:"Authorization") {}
+        run_test!
+      end
+    end
+  end
+end
+```
+
+By creating the test for the sessions controller, we provide a means for the user to log on using the Swagger interface. We also document logout. For logout it is necessary that the user be authenticated. So we have to create a user, and then a token associated with that user. That is done with the lines
+
+```
+   let(:user) { FactoryBot.create(:user) }
+      let (:auth_header) {"Bearer "+Warden::JWTAuth::UserEncoder.new.call(user, :user,nil)[0]}
+```
+
+To have access to the JWTAuth helper that creates the token, we have to require the jwt test helpers, as per the second line in this file. We also have to tell swagger that authentication is needed for this API. That is done with the line:
+
+```
+      security [Bearer: {}]
+```
+
+Next we create a test for the members controller, and for each of the methods within that controller. Every method within the members controller requires authentication. Create spec/requests/api/v1/members_spec.rb as follows:
+
+```
+require 'swagger_helper'
+
+RSpec.describe 'api/v1/members', type: :request do
+  let(:user1) { FactoryBot.create(:user) }
+  let (:token){Warden::JWTAuth::UserEncoder.new.call(user1,:user,nil)}
+  let(:Authorization){ "Bearer "+ token[0]}
+  let!(:members) { FactoryBot.create_list(:member, 10) }
+  let(:member_id) { members.first.id }
+
+  path '/api/v1/members' do
+
+    get('list members') do
+      tags 'Members'
+      produces 'application/json'
+      security [Bearer: {}]
+      response(200, 'successful') do
+        after do |example|
+          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
+        end
+        run_test!
+      end
+    end
+
+    post('create member') do
+      tags 'Members'
+      consumes 'application/json'
+      produces 'application/json'
+      security [Bearer: {}]
+      parameter name: :member, in: :body, required: true, schema: {
+        type: :object,
+        required: %i[first_name last_name],
+        properties: {
+          first_name: { type: :string },
+          last_name: { type: :string }
         }
-      });
-    } catch (err) {
-      return done(err);
+      }
+
+      response(201, 'successful') do
+        let(:member) { { first_name: "jqpublic23", last_name: "mypasswd"}}
+
+        after do |example|
+          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
+        end
+        run_test!
+      end
+    end
+  end
+
+  path '/api/v1/members/{id}' do
+    parameter name: 'id', in: :path, type: :string, description: 'id'
+
+    get('show member') do
+      tags 'Members'
+      security [Bearer: {}]
+      response(200, 'successful') do
+        let(:id) { member_id }
+
+        after do |example|
+          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
+        end
+        run_test!
+      end
+    end
+
+    patch('update member') do
+      tags 'Members'
+      consumes 'application/json'
+      produces 'application/json'
+      security [Bearer: {}]
+      parameter name: :member, in: :body, schema: {
+        type: :object,
+        properties: {
+          first_name: { type: :string },
+          last_name: { type: :string }
+        }
+      }
+      response(200, 'successful') do
+        let(:id) { member_id }
+        let(:member) {{first_name: 'fred'}}
+        after do |example|
+          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
+        end
+        run_test!
+      end
+    end
+
+    put('update member') do
+      tags 'Members'
+      consumes 'application/json'
+      produces 'application/json'
+      security [Bearer: {}]
+      parameter name: :member, in: :body, schema: {
+        type: :object,
+        properties: {
+          first_name: { type: :string },
+          last_name: { type: :string }
+        }
+      }
+      response(200, 'successful') do
+        let(:id) { member_id }
+        let(:member) {{first_name: 'fred'}}
+
+        after do |example|
+          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
+        end
+        run_test!
+      end
+    end
+
+    delete('delete member') do
+      tags 'Members'
+      security [Bearer: {}]
+      response(200, 'successful') do
+        let(:id) { member_id }
+
+        after do |example|
+          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
+        end
+        run_test!
+      end
+    end
+  end
+end
+```
+
+Finally, we create the test file for facts, as spec/requests/api/v1/facts_spec.rb;
+
+```
+require 'swagger_helper'
+
+RSpec.describe 'api/v1/facts', type: :request do
+  # Initialize the test data
+  let(:user1) { FactoryBot.create(:user) }
+  let (:token){Warden::JWTAuth::UserEncoder.new.call(user1,:user,nil)}
+  let(:Authorization){ "Bearer "+ token[0]}
+
+  let!(:member) { FactoryBot.create(:member) }
+  let!(:facts) { FactoryBot.create_list(:fact, 20, member_id: member.id) }
+  let(:member_id) { member.id }
+  let(:fact_id) { facts.first.id }
+
+  path '/api/v1/members/{member_id}/facts' do
+    parameter name: 'member_id', in: :path, type: :string, description: 'member_id'
+
+    get('list facts') do
+      tags 'Facts'
+      security [Bearer: {}]
+      response(200, 'successful') do
+
+        after do |example|
+          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
+        end
+        run_test!
+      end
+    end
+
+    post('create fact') do
+      tags 'Facts'
+      consumes 'application/json'
+      produces 'application/json'
+      security [Bearer: {}]
+      parameter name: :fact, in: :body, required: true, schema: {
+        type: :object,
+        required: %i[fact_text likes],
+        properties: {
+          fact_text: {type: :string},
+          likes: {type: :integer}
+        }
+      }
+      response(201, 'successful') do
+        let(:fact) { { fact_text: "This is a fact.", likes: 15} }
+
+        after do |example|
+          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
+        end
+        run_test!
+      end
+    end
+  end
+
+  path '/api/v1/members/{member_id}/facts/{fact_id}' do
+    parameter name: 'member_id', in: :path, type: :string, description: 'member_id'
+    parameter name: 'fact_id', in: :path, type: :string, description: 'id'
+
+    get('show fact') do
+      tags 'Facts'
+      security [Bearer: {}]
+      response(200, 'successful') do
+
+        after do |example|
+          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
+        end
+        run_test!
+      end
+    end
+
+    patch('update fact') do
+      tags 'Facts'
+      consumes 'application/json'
+      produces 'application/json'
+      security [Bearer: {}]
+      parameter name: :fact, in: :body, required: true, schema: {
+        type: :object,
+        properties: {
+          fact_text: {type: :string},
+          likes: {type: :integer}
+        }
+      }
+      response(200, 'successful') do
+        let(:fact) { {fact_text: "This is another fact."}}
+
+        after do |example|
+          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
+        end
+        run_test!
+      end
+    end
+
+    put('update fact') do
+      tags 'Facts'
+      consumes 'application/json'
+      produces 'application/json'
+      security [Bearer: {}]
+          parameter name: :fact, in: :body, required: true, schema: {
+        type: :object,
+        properties: {
+          fact_text: {type: :string},
+          likes: {type: :integer}
+        }
+      }
+      response(200, 'successful') do
+        let(:fact) {{ fact_text: "This is another fact." }}
+
+        after do |example|
+          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
+        end
+        run_test!
+      end
+    end
+
+    delete('delete fact') do
+      tags 'Facts'
+      security [Bearer: {}]
+      response(200, 'successful') do
+
+        after do |example|
+          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
+        end
+        run_test!
+      end
+    end
+  end
+end
+```
+
+Edit spec/swagger_helper.rb to read as follows:
+
+```
+# frozen_string_literal: true
+
+require 'rails_helper'
+
+RSpec.configure do |config|
+  # Specify a root folder where Swagger JSON files are generated
+  # NOTE: If you're using the rswag-api to serve API descriptions, you'll need
+  # to ensure that it's configured to serve Swagger from the same folder
+  config.swagger_root = Rails.root.join('swagger').to_s
+
+  # Define one or more Swagger documents and provide global metadata for each one
+  # When you run the 'rswag:specs:swaggerize' rake task, the complete Swagger will
+  # be generated at the provided relative path under swagger_root
+  # By default, the operations defined in spec files are added to the first
+  # document below. You can override this behavior by adding a swagger_doc tag to the
+  # the root example_group in your specs, e.g. describe '...', swagger_doc: 'v2/swagger.json'
+  config.swagger_docs = {
+    'v1/swagger.yaml' => {
+      openapi: '3.0.1',
+      info: {
+        title: 'API V1',
+        version: 'v1'
+      },
+      paths: {},
+      components: {
+        securitySchemes: {
+          Bearer: {
+            description: "Bearer token",
+            type: :apiKey,
+            name: 'Authorization',
+            in: :header
+          }
+        }
+      },
+      servers: [
+        {
+          url: "#{ENV['APPLICATION_URL']}"
+        }
+      ]
     }
-  })
-);
-```
-
-This is kind of a crude approach for simplicity. It would be better to extend the schema for User as was done in earlier lessons on JWT authentication, but this is one way to do it.
-
-Test the application to make sure it works. You now add some things.
-
-## Additions to the Lesson
-
-Within the browser window that is running the application, bring up developer tools. In the Chrome developer tools you click on application. Then on the left side of the screen you see a section for cookies. Click on the cookie for http://localhost:3000\. You see a cookie with the name of connect.sid. This is the cookie stored by express.session. It does not actually contain the session data. Instead it contains a cryptographically signed key into the session data stored on the server.
-
-The code now does a req.logout() when the user logs off. It is better to delete all the session information at logoff time. So change that code as follows:
-
-```
-app.get("/log-out", (req, res) => {
-  req.session.destroy(function (err) {
-    res.redirect("/");
-  });
-});
-```
-
-Notice that if you attempt to logon with an incorrect password, it just redisplays the logon form. The message is not returned to the user. Let’s fix that. First, change the passport.authenticate part to read:
-
-```
-  passport.authenticate("local", {
-    successRedirect: "/",
-    failureRedirect: "/",
-    failureMessage: true
-  });
-```
-
-Passport documentation is clumsy, but this is the way Passport error messages into the session, so that they can be displayed on subsequent screens. The messages are put in an array, req.session.messages. This can then be displayed in the index.ejs. First, change the route that displays index.ejs so that it reads:
-
-```
-app.get("/", (req, res) => {
-  let messages = [];
-  if (req.session.messages) {
-    messages = req.session.messages;
-    req.session.messages = [];
   }
-  res.render("index", { messages });
-});
+
+  # Specify the format of the output Swagger file when running 'rswag:specs:swaggerize'.
+  # The swagger_docs configuration option has the filename including format in
+  # the key, this may want to be changed to avoid putting yaml in json files.
+  # Defaults to json. Accepts ':json' and ':yaml'.
+  config.swagger_format = :yaml
+end
 ```
 
-Then, change index.ejs to add these lines, right under the <h1> for Please Log In:
+You are really only changing two sections. You are changing the server section so that the swagger UI has the right URL, and you are also specifying what kind of authentication is to be used in the securitySchemes section.
+
+Now run rspec with the command bundle exec rspec. It should complete without errors. If not, you may have problems in your controller logic.
+
+## Creating the Swagger UI
+
+Type:
 
 ```
-    <% messages.forEach((msg) =>{ %>
-       <p><%= msg %></p>
-    <% }) %>
+bundle exec rake rswag:specs:swaggerize
 ```
 
-Then, try logging on with an incorrect password. You should see an error message.
+Then start your server as usual. You will find that you have a new route, so that you can, from your browser, access http://localhost:3000/api-docs . Experiment with this page, using the registrations section to create users and using the sessions section to log on.
 
-Once authentication is enabled, you need to perform access control, so that certain pages are restricted only to those users that log in. This is done with middleware. Add the following code above your routes:
-
-```
-const authMiddleware = (req, res, next) => {
-  if (!req.user) {
-    if (!req.session.messages) {
-      req.session.messages = [];
-    }
-    req.session.messages.push("You can't access that page before logon.");
-    res.redirect('/');
-  } else {
-    next();
-  }
-}
-```
-
-This code redirects the user to the logon page with a message if the user attempts to access a restricted page without being logged in. To test this, first create a page that will be restricted, restricted.ejs:
+You will find that the logoff as well as all of the sections for members and facts don’t appear to work. They always return a 401 for unauthorized. You can set up authentication for these operations as follows. First, do a logon for a user you have created. You will see it returns a response with an Authorization header. Copy the contents of the Authorization header, which starts with Bearer and continues with a log string of characters, that being the JWT token, something like:
 
 ```
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Restricted</title>
-</head>
-<body>
-   <p>This page is restricted.  You can't see it unless you are logged on.</p>
-   <p>You have visited this page <%= pageCount %> times since logon.</p>
-</body>
-</html>
+Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1Iiwic2NwIjoidXNlciIsImF1ZCI6bnVsbCwiaWF0IjoxNjI5NDc0NzM1LCJleHAiOjE2Mjk0NzgzMzUsImp0aSI6IjA2MWZmNDQxLTA2NmQtNDAwZS1hZDk4LWM4MWEyYThiMzgzMSJ9.HP3bz_xDEd8_00MfG2ZNR61afUXf-YujinwSdExmkig
 ```
 
-Then, create the route statement that loads the page, as follows:
+You won’t be able to use the token above, because it wasn’t generated by your server, but you can use the token returned by the logon operation. Now scroll to the top of the swagger page. You will see a button with Authorize and a lock icon. Click on it. It will open a little dialog box prompting you for the value. Paste in the Authorization header you copied, and then click on authorize and then on close. Verify that you can now do the member and facts operations on the swagger page.
 
-```
-app.get('/restricted', authMiddleware, (req, res) => {
-  if (!req.session.pageCount) {
-    req.session.pageCount = 1;
-  } else {
-    req.session.pageCount++;
-  }
-  res.render('restricted', { pageCount: req.session.pageCount });
-})
-```
-
-Here the code shows also how the session can be used to store state, in this case the number of page visits.
-
-## A Production Grade Session Store
-
-The code, as written, stores session data in memory. That is the default for express-session. However, this approach should never be used in production, because (a) if the application is restarted, all session data is lost, and (b) session data could fill up memory. A production application stores session data another way, and there are a variety of choices. Here we use MongoDB.
-
-First, do an npm install of connect-mongodb-session. Then add the following lines to app.js underneath your existing require statements:
-
-```
-const MongoDBStore = require('connect-mongodb-session')(session)
-
-var store = new MongoDBStore({
-  uri: process.env.MONGO_URI,
-  collection: 'sessions'
-});
-
-// Catch errors
-store.on('error', function (error) {
-  console.log(error);
-});
-```
-
-Then change the app.use for session to read:
-
-```
-app.use(session({
-  secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: true,
-  store: store
-}));
-```
-
-Retest the application. It should work as before. Logon to your mongodb.com account and check out the PASSPORT-DEMO database. You see two collections, one for users and one for sessions, and you can check to see what information is stored in the session record.
-
-## Fixing the Security
-
-Passport is using the session cookie to determine if the user is logged in. This creates a security vulnerability called cross site request forgery (CSRF). We will demonstrate this.
-
-Add the following to the top of the app.js:
-
-```
-let secretString = "Beginning value";
-```
-
-Add the following to the bottom of restricted.ejs, just above the </body> tag:
-
-```
-<p>The secret string is <%= secretString %></p>
-<p>To change it, put in a new value below</p>
-<form action="/restricted" method="POST">
-
-    <input name="secretString" type="text" />
-
-
-    <button>Submit</button>
-  </form>
-```
-
-Then, change the res.render statement for /restricted to read:
-
-```
-res.render('restricted', { pageCount: req.session.pageCount,
-  secretString });
-```
-
-Then, add the following in app.js:
-
-```
-app.post('/restricted', authMiddleware, (req,res) => {
-  secretString = req.body.secretString;
-  res.redirect('/restricted');
-})
-```
-
-Then, test it out with your browser. You see that you can change the secret string. And the route that posts to the /restricted URL is protected, right, because of the authMiddleware? Well — it isn’t. To see this, clone **[this repository](https://github.com/Code-the-Dream-School/sample-attack)** into a separate directory, outside passport-demo. Then, within the directory you cloned, do an “npm install” and a “node app”. This will start another express application listening on port 4000 of your local machine. This is the attacking code. It could be running anywhere on the Internet — that has nothing to do with the attack.
-
-You should have two browser tabs open, one for localhost:3000, and one for localhost:4000\. The one at localhost:4000 just shows a button that says Click Me! Don’t click it yet. Use the ejs-demo application in the 3000 tab to set the secret string to some value. Then log off. Then click the button in the 4000 tab. Then log back on in the 3000 tab and check the value of the secret string. So far so good — it still has the value you set. Now, while still logged in, click the button in the 4000 tab. Now, back in the 3000 tab, refresh the /restricted page. Hey, what happened! (By the way, this attack would succeed even if you closed the 3000 tab entirely.)
-
-You see, the other application sends a request to your application in the context of your browser — and that request automatically includes the cookie. So, the application thinks the request comes from a logged on user, and honors it. If the application, as a result of a form post, makes database changes, or even transfers money, the attacker could do that as well.
-
-So, how to fix this? In the ejs-demo project, do an npm install of host-csrf and also of cookie-parser. Then follow the instructions **[here](https://www.npmjs.com/package/host-csrf)** to integrate the package with your application. You will need to change app.js as well as each of the forms in your ejs files. You can use process.env.SESSION_SECRET as your cookie-parser secret. Note that the app.use for the csrf middleware must come after the cookie parser middleware and after the body parser middleware, but before any of the routes. You will see a message logged to the console that the CSRF protection is not secure. That is because you are using HTTP, not HTTPS, so the package is less secure in this case, but you would be using HTTPS in production. As you will see, it stops the attack.
-
-Retest, first to see that your application still works, and second, to see that the attack no longer works. (A moral: Always log off of sensitive applications before you surf, in case the sensitive application is vulnerable in this way. Also note that it does not help to close the application, as the cookie is still present in the browser. You have to log off to clear the cookie.)
-
-**Mindset Assignment**
-
-Your mindset assignment for this week can be found here: **[Debugging – part 2](https://learn.codethedream.org/mindset-curriculum-debugging-part-2/)**
-
-## **Submitting Your Work**
-
-You submit your work via github, as you did for the ejs-demo application. **Be careful that you have a .gitignore file that lists .env, so that you do not disclose your MongoDB password on github. The steps are**
-
-1. Create a passport-demo repository on github.
-2. Within the passport-demo directory on your machine, do a git init.
-3. git add -A
-4. git commit -m “first commit”
-5. git remote add origin < the github repository URL for passport-demo >
-6. git push -u origin main
-
-When you are done, use the same procedure as for previous lessons. You do a git add, git commit, and git push for the week14 branch, create your pull request on github, and put a link to your pull request in your assignment submission form below.
-
-**When you’ve completed your Coding Assignment and Mindset Assignment this week, submit all of your work using:**
-
-[**Homework Assignment Submission Form**](https://airtable.com/shrBpqHbS6wgInoF9)
+When you have verified that each of the operations on the swagger page works, you have completed the lesson. Use git to add, commit, and push your changes to the swagger branch, and then create a pull request as usual.
