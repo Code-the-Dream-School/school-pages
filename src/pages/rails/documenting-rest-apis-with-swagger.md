@@ -1,10 +1,10 @@
 ---
 layout: "../../layouts/genericMarkdownFile.astro"
-title: Documenting REST APIs with Swagger
-description: imported from WordPress, Documenting REST APIs with Swagger
+title: "Documenting REST APIs with Swagger"
+description: "imported from WordPress,Documenting REST APIs with Swagger"
 ---
 
-# # Documenting REST APIs with Swagger
+# Documenting REST APIs with Swagger
 
 When you create a REST API, you also need (a) an automated way to test the API, something easier than curl, and (b) a way to document the API, so that implementers of front end applications that call the API can know how to call it. RSpec may be used to test APIs as well as to test Rails UI applications. The standard and best way to document the API is to create a special user interface for it called Swagger.
 

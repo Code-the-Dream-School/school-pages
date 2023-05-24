@@ -1,10 +1,10 @@
----     
-layout: "../../layouts/genericMarkdownFile.astro"     
-title: Back End Lesson 4.2; Testing with RSpec     
-description: imported from WordPress, Back End Lesson 4.2: Testing with RSpec     
+---
+layout: "../../layouts/genericMarkdownFile.astro"
+title: "Back End Lesson 4.2: Testing with RSpec"
+description: "imported from WordPress,Back End Lesson 4.2: Testing with RSpec"
 ---
 
-# # Back End Lesson 4.2: Testing with RSpec
+# Back End Lesson 4.2: Testing with RSpec
 
 Rails testing with RSpec is an important skill. In some development shops, the RSpec tests are written first, before the functional code, so that the code is immediately shown to do what it is supposed to do. In this lesson, you will learn how to create two kinds of RSpec tests: model tests and request tests.
 

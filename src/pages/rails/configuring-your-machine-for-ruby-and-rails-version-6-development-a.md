@@ -1,10 +1,10 @@
 ---
 layout: "../../layouts/genericMarkdownFile.astro"
-title: Configuring Your Machine for Ruby and Rails Version 7 Development
-description: imported from WordPress, Configuring Your Machine for Ruby and Rails Version 7 Development
+title: "Configuring Your Machine for Ruby and Rails Version 7 Development"
+description: "imported from WordPress,Configuring Your Machine for Ruby and Rails Version 7 Development"
 ---
 
-# # Configuring Your Machine for Ruby and Rails Version 7 Development
+# Configuring Your Machine for Ruby and Rails Version 7 Development
 
 These instructions assume that you have an editor. [VSCode](https://code.visualstudio.com/) is strongly recommended.
 

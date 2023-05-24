@@ -1,10 +1,10 @@
----     
-layout: "../../layouts/genericMarkdownFile.astro"     
-title: Rails Basic Skills; Exception Handling     
-description: imported from WordPress, Rails Basic Skills: Exception Handling     
+---
+layout: "../../layouts/genericMarkdownFile.astro"
+title: "Rails Basic Skills: Exception Handling"
+description: "imported from WordPress,Rails Basic Skills: Exception Handling"
 ---
 
-# # Rails Basic Skills: Exception Handling
+# Rails Basic Skills: Exception Handling
 
 Stop the server. Now we want to edit customers_controller.rb again. Take out the byebug line. Add this line near the top of the file, right after the “class” line, but before the “before_action” line:
 

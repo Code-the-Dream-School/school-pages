@@ -1,10 +1,10 @@
 ---
 layout: "../../layouts/genericMarkdownFile.astro"
-title: Back End (Ruby on Rails) Final Project
-description: imported from WordPress, Back End (Ruby on Rails) Final Project
+title: "Back End (Ruby on Rails) Final Project"
+description: "imported from WordPress,Back End (Ruby on Rails) Final Project"
 ---
 
-# # Back End (Ruby on Rails) Final Project
+# Back End (Ruby on Rails) Final Project
 
 ## Developing Your Own Rails Application
 

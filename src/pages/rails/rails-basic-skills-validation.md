@@ -1,10 +1,10 @@
----     
-layout: "../../layouts/genericMarkdownFile.astro"     
-title: Rails Basic Skills; Validation     
-description: imported from WordPress, Rails Basic Skills: Validation     
+---
+layout: "../../layouts/genericMarkdownFile.astro"
+title: "Rails Basic Skills: Validation"
+description: "imported from WordPress,Rails Basic Skills: Validation"
 ---
 
-# # Rails Basic Skills: Validation
+# Rails Basic Skills: Validation
 
 So far, we have talked about byebug, exception handling, logging, layouts, flash messages, and styles. Validation is next. Try this: Create several customers with blank first names or last names or phone numbers with letters in them or with email addresses that don’t have an @ sign. You will see that it just creates these nonsense entries. We wouldn’t want this in a production application. We want the entries to be validated so that they make sense.
 

@@ -1,10 +1,10 @@
----     
-layout: "../../layouts/genericMarkdownFile.astro"     
-title: Back End Lesson 3.1; Rails Basics     
-description: imported from WordPress, Back End Lesson 3.1: Rails Basics     
+---
+layout: "../../layouts/genericMarkdownFile.astro"
+title: "Back End Lesson 3.1: Rails Basics"
+description: "imported from WordPress,Back End Lesson 3.1: Rails Basics"
 ---
 
-# # Back End Lesson 3.1: Rails Basics
+# Back End Lesson 3.1: Rails Basics
 
 Welcome to Ruby on Rails Backend 3.1\. We now start the most exciting part of this class, which is to use Rails to create an actual web application. In this unit, we will learn:
 

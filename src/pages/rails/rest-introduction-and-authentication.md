@@ -1,10 +1,10 @@
 ---
 layout: "../../layouts/genericMarkdownFile.astro"
-title: REST Introduction and Authentication
-description: imported from WordPress, REST Introduction and Authentication
+title: "REST Introduction and Authentication"
+description: "imported from WordPress,REST Introduction and Authentication"
 ---
 
-# # REST Introduction and Authentication
+# REST Introduction and Authentication
 
 We are going to create an API that communicates using REST protocols, and that exchanges JSON data. It’s a good idea to understand what REST is:
 

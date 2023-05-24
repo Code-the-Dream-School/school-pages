@@ -1,10 +1,10 @@
----     
-layout: "../../layouts/genericMarkdownFile.astro"     
-title: Back End Lesson 5.1; REST APIs in Rails     
-description: imported from WordPress, Back End Lesson 5.1: REST APIs in Rails     
+---
+layout: "../../layouts/genericMarkdownFile.astro"
+title: "Back End Lesson 5.1: REST APIs in Rails"
+description: "imported from WordPress,Back End Lesson 5.1: REST APIs in Rails"
 ---
 
-# # Back End Lesson 5.1: REST APIs in Rails
+# Back End Lesson 5.1: REST APIs in Rails
 
 Welcome to Ruby on Rails Backend Class Lesson 5.1\. In this unit you will learn:
 

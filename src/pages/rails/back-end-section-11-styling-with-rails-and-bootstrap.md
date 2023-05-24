@@ -1,10 +1,10 @@
----     
-layout: "../../layouts/genericMarkdownFile.astro"     
-title: Back End Lesson 4.4; Styling with Rails and Bootstrap     
-description: imported from WordPress, Back End Lesson 4.4: Styling with Rails and Bootstrap     
+---
+layout: "../../layouts/genericMarkdownFile.astro"
+title: "Back End Lesson 4.4: Styling with Rails and Bootstrap"
+description: "imported from WordPress,Back End Lesson 4.4: Styling with Rails and Bootstrap"
 ---
 
-# # Back End Lesson 4.4: Styling with Rails and Bootstrap
+# Back End Lesson 4.4: Styling with Rails and Bootstrap
 
 Welcome to Ruby on Rails Back End Class Lesson 4.4\. In this unit, we will learn how to combine Bootstrap with Rails, and then how to use the Bootstrap CSS classes to build an attractive application.
 

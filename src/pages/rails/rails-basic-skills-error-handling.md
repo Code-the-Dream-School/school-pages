@@ -1,10 +1,10 @@
----     
-layout: "../../layouts/genericMarkdownFile.astro"     
-title: Rails Basic Skills; Error Handling     
-description: imported from WordPress, Rails Basic Skills: Error Handling     
+---
+layout: "../../layouts/genericMarkdownFile.astro"
+title: "Rails Basic Skills: Error Handling"
+description: "imported from WordPress,Rails Basic Skills: Error Handling"
 ---
 
-# # Rails Basic Skills: Error Handling
+# Rails Basic Skills: Error Handling
 
 Edit app/controllers/customers_controller.rb. You will see a create and an update method. We won’t explain their current contents right now, because we are going to change them. Comment all the lines out between the def and the end for the create method. Do the same for the update method.
 

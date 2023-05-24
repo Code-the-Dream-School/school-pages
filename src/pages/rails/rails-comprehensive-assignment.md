@@ -1,10 +1,10 @@
 ---
 layout: "../../layouts/genericMarkdownFile.astro"
-title: Rails Comprehensive Assignment
-description: imported from WordPress, Rails Comprehensive Assignment
+title: "Rails Comprehensive Assignment"
+description: "imported from WordPress,Rails Comprehensive Assignment"
 ---
 
-# # Rails Comprehensive Assignment
+# Rails Comprehensive Assignment
 
 In this assignment, we put all of the skills together. This assignment is intended to check whether you have learned the basic concepts of Rails development. For each part, there are examples in the blog application or in subsequent lessons, so you should be able to copy/paste into your new code, with changes to make everything work.
 
