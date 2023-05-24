@@ -1,10 +1,10 @@
----     
-layout: "../../layouts/genericMarkdownFile.astro"     
-title: Back End Lesson 1.1; SQL Basics     
-description: imported from WordPress, Back End Lesson 1.1: SQL Basics     
+---
+layout: "../../layouts/genericMarkdownFile.astro"
+title: "Back End Lesson 1.1: SQL Basics"
+description: "imported from WordPress,Back End Lesson 1.1: SQL Basics"
 ---
 
-# # Back End Lesson 1.1: SQL Basics
+# Back End Lesson 1.1: SQL Basics
 
 Welcome to Lesson 1 of the Ruby on Rails Backend Class. In this unit, we will learn:
 

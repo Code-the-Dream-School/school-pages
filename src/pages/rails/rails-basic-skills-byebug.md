@@ -1,10 +1,10 @@
----     
-layout: "../../layouts/genericMarkdownFile.astro"     
-title: Rails Basic Skills; Byebug     
-description: imported from WordPress, Rails Basic Skills: Byebug     
+---
+layout: "../../layouts/genericMarkdownFile.astro"
+title: "Rails Basic Skills: Byebug"
+description: "imported from WordPress,Rails Basic Skills: Byebug"
 ---
 
-# # Rails Basic Skills: Byebug
+# Rails Basic Skills: Byebug
 
 ## Getting Started with a Customer App
 

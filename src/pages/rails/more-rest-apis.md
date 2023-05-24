@@ -1,10 +1,10 @@
 ---
 layout: "../../layouts/genericMarkdownFile.astro"
-title: More REST APIs
-description: imported from WordPress, More REST APIs
+title: "More REST APIs"
+description: "imported from WordPress,More REST APIs"
 ---
 
-# # More REST APIs
+# More REST APIs
 
 In the previous part of the lesson, we implemented REST authentication using JWT tokens. Of course, when building an API, you do more than authenticate. In this part of the lesson we will add some additional APIs for CRUD operations. Create a new branch called more-rest for this part of the assignment.
 

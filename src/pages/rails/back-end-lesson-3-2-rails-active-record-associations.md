@@ -1,10 +1,10 @@
----     
-layout: "../../layouts/genericMarkdownFile.astro"     
-title: Back End Lesson 3.2; Rails Active Record Associations     
-description: imported from WordPress, Back End Lesson 3.2: Rails Active Record Associations     
+---
+layout: "../../layouts/genericMarkdownFile.astro"
+title: "Back End Lesson 3.2: Rails Active Record Associations"
+description: "imported from WordPress,Back End Lesson 3.2: Rails Active Record Associations"
 ---
 
-# # Back End Lesson 3.2: Rails Active Record Associations
+# Back End Lesson 3.2: Rails Active Record Associations
 
 Welcome to Ruby on Rails Back End Class Lesson 3.2\. In this unit, we will learn:
 

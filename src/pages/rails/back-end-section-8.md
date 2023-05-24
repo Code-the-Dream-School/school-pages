@@ -1,10 +1,10 @@
----     
-layout: "../../layouts/genericMarkdownFile.astro"     
-title: Back End Lesson 4.1; Rails Additional Topics     
-description: imported from WordPress, Back End Lesson 4.1: Rails Additional Topics     
+---
+layout: "../../layouts/genericMarkdownFile.astro"
+title: "Back End Lesson 4.1: Rails Additional Topics"
+description: "imported from WordPress,Back End Lesson 4.1: Rails Additional Topics"
 ---
 
-# # Back End Lesson 4.1: Rails Additional Topics
+# Back End Lesson 4.1: Rails Additional Topics
 
 Welcome to Ruby on Rails Back End Class Lesson 4.1\. The Treehouse Rails sequence omits some of the key skills needed to develop a production Rails application. The following skills will be presented in this lesson:
 

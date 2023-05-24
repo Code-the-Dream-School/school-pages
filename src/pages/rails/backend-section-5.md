@@ -1,10 +1,10 @@
----     
-layout: "../../layouts/genericMarkdownFile.astro"     
-title: Back End Lesson 2.3; Ruby Test Driven Development     
-description: imported from WordPress, Back End Lesson 2.3: Ruby Test Driven Development     
+---
+layout: "../../layouts/genericMarkdownFile.astro"
+title: "Back End Lesson 2.3: Ruby Test Driven Development"
+description: "imported from WordPress,Back End Lesson 2.3: Ruby Test Driven Development"
 ---
 
-# # Back End Lesson 2.3: Ruby Test Driven Development
+# Back End Lesson 2.3: Ruby Test Driven Development
 
 Welcome to Lesson 2.3 of the Ruby on Rails Back End class. In this unit, we will learn:
 

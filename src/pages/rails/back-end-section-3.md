@@ -1,10 +1,10 @@
----     
-layout: "../../layouts/genericMarkdownFile.astro"     
-title: Back End Lesson 2.1; Ruby Collections     
-description: imported from WordPress, Back End Lesson 2.1: Ruby Collections     
+---
+layout: "../../layouts/genericMarkdownFile.astro"
+title: "Back End Lesson 2.1: Ruby Collections"
+description: "imported from WordPress,Back End Lesson 2.1: Ruby Collections"
 ---
 
-# # Back End Lesson 2.1: Ruby Collections
+# Back End Lesson 2.1: Ruby Collections
 
 Welcome to Lesson 3 of the Ruby on Rails Back End Class. In this unit, we will learn:
 

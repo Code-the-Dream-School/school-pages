@@ -1,10 +1,10 @@
----     
-layout: "../../layouts/genericMarkdownFile.astro"     
-title: Rails; Calling REST with Fetch     
-description: imported from WordPress, Rails: Calling REST with Fetch     
+---
+layout: "../../layouts/genericMarkdownFile.astro"
+title: "Rails: Calling REST with Fetch"
+description: "imported from WordPress,Rails: Calling REST with Fetch"
 ---
 
-# # Rails: Calling REST with Fetch
+# Rails: Calling REST with Fetch
 
 Now we will call the API using Fetch, from a front end application. We will create this front end application using ordinary JavaScript and HTML. Usually, a front end is created using a framework such as React. This lesson explains how it works, without requiring that you know React. However, this lesson does require knowledge of JavaScript, in particular to access and manipulate the DOM and to access APIs using fetch(). The fetch() API is asynchronous. In the provided code, the return is handled with .then and errors are handled with .catch. Optionally, you could mark event handling functions with async and use the await statement in a try/catch block, if you are more familiar with that style.
 

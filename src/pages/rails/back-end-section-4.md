@@ -1,10 +1,10 @@
----     
-layout: "../../layouts/genericMarkdownFile.astro"     
-title: Back End Lesson 2.2; Methods, Classes, Blocks     
-description: imported from WordPress, Back End Lesson 2.2: Methods, Classes, Blocks     
+---
+layout: "../../layouts/genericMarkdownFile.astro"
+title: "Back End Lesson 2.2: Methods, Classes, Blocks"
+description: "imported from WordPress,Back End Lesson 2.2: Methods, Classes, Blocks"
 ---
 
-# # Back End Lesson 2.2: Methods, Classes, Blocks
+# Back End Lesson 2.2: Methods, Classes, Blocks
 
 Welcome to Lesson 4 of the Ruby on Rails Backend Class. In this unit, we will learn:
 

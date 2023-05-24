@@ -1,10 +1,10 @@
 ---
 layout: "../../layouts/genericMarkdownFile.astro"
-title: Styling Your Rails 7 Application with Bootstrap
-description: imported from WordPress, Styling Your Rails 7 Application with Bootstrap
+title: "Styling Your Rails 7 Application with Bootstrap"
+description: "imported from WordPress,Styling Your Rails 7 Application with Bootstrap"
 ---
 
-# # Styling Your Rails 7 Application with Bootstrap
+# Styling Your Rails 7 Application with Bootstrap
 
 To create attractive web applications, it is necessary to apply styling. You may have taken a previous course on HTML and CSS, and you have watched the Treehouse video on the Bootstrap CSS styling classes. In this lesson, you will use Bootstrap classes to style the application you have created. This lesson builds on the previous ones. You will use the same github repository, R7-validations, but for this lesson, you should create a new branch called bootstrap. Make sure that the full-assignment branch is active when you create the bootstrap branch, so that your work adds to what you did before.
 

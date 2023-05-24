@@ -1,10 +1,10 @@
----     
-layout: "../../layouts/genericMarkdownFile.astro"     
-title: Back End Lesson 4.3; Rails Comprehensive Assignment     
-description: imported from WordPress, Back End Lesson 4.3: Rails Comprehensive Assignment     
+---
+layout: "../../layouts/genericMarkdownFile.astro"
+title: "Back End Lesson 4.3: Rails Comprehensive Assignment"
+description: "imported from WordPress,Back End Lesson 4.3: Rails Comprehensive Assignment"
 ---
 
-# # Back End Lesson 4.3: Rails Comprehensive Assignment
+# Back End Lesson 4.3: Rails Comprehensive Assignment
 
 For this assignment, we will review many of the key Rails skills. You will create a model for orders. The customer model from the previous assignment will have a one-to-many association with the orders model. You will create a controller for orders, and routes to the controller methods. You will create views for order objects. You will also create RSpec tests.
 
