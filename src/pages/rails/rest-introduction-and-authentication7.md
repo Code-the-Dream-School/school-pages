@@ -1,7 +1,7 @@
----
-layout: "../../layouts/genericMarkdownFile.astro"
-title: "REST Introduction and Authentication"
-description: "imported from WordPress,REST Introduction and Authentication"
+---     
+layout: "../../layouts/genericMarkdownFile.astro"     
+title: "REST Introduction and Authentication"     
+description: "imported from WordPress,REST Introduction and Authentication"     
 ---
 
 # REST Introduction and Authentication
@@ -14,7 +14,7 @@ And also, you will want to understand JSON:
 
 ## Creating the API Server Application
 
-A starter Rails application for the API Server has been created for you in the git repository **[here.](https://github.com/Code-the-Dream-School/R6-rest-rails)** You do NOT need to do the command to create the application. You only need to fork and clone the repository as usual. After you have cloned the repository, cd to the repository directory and create a branch called rest-authentication. This is where you will put the first part of your assignment.
+A starter Rails application for the API Server has been created for you in the git repository **[here.](https://github.com/Code-the-Dream-School/R7-rest)** You do NOT need to do the command to create the application. You only need to fork and clone the repository as usual. After you have cloned the repository, cd to the repository directory and create a branch called rest-authentication. This is where you will put the first part of your assignment. 
 
 The command we used to create this workspace was:
 
@@ -31,24 +31,9 @@ You will need some additional gems. Add the following to your Gemfile. These set
 ```
 gem 'devise'
 gem 'devise-jwt'
-gem 'rack-cors'
 ```
 
-Then do a bundle install. Then edit config/initializers/cors.rb to match the following:
-
-```
-Rails.application.config.middleware.insert_before 0, Rack::Cors do
-  allow do
-    origins '*'
-
-    resource '*',
-             headers: :any,
-             methods: [:get, :post, :put, :patch, :delete, :options, :head]
-  end
-end
-```
-
-THis allows your server to accept REST requests from any origin. This is not a good general practice — you would want to specify the address of your front end application instead of \* — but CORS is outside the scope of this lesson.
+Then do a bundle install. 
 
 Next we set up devise. Devise is a gem that enables authentication, and we are using it in combination with devise-jwt, which allows the creation of json web tokens as credentials. Enter the following commands:
 
@@ -71,7 +56,7 @@ class User < ApplicationRecord
 end
 ```
 
-One of the problems with JWT token authentication is logoff. In order to enable logoff, we have to invalidate the token, and one means of doing that is to create a list of revoked tokens. Create another model file called app/models/jwt_denylist.rb and paste in the following.
+One of the problems with JWT token authentication is logoff. In order to enable logoff, we have to invalidate the token, and one means of doing that is to create a list of revoked tokens. Create another model file called app/models/jwt\_denylist.rb and paste in the following.
 
 ```
 class JwtDenylist < ApplicationRecord
@@ -81,7 +66,7 @@ class JwtDenylist < ApplicationRecord
 end
 ```
 
-Next, create a migration for the jwt_denylist table:
+Next, create a migration for the jwt\_denylist table:
 
 ```
 rails g migration CreateJwtDenylist
@@ -119,7 +104,7 @@ bin/rails g controller users/Sessions
 bin/rails g controller test
 ```
 
-Edit app/controllers/users/registrations_controller.rb, to match the following:
+Edit app/controllers/users/registrations\_controller.rb, to match the following:
 
 ```
 class Users::RegistrationsController < Devise::RegistrationsController
@@ -143,7 +128,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 end
 ```
 
-It is not really obvious what this controller does, but it overrides the Devise controller to handle JSON responses. The same is true of app/controllers/users/sessions_controller.rb, which should be changed to match this:
+It is not really obvious what this controller does, but it overrides the Devise controller to handle JSON responses. The same is true of app/controllers/users/sessions\_controller.rb, which should be changed to match this:
 
 ```
 class Users::SessionsController < Devise::SessionsController
@@ -176,12 +161,12 @@ class Users::SessionsController < Devise::SessionsController
 end
 ```
 
-In general, REST operations other than registration and logon require authentication. So we need a method to verify that a user has been authenticated. We create that method in a new file you should create, app/controllers/concerns/authentication_check.rb, as follows:
+In general, REST operations other than registration and logon require authentication. So we need a method to verify that a user has been authenticated. We create that method in a new file you should create, app/controllers/concerns/authentication\_check.rb, as follows:
 
 ```
 module AuthenticationCheck
   extend ActiveSupport::Concern
-
+  
   def is_user_logged_in
     if current_user.nil?
       render json: { message: "No user is authenticated." },
@@ -191,7 +176,7 @@ module AuthenticationCheck
 end
 ```
 
-This is the standard way of creating a method that will be accessible to a variety of controllers. Now edit app/controllers/test_controller.rb to match the following. You will see that it calls the method is_user_logged_in.
+This is the standard way of creating a method that will be accessible to a variety of controllers. Now edit app/controllers/test\_controller.rb to match the following. You will see that it calls the method is\_user\_logged\_in.
 
 ```
 class TestController < ApplicationController
@@ -224,7 +209,7 @@ This will give a very long string of gobbledygook. Copy the string to the clipbo
 EDITOR=vi rails credentials:edit
 ```
 
-Here, you may get a message:
+Here, you may get a message: 
 
 ```
 Couldn't decrypt config/credentials.yml.enc. Perhaps you passed the wrong key?
@@ -245,7 +230,7 @@ Where the rake secret key is pasted in from the clipboard. This is a yml file, s
 Rails.application.credentials.devise
 ```
 
-It should show you the secret, with a key of jwt_secret_key. If it does not, repeat the steps above. Do not do the next step until you have the secret key set up correctly.
+It should show you the secret, with a key of jwt\_secret\_key. If it does not, repeat the steps above. Do not do the next step until you have the secret key set up correctly.
 
 Edit config/initializers/devise.rb to point devise to the encrypted secret we will create. The following lines should be added to the config block:
 
@@ -274,7 +259,7 @@ end
 
 We are now ready to start the REST server. Typically the server would be called by a separate front end process, written in a framework such as React. We will create such a front end, just using Rails, in a future lesson. However, we can test without the front end using a Linux utility called curl, which sends HTTP requests to a specified target.
 
-Start the server with bin/rails s, or if you are on vagrant, bin/rails s -b 0.0.0.0\. Then try the following curl commands. You will need a separate command shell to send the commands. If you are using vagrant, this will be a separate vagrant ssh session. Your separate command session should be in a directory that is not part of a git project, as we are going to create some temporary files.
+Start the server as usual. Then try the following curl commands. You will need a separate command shell to send the commands. If you are using vagrant, this will be a separate vagrant ssh session. Your separate command session should be in a directory that is not part of a git project, as we are going to create some temporary files.
 
 We will first try to access the test controller without being authenticated, using the following command:
 

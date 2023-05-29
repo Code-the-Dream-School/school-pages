@@ -1,7 +1,7 @@
----
-layout: "../../layouts/genericMarkdownFile.astro"
-title: "More REST APIs"
-description: "imported from WordPress,More REST APIs"
+---     
+layout: "../../layouts/genericMarkdownFile.astro"     
+title: "More REST APIs"     
+description: "imported from WordPress,More REST APIs"     
 ---
 
 # More REST APIs
@@ -71,7 +71,7 @@ These routes are similar to what you have used before, with the exception that y
 
 ## Adding Application Logic
 
-Your application logic goes in your controllers. Because this is an API, there are no files corresponding to views. When a request comes in, the response will always render json, to send the responses in json format back to the caller. In other respects, the processing is much as in Rails UI applications. The HTTP status code returned will be, by default, 200, but there are other status codes that are appropriate sometimes. For example, 201 means resource created, and the 400 series codes imply a client side error. We will require authentication for access to these controller operations, so we need to include AuthenticationCheck and call is_user_logged_in. This is an unfinished version of your app/controllers/api/v1/members_controller.rb file:
+Your application logic goes in your controllers. Because this is an API, there are no files corresponding to views. When a request comes in, the response will always render json, to send the responses in json format back to the caller. In other respects, the processing is much as in Rails UI applications. The HTTP status code returned will be, by default, 200, but there are other status codes that are appropriate sometimes. For example, 201 means resource created, and the 400 series codes imply a client side error. We will require authentication for access to these controller operations, so we need to include AuthenticationCheck and call is\_user\_logged\_in. This is an unfinished version of your app/controllers/api/v1/members\_controller.rb file:
 
 ```
 class Api::V1::MembersController < ApplicationController
@@ -127,7 +127,7 @@ class Api::V1::MembersController < ApplicationController
 end
 ```
 
-You will have to complete the update and show methods yourself.. Include error handling! For the app/controllers/api/v1/facts_controller.rb file, you can use the following outline, but most of the methods you will have to complete yourself.
+You will have to complete the update and show methods yourself.. Include error handling! For the app/controllers/api/v1/facts\_controller.rb file, you can use the following outline, but most of the methods you will have to complete yourself.
 
 ```
 class Api::V1::FactsController < ApplicationController
@@ -155,7 +155,7 @@ class Api::V1::FactsController < ApplicationController
     if @fact.save
       render json: @fact, status: 201
     else
-      render json: { error:
+      render json: { error: 
 "The fact entry could not be created. #{@fact.errors.full_messages.to_sentence}"},
       status: 400
     end
@@ -186,7 +186,7 @@ end
 
 ## Exception Handling
 
-The client application may send some bad json, or specify the id of a user or fact that does not exist. You need to catch those errors and return an appropriate error message and HTTP result code to the calling client application. This is done by creating an exception handler module, which is app/controllers/concerns/exception_handler.rb:
+The client application may send some bad json, or specify the id of a user or fact that does not exist. You need to catch those errors and return an appropriate error message and HTTP result code to the calling client application. This is done by creating an exception handler module, which is app/controllers/concerns/exception\_handler.rb:
 
 ```
 # app/controllers/concerns/exception_handler.rb
@@ -211,7 +211,7 @@ end
 
 ```
 
-Then add this line to app/controllers/application_controller.rb, just before the end statement:
+Then add this line to app/controllers/application\_controller.rb, just before the end statement:
 
 ```
   include ExceptionHandler
@@ -219,13 +219,13 @@ Then add this line to app/controllers/application_controller.rb, just before the
 
 ## Testing Your Code Using Curl
 
-The curl tool will send json to the URL you specify, and will also report back the json it receives. You can send the following commands, to see what happens. First, start the server using
+The curl tool will send json to the URL you specify, and will also report back the json it receives. You can send the following commands, to see what happens. First, start the server using 
 
 ```
-bin/rails s
+bin/rails s 
 ```
 
-And then try REST requests to that server, using curl. You will need a second command line for this. Note that we need authentication, so we pass as a header the contents of authheader.txt, which was created in the previous part of the lesson. Now, JSON web tokens do time out. Because we didn’t configure the devise_jwt expiration time, the default timeout is one hour. So if you find you are no longer logged in, you need to log in again and generate a new authheader.txt, as in the previous lesson.
+And then try REST requests to that server, using curl. You will need a second command line for this. If you are running vagrant, that is another git bash session in which you have run vagrant ssh. Note that we need authentication, so we pass as a header the contents of authheader.txt, which was created in the previous part of the lesson.
 
 ```
 curl -XGET -H @authheader.txt -H "Content-Type: application/json" http://localhost:3000/api/v1/members

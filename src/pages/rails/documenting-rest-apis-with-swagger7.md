@@ -1,16 +1,14 @@
----
-layout: "../../layouts/genericMarkdownFile.astro"
-title: "Documenting REST APIs with Swagger"
-description: "imported from WordPress,Documenting REST APIs with Swagger"
+---     
+layout: "../../layouts/genericMarkdownFile.astro"     
+title: "Documenting REST APIs with Swagger"     
+description: "imported from WordPress,Documenting REST APIs with Swagger"     
 ---
 
 # Documenting REST APIs with Swagger
 
-When you create a REST API, you also need (a) an automated way to test the API, something easier than curl, and (b) a way to document the API, so that implementers of front end applications that call the API can know how to call it. RSpec may be used to test APIs as well as to test Rails UI applications. The standard and best way to document the API is to create a special user interface for it called Swagger.
+When you create a REST API, you also need (a) an automated way to test the API, something easier than curl, and (b) a way to document the API, so that implementers of front end applications that call the API can know how to call it. RSpec may be used to test APIs as well as to test Rails UI applications. The standard and best way to document the API is to create a special user interface for it called Swagger. 
 
 We will create a partial set of RSpec tests. These tests will be of a particular format, so that they can be used to generate the Swagger UI.
-
-Be sure that your swagger branch is active.
 
 ## Setting Up for Rspec and Swagger
 
@@ -43,7 +41,7 @@ bin/rails generate rswag:install
 
 ## Factories and RSpec Tests
 
-You will need FactoryBot factories for test user, member, and fact entries. In this section and in the sections that follow, it is typically necessary to create the directories that contain these files, as well as the files themselves. Create spec/factories/users.rb as follows:
+You will need FactoryBot factories for test user, member, and fact entries. Create spec/factories/users.rb as follows:
 
 ```
 require 'faker'
@@ -83,7 +81,7 @@ end
 
 ## Creating the Rspec Tests
 
-We need to create tests for each of the controllers. First, create spec/requests/registrations_spec.rb, as follows:
+We need to create tests for each of the controllers. First, create spec/requests/registrations\_spec.rb, as follows:
 
 ```
 require 'swagger_helper'
@@ -120,15 +118,15 @@ RSpec.describe 'user/registrations', type: :request do
 end
 ```
 
-The swagger gem is here introducing some domain specific language into rspec. This is done so that the Swagger UI can be generated from the rspec tests. You have a series of path statements corresponding to your rails routes, and get/post/put/patch/delete statements also corresponding to the routes. We also specify the parameters and their types. We are just testing that a valid return code and json body comes back. Good rspec testing would add a number of expect statements to make sure the body is valid, and additional test cases would be provided for invalid data. So what we have is too limited to be a comprehensive test, but it suffices to generate swagger code. (The swagger gem has the capability to generate an outline for these test files. It is not used in this lesson, because of previous problems with it, but it works well now.)
+The swagger gem is here introducing some domain specific language into rspec. This is done so that the Swagger UI can be generated from the rspec tests. You have a series of path statements corresponding to your rails routes, and get/post/put/patch/delete statements also corresponding to the routes. We also specify the parameters and their types. We are just testing that a valid return code and json body comes back. Good rspec testing would add a number of expect statements to make sure the body is valid, and additional test cases would be provided for invalid data. So what we have is too limited to be a comprehensive test, but it suffices to generate swagger code. (By the way, the swagger gem has the capability to generate an outline for these test files — unfortunately there is a bug in that function so we avoid it for now.)
 
-We also need tests for the sessions controller. We will need to enable authentication for some of these tests. There are helper routines in Devise JWT to facilitate this. To have access to these helper routines, add the following line to the top of spec/spec_helper.rb:
+We also need tests for the sessions controller. We will need to enable authentication for some of these tests. There are helper routines in Devise JWT to facilitate this. To have access to these helper routines, add the following line to the top of spec/spec\_helper.rb:
 
 ```
 require 'devise/jwt/test_helpers'
 ```
 
-Create spec/requests/sessions_spec.rb as follows:
+Create spec/requests/sessions\_spec.rb as follows:
 
 ```
 require 'swagger_helper'
@@ -211,7 +209,7 @@ To have access to the JWTAuth helper that creates the token, we have to require 
       security [Bearer: {}]
 ```
 
-Next we create a test for the members controller, and for each of the methods within that controller. Every method within the members controller requires authentication. Create spec/requests/api/v1/members_spec.rb as follows:
+Next we create a test for the members controller, and for each of the methods within that controller. Every method within the members controller requires authentication. Create spec/requests/api/v1/members\_spec.rb as follows:
 
 ```
 require 'swagger_helper'
@@ -339,7 +337,7 @@ RSpec.describe 'api/v1/members', type: :request do
 end
 ```
 
-Finally, we create the test file for facts, as spec/requests/api/v1/facts_spec.rb;
+Finally, we create the test file for facts, as spec/requests/api/v1/facts\_spec.rb;
 
 ```
 require 'swagger_helper'
@@ -469,7 +467,7 @@ RSpec.describe 'api/v1/facts', type: :request do
 end
 ```
 
-Edit spec/swagger_helper.rb to read as follows:
+Edit spec/swagger\_helper.rb to read as follows:
 
 ```
 # frozen_string_literal: true
@@ -524,7 +522,7 @@ end
 
 You are really only changing two sections. You are changing the server section so that the swagger UI has the right URL, and you are also specifying what kind of authentication is to be used in the securitySchemes section.
 
-Now run rspec with the command bundle exec rspec. It should complete without errors. If not, you may have problems in your controller logic.
+Now run rspec. It should complete without errors. If not, you may have problems in your controller logic.
 
 ## Creating the Swagger UI
 
@@ -534,7 +532,7 @@ Type:
 bundle exec rake rswag:specs:swaggerize
 ```
 
-Then start your server as usual. You will find that you have a new route, so that you can, from your browser, access http://localhost:3000/api-docs . Experiment with this page, using the registrations section to create users and using the sessions section to log on.
+Then start your server as usual. You will find that you have a new route, so that you can, from your browser, access http://localhost:3000/api-docs . Experiment with this page, using the registrations section to create users and using the sessions section to log on. 
 
 You will find that the logoff as well as all of the sections for members and facts don’t appear to work. They always return a 401 for unauthorized. You can set up authentication for these operations as follows. First, do a logon for a user you have created. You will see it returns a response with an Authorization header. Copy the contents of the Authorization header, which starts with Bearer and continues with a log string of characters, that being the JWT token, something like:
 
