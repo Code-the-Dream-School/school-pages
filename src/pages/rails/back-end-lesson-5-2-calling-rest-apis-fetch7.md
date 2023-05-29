@@ -1,7 +1,7 @@
----     
-layout: "../../layouts/genericMarkdownFile.astro"     
-title: "Back End Lesson 5.2: Calling REST APIs with Fetch"     
-description: "imported from WordPress,Back End Lesson 5.2: Calling REST APIs with Fetch"     
+---
+layout: "../../layouts/genericMarkdownFile.astro"
+title: "Back End Lesson 5.2: Calling REST APIs with Fetch"
+description: "imported from WordPress,Back End Lesson 5.2: Calling REST APIs with Fetch"
 ---
 
 # Back End Lesson 5.2: Calling REST APIs with Fetch
@@ -13,7 +13,7 @@ This lesson is primarily about JavaScript. If you do not have a background in Ja
 ## Curriculum
 
 This is your curriculum for Lesson 5.2:  
-****5.2.1[ Calling REST with Fetch](https://learn.codethedream.org/rails-calling-rest-with-fetch/)**
+\***\*5.2.1[ Calling REST with Fetch](https://learn.codethedream.org/rails-calling-rest-with-fetch/)**
 
 ## Assignments
 

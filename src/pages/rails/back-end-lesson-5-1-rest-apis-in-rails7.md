@@ -1,22 +1,22 @@
----     
-layout: "../../layouts/genericMarkdownFile.astro"     
-title: "Back End Lesson 5.1: REST APIs in Rails"     
-description: "imported from WordPress,Back End Lesson 5.1: REST APIs in Rails"     
+---
+layout: "../../layouts/genericMarkdownFile.astro"
+title: "Back End Lesson 5.1: REST APIs in Rails"
+description: "imported from WordPress,Back End Lesson 5.1: REST APIs in Rails"
 ---
 
 # Back End Lesson 5.1: REST APIs in Rails
 
 Welcome to Ruby on Rails Backend Class Lesson 5.1\. In this unit you will learn:
 
-* How to develop a JSON API using Rails
-* How to enable your API application for Swagger API testing and documentation
-* How to call your API from a front end application
+- How to develop a JSON API using Rails
+- How to enable your API application for Swagger API testing and documentation
+- How to call your API from a front end application
 
 ## Curriculum
 
 This is your curriculum for Lesson 5.1:  
-****5.1.1 [REST Introduction and Authentication](https://learn.codethedream.org/rest-introduction-and-authentication7/)** 
-**5.1.2 [More REST for CRUD Operations](https://learn.codethedream.org/more-rest-apis7/)** 
+\***\*5.1.1 [REST Introduction and Authentication](https://learn.codethedream.org/rest-introduction-and-authentication7/)**
+**5.1.2 [More REST for CRUD Operations](https://learn.codethedream.org/more-rest-apis7/)**
 **5.1.3 [Adding Rspec and Swagger](https://learn.codethedream.org/documenting-rest-apis-with-swagger7/)**
 
 ## Assignments

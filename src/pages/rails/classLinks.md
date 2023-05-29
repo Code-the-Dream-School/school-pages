@@ -1,7 +1,7 @@
---- 
-layout: "../../layouts/genericMarkdownFile.astro" 
-title: classLinks 
-description: Links to all the files in this directory 
+---
+layout: "../../layouts/genericMarkdownFile.astro"
+title: classLinks
+description: Links to all the files in this directory
 ---
 
 - [back-end-2-final-project.md](back-end-2-final-project)
