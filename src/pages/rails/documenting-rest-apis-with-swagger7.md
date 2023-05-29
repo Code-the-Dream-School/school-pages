@@ -10,8 +10,6 @@ When you create a REST API, you also need (a) an automated way to test the API, 
 
 We will create a partial set of RSpec tests. These tests will be of a particular format, so that they can be used to generate the Swagger UI.
 
-Be sure that your swagger branch is active.
-
 ## Setting Up for Rspec and Swagger
 
 Add the following lines to your Gemfile:
@@ -43,7 +41,7 @@ bin/rails generate rswag:install
 
 ## Factories and RSpec Tests
 
-You will need FactoryBot factories for test user, member, and fact entries. In this section and in the sections that follow, it is typically necessary to create the directories that contain these files, as well as the files themselves. Create spec/factories/users.rb as follows:
+You will need FactoryBot factories for test user, member, and fact entries. Create spec/factories/users.rb as follows:
 
 ```
 require 'faker'
@@ -120,7 +118,7 @@ RSpec.describe 'user/registrations', type: :request do
 end
 ```
 
-The swagger gem is here introducing some domain specific language into rspec. This is done so that the Swagger UI can be generated from the rspec tests. You have a series of path statements corresponding to your rails routes, and get/post/put/patch/delete statements also corresponding to the routes. We also specify the parameters and their types. We are just testing that a valid return code and json body comes back. Good rspec testing would add a number of expect statements to make sure the body is valid, and additional test cases would be provided for invalid data. So what we have is too limited to be a comprehensive test, but it suffices to generate swagger code. (The swagger gem has the capability to generate an outline for these test files. It is not used in this lesson, because of previous problems with it, but it works well now.)
+The swagger gem is here introducing some domain specific language into rspec. This is done so that the Swagger UI can be generated from the rspec tests. You have a series of path statements corresponding to your rails routes, and get/post/put/patch/delete statements also corresponding to the routes. We also specify the parameters and their types. We are just testing that a valid return code and json body comes back. Good rspec testing would add a number of expect statements to make sure the body is valid, and additional test cases would be provided for invalid data. So what we have is too limited to be a comprehensive test, but it suffices to generate swagger code. (By the way, the swagger gem has the capability to generate an outline for these test files — unfortunately there is a bug in that function so we avoid it for now.)
 
 We also need tests for the sessions controller. We will need to enable authentication for some of these tests. There are helper routines in Devise JWT to facilitate this. To have access to these helper routines, add the following line to the top of spec/spec_helper.rb:
 
@@ -524,7 +522,7 @@ end
 
 You are really only changing two sections. You are changing the server section so that the swagger UI has the right URL, and you are also specifying what kind of authentication is to be used in the securitySchemes section.
 
-Now run rspec with the command bundle exec rspec. It should complete without errors. If not, you may have problems in your controller logic.
+Now run rspec. It should complete without errors. If not, you may have problems in your controller logic.
 
 ## Creating the Swagger UI
 

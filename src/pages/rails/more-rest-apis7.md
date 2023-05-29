@@ -225,7 +225,7 @@ The curl tool will send json to the URL you specify, and will also report back t
 bin/rails s
 ```
 
-And then try REST requests to that server, using curl. You will need a second command line for this. Note that we need authentication, so we pass as a header the contents of authheader.txt, which was created in the previous part of the lesson. Now, JSON web tokens do time out. Because we didn’t configure the devise_jwt expiration time, the default timeout is one hour. So if you find you are no longer logged in, you need to log in again and generate a new authheader.txt, as in the previous lesson.
+And then try REST requests to that server, using curl. You will need a second command line for this. If you are running vagrant, that is another git bash session in which you have run vagrant ssh. Note that we need authentication, so we pass as a header the contents of authheader.txt, which was created in the previous part of the lesson.
 
 ```
 curl -XGET -H @authheader.txt -H "Content-Type: application/json" http://localhost:3000/api/v1/members
