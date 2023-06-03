@@ -12,7 +12,9 @@ export const Header = () => (
     <div className="gap-2 items-center sm:flex hidden">
       {navLocations.map(({ href, display }) =>
         typeof display === "string" ? (
-          <NavLink href={href}>{display}</NavLink>
+          <NavLink key={href} href={href}>
+            {display}
+          </NavLink>
         ) : (
           display
         )
