@@ -124,19 +124,22 @@ app.use(express.static('public'))
 
 Start the server and go to localhost:3000 in your browser. You see the page, but it does not do anything. This is because there is no JavaScript to go with it. You create that now. This is the JavaScript for the front end. **Front end JavaScript does not run in Node. Instead it is delivered to the browser and runs in the browser context, with full access to the document, window, and DOM.**
 
-There are various divs to be manipulated by this JavaScript. (Again, you have to change this code to match your data model.) The code is segmented into various modules.  There is one module,
-index.js, to initialize window handling.  There are five divs, only one of which will show at a time:
+There are various divs to be manipulated by this JavaScript. (Again, you have to change this code to match your data model.) The code is segmented into various modules. There is one module,
+index.js, to initialize window handling. There are five divs, only one of which will show at a time:
 one to select logon or register, one to do logon, one to do register, one to display the jobs,
-and one to add or edit a job.  For each of these divs, there is a separate module controlling its
+and one to add or edit a job. For each of these divs, there is a separate module controlling its
 operation.
 
 To begin, add the following line to index.html, right above the close of the body tag:
+
 ```
     <script src="./index.js" type="module"></script>
 ```
-These modules call one another using the exports that each provides.  For this to work, you
-must declare it as type "module".  Create index.js in the public directory.The index.js
+
+These modules call one another using the exports that each provides. For this to work, you
+must declare it as type "module". Create index.js in the public directory.The index.js
 module should read as follows:
+
 ```
 let activeDiv = null;
 export let enabled = true;
@@ -178,29 +181,31 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 ```
-Remember that this code is running in the browser, and not in Node.  That means you must use import
-and not require.  We need to keep track of the active div, and that is stored in activeDiv.  We export
-a function that sets the active div, making it visible and hiding the previous active div.  We
-also have to have a means of disabling input.  This is because we will use asynchronous functions,
-and the application can get confused if input comes in while these are in progress.  We
-also have to have a global place to display messages.  We also have to keep track of whether
-the user is logged in.  We do that in a token in local storage (although this creates security risks as
+
+Remember that this code is running in the browser, and not in Node. That means you must use import
+and not require. We need to keep track of the active div, and that is stored in activeDiv. We export
+a function that sets the active div, making it visible and hiding the previous active div. We
+also have to have a means of disabling input. This is because we will use asynchronous functions,
+and the application can get confused if input comes in while these are in progress. We
+also have to have a global place to display messages. We also have to keep track of whether
+the user is logged in. We do that in a token in local storage (although this creates security risks as
 previously described.) When local storage is used, the user remains logged in even if the page
-is refreshed.  Once the DOM is loaded, we initialize the handlers for each of the divs.  Then,
-if the user is logged in, we display the list of jobs.  If the user is not logged in, we display
-the initial panel with a button for logon and a button for register.  Note that we need
-to provide and to export functions to set the enabled flag and the token.  This is because
+is refreshed. Once the DOM is loaded, we initialize the handlers for each of the divs. Then,
+if the user is logged in, we display the list of jobs. If the user is not logged in, we display
+the initial panel with a button for logon and a button for register. Note that we need
+to provide and to export functions to set the enabled flag and the token. This is because
 one can't write directly to these variables from other modules.
 
 You will need to create loginRegister.js, register.js, login.js, jobs.js, and addEdit.js, all
-in the public directory.  The loginRegister.js module is as follows:
+in the public directory. The loginRegister.js module is as follows:
+
 ```
 let loginRegisterDiv = null
 import { enabled, setDiv } from "./index.js"
 import { showLogin } from "./login.js"
 import { showRegister } from "./register.js"
 export const handleLoginRegister = () => {
-  loginRegisterDiv = document.getElementById("logon-register") 
+  loginRegisterDiv = document.getElementById("logon-register")
   const login = document.getElementById("logon")
   const register = document.getElementById("register")
   loginRegisterDiv.addEventListener("click", (e) => {
@@ -218,12 +223,14 @@ export const showLoginRegister = () => {
     setDiv(loginRegisterDiv)
 }
 ```
-Each of the div handling modules follow this pattern.  Required imports (used when one div handler
-calls another) are resolved up front.  Then, within the handler function, the div and its controls are resolved.  Also within the handler function, event handler is declared to handle mouse clicks
-within the div.  A separate function handles display of the div.  (React works in similar fashion,
+
+Each of the div handling modules follow this pattern. Required imports (used when one div handler
+calls another) are resolved up front. Then, within the handler function, the div and its controls are resolved. Also within the handler function, event handler is declared to handle mouse clicks
+within the div. A separate function handles display of the div. (React works in similar fashion,
 if you know that framework -- but this lesson does not use React.)
 
 The register.js module is as follows:
+
 ```
 let registerDiv = null;
 import { enabled, setDiv, message, token, enable, setToken } from "./index.js";
@@ -260,7 +267,9 @@ export const showRegister = () => {
 };
 
 ```
+
 The login.js module is as follows:
+
 ```
 let loginDiv = null;
 import { enabled, setDiv, token, message, enable, setToken } from "./index.js";
@@ -293,7 +302,9 @@ export const showLogin = () => {
   setDiv(loginDiv);
 };
 ```
+
 The jobs.js module is as follows:
+
 ```
 let jobsDiv = null;
 import { enabled, setDiv, message, setToken, token, enable } from "./index.js";
@@ -315,7 +326,7 @@ export const handleJobs = () => {
         showAddEdit(null);
       } else if (e.target === logoff) {
         showLoginRegister();
-      } 
+      }
   });
 };
 
@@ -323,7 +334,9 @@ export const showJobs = async () => {
   setDiv(jobsDiv);
 };
 ```
+
 The addExport.js module is as follows:
+
 ```
 let addEditDiv = null;
 import { enable, enabled, message, setDiv, token } from "./index.js";
@@ -353,27 +366,29 @@ export const showAddEdit = (job) => {
   setDiv(addEditDiv)
 }
 ```
-Create all these files and then try the application out.  You will find that
+
+Create all these files and then try the application out. You will find that
 the application is now responsive, and you can navigate between the active divs.
 However, the application still does not do much, because, of course, there
-is no code to communicate with the back end.  This is to be added using the
-fetch() function.  Fetch is asynchronous.  In the code that follows, we
-use the async/await pattern, so of course whenever that is used, the 
-surrounding function must be declared as async.  Also, we need to disable
-input for the period in which the async operation is in progress.  We do
-this by setting the enabled flag.  Our click handlers ignore clicks if
-they occur while the enabled flag is false.  We may get an error, so
-the async operations must be surrounded with a try/catch.  If an error
-occurs, we notify the user, but we also log the error to the console.  You
+is no code to communicate with the back end. This is to be added using the
+fetch() function. Fetch is asynchronous. In the code that follows, we
+use the async/await pattern, so of course whenever that is used, the
+surrounding function must be declared as async. Also, we need to disable
+input for the period in which the async operation is in progress. We do
+this by setting the enabled flag. Our click handlers ignore clicks if
+they occur while the enabled flag is false. We may get an error, so
+the async operations must be surrounded with a try/catch. If an error
+occurs, we notify the user, but we also log the error to the console. You
 may not want to log all errors to the console in a production application,
 but it is wise to do it when you are developing, so that you can find your
 own errors.
 
-First, we'll make register and logon work.  For either register or logon,
-if the step is successful, the back end returns a JWT token.  This is
+First, we'll make register and logon work. For either register or logon,
+if the step is successful, the back end returns a JWT token. This is
 stored for use in accessing jobs records.
 
 Adding these capabilities to register.js gives the following:
+
 ```
 let registerDiv = null;
 import { enabled, setDiv, message, token, enable, setToken } from "./index.js";
@@ -448,10 +463,12 @@ export const showRegister = () => {
   setDiv(registerDiv);
 };
 ```
-Note that the values the user types are cleared out after processing.  We do not want those
+
+Note that the values the user types are cleared out after processing. We do not want those
 to live on in memory.
 
 The login.js module becomes:
+
 ```
 let loginDiv = null;
 import { enabled, setDiv, token, message, enable, setToken } from "./index.js";
@@ -511,9 +528,11 @@ export const showLogin = () => {
   setDiv(loginDiv);
 };
 ```
-Make these changes and test the application again.  You should find that you
-can register and logon.  Logoff doesn't work right at present, but this
+
+Make these changes and test the application again. You should find that you
+can register and logon. Logoff doesn't work right at present, but this
 can be corrected in jobs.js with the following change:
+
 ```
       } else if (e.target === logoff) {
         setToken(null);
@@ -523,12 +542,14 @@ can be corrected in jobs.js with the following change:
         showLoginRegister();
       }
 ```
-Note that logoff involves no communication with the back end.  The user is
-logged off by deleting the JWT from memory.  We also have to clear the jobs
-data from memory, for security reasons.  That's what the replaceChildren does.
+
+Note that logoff involves no communication with the back end. The user is
+logged off by deleting the JWT from memory. We also have to clear the jobs
+data from memory, for security reasons. That's what the replaceChildren does.
 
 Next we need to make the changes so that we can create job entries.
 The addEdit.js module is changed as follows:
+
 ```
   addEditDiv.addEventListener("click", async (e) => {
     if (enabled && e.target.nodeName === "BUTTON") {
@@ -576,19 +597,21 @@ The addEdit.js module is changed as follows:
     }
   }
 ```
+
 In this case, we have to pass the JWT in the header for the call to work.
-Once you have added this code, try out the application again. You are now able to add entries, but you can't actually see them. Next you add the code to populate the table of jobs entries.  Of course,
-this involves another fetch operation, passing the JWT as for the add.  Then the
+Once you have added this code, try out the application again. You are now able to add entries, but you can't actually see them. Next you add the code to populate the table of jobs entries. Of course,
+this involves another fetch operation, passing the JWT as for the add. Then the
 results are used to populate a table.
 
-There is a somewhat tricky part to this.  We want to have edit and delete buttons for each
-row of the table.  But, how do we associate an edit button with the edit operation, and
-when it is clicked, how do we know which entry is to be edited?  This is done as follows.
+There is a somewhat tricky part to this. We want to have edit and delete buttons for each
+row of the table. But, how do we associate an edit button with the edit operation, and
+when it is clicked, how do we know which entry is to be edited? This is done as follows.
 The edit buttons are given a class of "editButton", and similarly, the delete buttons are
-given a class of "deleteButton".  We can also associate a hash called dataset with each
+given a class of "deleteButton". We can also associate a hash called dataset with each
 button, and we store in dataset.id the id of the entry, as returned from the database.
 
 It looks like this:
+
 ```
 export const showJobs = async () => {
   try {
@@ -627,20 +650,24 @@ export const showJobs = async () => {
   setDiv(jobsDiv);
 };
 ```
+
 So, plug this code into jobs.js at the appropriate point, and then try the application again.
 You should now be able to see the entries for each job.
 
-However, the edit and delete buttons don't actually work.  This is because the click handler
-in jobs.js is ignoring them.  We can add a section to the click handler to remedy this.
+However, the edit and delete buttons don't actually work. This is because the click handler
+in jobs.js is ignoring them. We can add a section to the click handler to remedy this.
+
 ```
       } else if (e.target.classList.contains("editButton")) {
         message.textContent = "";
         showAddEdit(e.target.dataset.id);
       }
 ```
-The dataset.id contains the id of the entry to be edited.  That is then passed on to the showAddEdit
-function.  So we need to change that function to do something with this parameter.  This function
+
+The dataset.id contains the id of the entry to be edited. That is then passed on to the showAddEdit
+function. So we need to change that function to do something with this parameter. This function
 is in addEdit.js, and should be changed as follows:
+
 ```
 export const showAddEdit = async (job) => {
   if (!job) {
@@ -683,16 +710,18 @@ export const showAddEdit = async (job) => {
   }
 };
 ```
-With this change, the add/edit window will be shown with the right values.  If an add is
+
+With this change, the add/edit window will be shown with the right values. If an add is
 being done, the function is called with a null parameter, and the form comes up blank
-with an add button.  If an edit is being done, the function is called with the id of
-the entry to edit.  That is retrieved from the database and the fields are populated, and
-the button is changed to say update.  We also store the id of the entry in the dataset.id
+with an add button. If an edit is being done, the function is called with the id of
+the entry to edit. That is retrieved from the database and the fields are populated, and
+the button is changed to say update. We also store the id of the entry in the dataset.id
 of the addEdit div, so we keep track of which entry is to be updated.
 
-So far, so good, but what happens when the user clicks on the update button?  In this
+So far, so good, but what happens when the user clicks on the update button? In this
 case, we need to do a PATCH instead of a POST, and we need to include the id of the
-entry to be updated in the URL.  So we need the following additional changes to addEdit.js:
+entry to be updated in the URL. So we need the following additional changes to addEdit.js:
+
 ```
       if (e.target === addingJob) {
         enable(false);
@@ -737,7 +766,8 @@ entry to be updated in the URL.  So we need the following additional changes to 
         enable(true);
       }
 ```
-Make these changes, and edits should work.  Make sure that adds still work correctly.
+
+Make these changes, and edits should work. Make sure that adds still work correctly.
 
 This completes all CRUD operations except for delete. You will notice that the delete buttons don't work. FIx this. **Implement the delete function following the pattern used for the edit button.** You call the jobs delete API, and in the URL you include the ID of the entry to be deleted. Then the home page is displayed again. **Note:** There is an error in the implementation of the delete operation in the jobs controller. The instructor's guidance is to use this line:
 
@@ -762,8 +792,8 @@ This is a little cheat sheet so that you don't find it too hard.
 - How do you know it is a delete? Each of the delete buttons is given a class of deleteButton. You check for that class in the e.target.
 - How do you know which entry to delete? The id of the entry is stored in the dataset.id of the button.
 - How do you do the delete? You need a call to fetch with a method of DELETE giving the URL of that entry. Be sure you include the JWT in the authorization header. Also, remember that fetch is asynchronous, and
-should be called in a try/catch block.
-- What do you do if the delete succeeds? First, you put a message in the text content of the message paragraph. Second, you redraw the table showing the updated list of entries.  The jobs.js module
-has a function for this.
+  should be called in a try/catch block.
+- What do you do if the delete succeeds? First, you put a message in the text content of the message paragraph. Second, you redraw the table showing the updated list of entries. The jobs.js module
+  has a function for this.
 - What do you do if the delete fails? Put a message indicating the failure in the message paragraph.
 - Anything else? You don't want to take input while these asynchronous operations are in progress, so you set the enabled flag before you start them, and clear it afterwards.
