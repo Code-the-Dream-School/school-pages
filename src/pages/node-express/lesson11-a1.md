@@ -760,8 +760,10 @@ Once you have everything working, do a git, add, and commit to the week12 branch
 This is a little cheat sheet so that you don't find it too hard.
 
 - How do you know it is a delete? Each of the delete buttons is given a class of deleteButton. You check for that class in the e.target.
-- How do you know which entry to delete? The id of the entry is stored in the dataset.id of the button, as done in the buildJobsTable function.
-- How do you do the delete? You need a call to fetch with a method of DELETE giving the URL of that entry. Be sure you include the authorization header. Also, remember that fetch is asynchronous, and should be called in a try/catch block.
-- What do you do if the delete succeeds? First, you put a message in the text content of the message paragraph. Second, you redraw the table showing the updated list of entries. You can redraw the table by dispatching an event to startDisplay. You'll see other places in the code where this is done?
+- How do you know which entry to delete? The id of the entry is stored in the dataset.id of the button.
+- How do you do the delete? You need a call to fetch with a method of DELETE giving the URL of that entry. Be sure you include the JWT in the authorization header. Also, remember that fetch is asynchronous, and
+should be called in a try/catch block.
+- What do you do if the delete succeeds? First, you put a message in the text content of the message paragraph. Second, you redraw the table showing the updated list of entries.  The jobs.js module
+has a function for this.
 - What do you do if the delete fails? Put a message indicating the failure in the message paragraph.
 - Anything else? You don't want to take input while these asynchronous operations are in progress, so you set the enabled flag before you start them, and clear it afterwards.
