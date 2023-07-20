@@ -6,291 +6,418 @@ description: Node/Express Lesson 13 Coding Assignment
 
 # Node/Express Lesson 13 Coding Assignment
 
-In this lesson, you use the express-session, passport, and passport-local packages to handle user authentication, from within a server-side rendered application.
+In this lesson, you use the passport and passport-local packages to handle user authentication, from within a server-side rendered application.
 
 ## First Steps
 
-The lesson begins at this link: [Authentication Basics | The Odin Project](https://www.theodinproject.com/lessons/nodejs-authentication-basics) . You should do your work in a passport-demo directory, which would be in the same directory as the node-express-course folder. Be sure that this folder is not inside of another repository folder, such as the one for the node-express-class. There are some additional steps you need to take, and explanations on unclear points, and these are below. The information at the link recommends that you put the Mongo URL, including a password, into the code. This is a very bad practice, so **don't do it**. The lesson at the link also has you put the session secret in the code, using the value "cats". This is also a very bad practice. Instead, use dotenv and an .env file to store these values. The lesson simplifies some things, which makes it a little crude: all the code is in a single app.js file, so there aren't separate model, view, routes, and controllers directories. **This is a bad practice!** All that is done in this lesson could be refactored to have separate model, view, routes, and controllers directories.
+You continue to work with the same repository as the previous lesson, but you create a new branch
+called lesson13.
 
-For the npm install, you will need to do also:
+The user records are stored in the Mongo database, just as for the Jobs API lesson.  You have
+already copied the models directory tree from the Jobs API lesson into the jobs-ejs repository.
+The user model is used unchanged.  You configure passport to use that model.
 
+To begin, you will need the following views:
 ```
-npm install dotenv
-npm install nodemon --save-dev
+views/index.ejs
+views/logon.ejs
+views/register.ejs
 ```
+The index.ejs view just shows links to login or register.  The logon collects the email and
+password from the user.  The register collects the name, email, and password for a new user.
+We want to use the partials as well.  We want to modify the header partial to give
+the name of the logged on user, and to add a logoff button if a user is logged on.
 
-Create a .env file in the passport-demo. This must have a line for the MONGO_URI. You use the same MONGO_URI as for the previous lesson, except you use a new database name, PASSPORT-DEMO. The .env file must also have a line for SESSION_SECRET, and the value should be a long, difficult to guess string. Create also a .gitignore file, also in the passport-demo directory. You will submit this work to github, so you need to make sure that the .env file is not stored on github. The .gitignore should read:
-
+views/index.ejs:
 ```
-.env
-/node_modules
+<%- include("partials/head.ejs") %>
+<%- include("partials/header.ejs") %>
+    <% if (user) { %>
+    <a href="/secretWord">Click this link to view/change the secret word.</a>
+    <% } else { %>
+    <a href="/session/logon">Click this link to logon.</a>
+    <a href="/session/register">Click this link to register.</a>
+    <% } %>
+<%- include("partials/footer.ejs") %>
 ```
-
-Edit the package.json file to add these lines to the scripts section.
-
+views/logon.ejs:
 ```
-    "start": "node app",
-    "dev": "nodemon app"
+<%- include("partials/head.ejs") %>
+<%- include("partials/header.ejs") %>
+    <form method="POST">
+      <div>
+      <label name="email">Enter your email:</label>
+      <input name="email">
+      </div>
+      <div>
+      <lable name="password">Enter your password:</label>
+      <input type=password name="password>
+      </div>
+      <div>
+      <button>Logon</button>
+      <a href="/"><button type="button">Cancel</button></a>
+      </div>
+      </form>
+<%- include("partials/footer.ejs") %>
 ```
-
-This way, you can test your application using "npm run dev".
-
-When you create the app.js, add this line to the top of the file:
-
+views/register.js
 ```
-require('dotenv').config();
+<%- include("partials/head.ejs") %>
+<%- include("partials/header.ejs") %>
+    <form method="POST">
+          <div>
+      <label name="name">Enter your name:</label>
+      <input name="name">
+      </div>
+      <div>
+      <label name="email">Enter your email:</label>
+      <input name="email">
+      </div>
+      <div>
+      <lable name="password">Enter your password:</label>
+      <input type=password name="password">
+      </div>
+      <div>
+      <lable name="password1">Confirm your password:</label>
+      <input type=password name="password1">
+      </div>
+      <div>
+      <button>Register</button>
+      <a href="/"><button type="button">Cancel</button></a>
+      </div>
+      </form>
+<%- include("partials/footer.ejs") %>
 ```
-
-Also, the line that reads
-
+Revised views/header.ejs:
 ```
-const mongoDb = "YOUR MONGO URL HERE";
+<h1>The Jobs EJS Application</h1>
+<% if (user) { %>
+   <p>User <%= user.name %> is logged on.</p>
+   <form method="POST" action="/sessions/logoff">
+   <button>Logoff</button>
+   </form>
+<% } %>
+<% if (errors) {
+    errors.forEach((err) => { %>
+      <div>
+        Error: <%= err %>
+      </div>
+    <% })
+  } %>
+  <% if (info) {
+    info.forEach((msg) => { %>
+      <div>
+        Info: <%= msg %>
+      </div>
+    <% })
+  } %>
+<hr>
 ```
+These changes won't suffice to do anything in the application, until routes are added to match.
+We need to follow best practices, with separate route and controller files.
 
-should be changed to read
+## Router and Controller
 
+Create a file routes/sessionRoutes.js, as follows:
 ```
-const mongoDb = process.env.MONGO_URI;
+const express = require("express");
+//const passport = require("passport");
+const router = express.Router();
+
+const {
+  logonShow,
+  registerShow,
+  registerDo,
+  logoff,
+} = require("../controllers/sessionController");
+
+router.route("/register").get(registerShow).post(registerDo);
+router
+  .route("/logon")
+  .get(logonShow)
+  .post(
+    //    passport.authenticate("local", {
+    //      successRedirect: "/",
+    //      failureRedirect: "/sessions/logon",
+    //      failureFlash: true,
+    //    }
+    //    )
+    (req, res) => {
+      res.send("Not yet implemented.");
+    },
+  );
+router.route("/logoff").post(logoff);
+
+module.exports = router;
 ```
-
-And, the line that reads
-
+Ignore the passport lines for the moment.  This just sets up the routes.  We need to create
+a corresponding file controllers/sessionController.js.  Here we use the User model.  However,
+the file you copied makes some references to the JWT library.  You must edit models/User.js
+to remove those references in order for User.js to load.  We aren't using JWTs in this project. 
 ```
-app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));
-```
+const User = require("../models/User");
+const parse_v = require("../util/parse_v_error");
 
-should be changed to read
+const registerShow = (req, res) => {
+  res.render("register");
+};
 
-```
-app.use(session({ secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: true }));
-```
-
-Continue with the lesson, until you come to the part about "A Quick Tip". That's not clear. Add the recommended middleware above your routes. You can then change
-
-```
-    res.render("index", { user: req.user });
-```
-
-to read just
-
-```
-    res.render("index");
-```
-
-You also change index.ejs so that instead of if (user) it has if (currentUser) and instead of user.username, it has currentUser.username. The point is that the variables in res.locals are always available inside of the templates.
-
-The section on bcrypt.hash and bcrypt.compare is also a little unclear. Once you have installed bcryptjs and added the require statement for it, you change the app.post for "/sign-up" to read
-
-```
-app.post("/sign-up", async (req, res, next) => {
-    try {
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    await User.create({ username: req.body.username, password: hashedPassword });
-    res.redirect("/");
-    } catch (err) {
-    return next(err);
+const registerDo = async (req, res, next) => {
+  if (req.body.password != req.body.password1) {
+    req.flash("error", "The passwords entered do not match.");
+    res.render("register");
+  }
+  try {
+    await User.create(req.body);
+  } catch (e) {
+    if (e.constructor.name === "ValidationError") {
+      parse_v(e, req);
+    } else if (e.name === "MongoServerError" && e.code === 11000) {
+      req.flash("error", "That email address is already registered.");
+    } else {
+      return next(e);
     }
+    return res.render("register");
+  }
+  res.redirect("/");
+};
+
+const logoff = (req, res) => {
+  req.session.destroy(function (err) {
+    if (err) {
+      console.log(err);
+    }
+    res.redirect("/");
+  });
+};
+
+const logonShow = (req, res) => {
+  if (req.user) {
+    return res.redirect("/");
+  }
+  res.render("logon", {
+    errors: req.flash("error"),
+    info: req.flash("info"),
+  });
+};
+
+module.exports = {
+  registerShow,
+  registerDo,
+  logoff,
+  logonShow,
+};
+```
+The creation of the user entry in Mongo is just the same as it was for the Jobs API.
+
+If there is a validation error
+when creating a user record, we need to parse the validation error to return the
+issues to the user, and we do that in the file util/parse_v_error.js:
+```
+const parse_v = (e, req) => {
+  const keys = Object.keys(e.errors);
+  keys.forEach((key) => {
+    req.flash("error", key + ": " + e.errors[key].properties.message);
+  });
+};
+
+module.exports = parse_v;
+```
+We need some middleware to load res.locals as needed.  Create middleware/storeLocals.js:
+```
+const storeLocals = (req, res, next) => {
+  if (req.user) {
+    res.locals.user = req.user;
+  } else {
+    res.locals.user = null;
+  }
+  res.locals.info = req.flash("info");
+  res.locals.errors = req.flash("error");
+  next();
+};
+
+module.exports = storeLocals;
+```
+Now, we need a couple of app.use statements.  Add these lines right after the connect-flash line:
+```
+app.use(require("./middleware/storeLocals"));
+app.get("/", (req, res) => {
+  res.render("index");
 });
+app.use("/session", require("./routes/sessionRoutes"));
 ```
-
-and you change the passport.use section to read
-
+We are now using the database.  So, we need to connect to it at startup.  You need a file,
+db/connect.js.  Check that it looks like the following:
 ```
-passport.use(
-    new LocalStrategy(async (username, password, done) => {
-    try {
-        const user = await User.findOne({ username: username });
+const mongoose = require("mongoose");
+
+const connectDB = (url) => {
+  return mongoose.connect(url, {});
+};
+
+module.exports = connectDB;
+```
+Then add this line to app.js, just before the listen line:
+```
+    await require("./db/connect")(process.env.MONGO_URI);
+```
+Then try the application out, starting at the / URL.  You can try each of the new views.  But
+you still can't logon.  The logon operation is commented out, because Passport is not set up.
+
+## Configuring Passport
+
+To use Passport, you have to tell it how to authenticate users, retrieving them from the database.
+Create a file passport/passport_init.js, as follows:
+```
+const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
+const User = require("../models/User");
+
+const passport_init = () => {
+  passport.use(
+    "local",
+    new LocalStrategy(
+      { usernameField: "email", passwordField: "password" },
+      async (email, password, done) => {
+      try {
+        const user = await User.findOne({ email: email });
         if (!user) {
-        return done(null, false, { message: "Incorrect username" });
+          return done(null, false, { message: "Incorrect credentials." });
         }
-        bcrypt.compare(password, user.password, (err, result) => {
+        const result = await user.comparePassword(password);
         if (result) {
-            return done(null, user);
+          return done(null, user);
         } else {
-            return done(null, false, { message: "Incorrect password" });
+          return done(null, false, { message: "Incorrect credentials." });
         }
-        });
-    } catch (err) {
-        return done(err);
-    }
+      } catch (e) {
+        return done(e);
+      }
     })
-);
+  );
+  passport.serializeUser(async function (user, done) {
+    done(null, user.id);
+  });
+
+  passport.deserializeUser(async function (id, done) {
+    try {
+      const user = await User.findById(id);
+      if (!user) {
+        return done(new Error("user not found"));
+      }
+      return done(null, user);
+    } catch (e) {
+      done(e);
+    }
+  });
+};
+
+module.exports = passport_init;
 ```
-
-This is kind of a crude approach for simplicity. It would be better to extend the schema for User as was done in earlier lessons on JWT authentication, but this is one way to do it.
-
-Test the application to make sure it works. You now add some things.
-
-## Additions to the Lesson
-
-Within the browser window that is running the application, bring up developer tools. In the Chrome developer tools you click on application. Then on the left side of the screen you see a section for cookies. Click on the cookie for http://localhost:3000. You see a cookie with the name of connect.sid. This is the cookie stored by express.session. It does not actually contain the session data. Instead it contains a cryptographically signed key into the session data stored on the server.
-
-The code now does a req.logout() when the user logs off. It is better to delete all the session information at logoff time. So change that code as follows:
-
+You can now add the following lines to app.js, right after the app.use for session (Passport
+relies on session):
 ```
-app.get("/log-out", (req, res) => {
-    req.session.destroy(function (err) {
-    res.redirect("/");
-    });
-});
+const passport = require("passport");
+const passport_init = require("./passport/passport_init");
+passport_init();
+app.use(passport.initialize());
+app.use(passport.session());
 ```
-
-Notice that if you attempt to logon with an incorrect password, it just redisplays the logon form. The message is not returned to the user. Let's fix that. First, change the passport.authenticate part to read:
-
+Finally, you can now uncomment the lines having to do with Passport in routes/sessionRoutes.js,
+so that the require statement for Passport is included, and so that the route for logon looks like
 ```
+router
+  .route("/logon")
+  .get(logonShow)
+  .post(
     passport.authenticate("local", {
     successRedirect: "/",
-    failureRedirect: "/",
-    failureMessage: true
-    });
+    failureRedirect: "/sessions/logon",
+    failureFlash: true})
+  );
 ```
+After that, try logon for one of the accounts you have created.  You should see that you
+are logged in and can access the secretWord page.  You should also see appropriate
+error messages for bad logon credentials.  Also, test logoff.
 
-Passport documentation is clumsy, but this is the way Passport error messages into the session, so that they can be displayed on subsequent screens. The messages are put in an array, req.session.messages. This can then be displayed in the index.ejs. First, change the route that displays index.ejs so that it reads:
+## Protecting a Route
 
-```
-app.get("/", (req, res) => {
-    let messages = [];
-    if (req.session.messages) {
-    messages = req.session.messages;
-    req.session.messages = [];
-    }
-    res.render("index", { messages });
-});
-```
+To protect a route, you need some middleware, as follows.
 
-Then, change index.ejs to add these lines, right under the <h1> for Please Log In:
-
-```
-    <% messages.forEach((msg) =>{ %>
-        <p><%= msg %></p>
-    <% }) %>
-```
-
-Then, try logging on with an incorrect password. You should see an error message.
-
-Once authentication is enabled, you need to perform access control, so that certain pages are restricted only to those users that log in. This is done with middleware. Add the following code above your routes:
-
+middleware/auth.js:
 ```
 const authMiddleware = (req, res, next) => {
-    if (!req.user) {
-    if (!req.session.messages) {
-        req.session.messages = [];
-    }
-    req.session.messages.push("You can't access that page before logon.");
-    res.redirect('/');
-    } else {
+  if (!req.user) {
+    req.flash("error", "You can't access that page before logon.");
+    res.redirect("/");
+  } else {
     next();
-    }
-}
+  }
+};
+
+module.exports = authMiddleware
 ```
+We want to protect the route for the secretWord.  The best practice is to put that
+code into a router, as follows.
 
-This code redirects the user to the logon page with a message if the user attempts to access a restricted page without being logged in. To test this, first create a page that will be restricted, restricted.ejs:
-
+routes/secretWord.js:
 ```
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Restricted</title>
-</head>
-<body>
-    <p>This page is restricted.  You can't see it unless you are logged on.</p>
-    <p>You have visited this page <%= pageCount %> times since logon.</p>
-</body>
-</html>
-```
+const express = require("express");
+const router = express.Router();
 
-Then, create the route statement that loads the page, as follows:
-
-```
-app.get('/restricted', authMiddleware, (req, res) => {
-    if (!req.session.pageCount) {
-    req.session.pageCount = 1;
-    } else {
-    req.session.pageCount++;
-    }
-    res.render('restricted', { pageCount: req.session.pageCount });
-})
-```
-
-Here the code shows also how the session can be used to store state, in this case the number of page visits.
-
-## A Production Grade Session Store
-
-The code, as written, stores session data in memory. That is the default for express-session. However, this approach should never be used in production, because (a) if the application is restarted, all session data is lost, and (b) session data could fill up memory. A production application stores session data another way, and there are a variety of choices. Here we use MongoDB.
-
-First, do an npm install of connect-mongodb-session. Then add the following lines to app.js underneath your existing require statements:
-
-```
-const MongoDBStore = require('connect-mongodb-session')(session)
-
-var store = new MongoDBStore({
-    uri: process.env.MONGO_URI,
-    collection: 'sessions'
+router.get("/", (req, res) => {
+  if (!req.session.secretWord) {
+    req.session.secretWord = "syzygy";
+  }
+  res.render("secretWord", { secretWord: req.session.secretWord });
+});
+router.post("/", (req, res) => {
+  if (req.body.secretWord.toUpperCase()[0] == "P") {
+    req.flash("error", "That word won't work!");
+    req.flash("error", "You can't use words that start with p.");
+  } else {
+    req.session.secretWord = req.body.secretWord;
+    req.flash("info", "The secret word was changed.");
+  }
+  res.redirect("/secretWord");
 });
 
-// Catch errors
-store.on('error', function (error) {
-    console.log(error);
-});
+module.exports=router;
 ```
-
-Then change the app.use for session to read:
-
+Then replace the app.get and app.post statements for /secretWord in app.js with these lines.
 ```
-app.use(session({
-    secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: true,
-    store: store
-}));
+const secretWordRouter = require('./routes/secretWord');
+app.use("/secretWord", secretWordRouter);
 ```
+Then try out the secretWord page to make sure it still works.  Turning on protection is simple.
+You add the authentication middleware to the route as follows:
+```
+const auth = require('./middleware/auth');
+app.use("/secretWord", auth, secretWordRouter);
+```
+That causes the authentication middleware to run before the secretWordRouter, and it redirects
+if any requests are made for those routes before logon.  Try it out: login and verify that
+you can see and change the secretWord.  Then logoff and try to go to the /secretWord URL.
 
-Retest the application. It should work as before. Logon to your mongodb.com account and check out the PASSPORT-DEMO database. You see two collections, one for users and one for sessions, and you can check to see what information is stored in the session record.
 
 ## Fixing the Security
 
 Passport is using the session cookie to determine if the user is logged in. This creates a security vulnerability called cross site request forgery (CSRF). We will demonstrate this.
 
-Add the following to the top of the app.js:
+ To see this, clone **[this repository](https://github.com/Code-the-Dream-School/sample-attack)** into a separate directory, outside jobs-ejs. Then, within the directory you cloned, do an "npm install" and a "node app". This will start another express application listening on port 4000 of your local machine. This is the attacking code. It could be running anywhere on the Internet -- that has nothing to do with the attack.
 
-```
-let secretString = "Beginning value";
-```
+You should have two browser tabs open, one for localhost:3000, and one for localhost:4000. The one at localhost:4000 just shows a button that says Click Me! Don't click it yet. Use the jobs-ejs
+application in the 3000 tab to set the secret string to some value. Then log off.
+Then click the button in the 4000 tab. Then log back on in the 3000 tab and check the value of the secret string. So far so good -- it still has the value you set.
 
-Add the following to the bottom of restricted.ejs, just above the </body> tag:
-
-```
-    <p>The secret string is <%= secretString %></p>
-    <p>To change it, put in a new value below</p>
-    <form action="/restricted" method="POST">
-        <input name="secretString" type="text" />
-        <button>Submit</button>
-    </form>
-```
-
-Then, change the res.render statement for /restricted to read:
-
-```
-    res.render('restricted', { pageCount: req.session.pageCount,
-      secretString });
-```
-
-Then, add the following in app.js:
-
-```
-app.post('/restricted', authMiddleware, (req,res) => {
-    secretString = req.body.secretString;
-    res.redirect('/restricted');
-})
-```
-
-Then, test it out with your browser. You see that you can change the secret string. And the route that posts to the /restricted URL is protected, right, because of the authMiddleware? Well -- it isn't. To see this, clone **[this repository](https://github.com/Code-the-Dream-School/sample-attack)** into a separate directory, outside passport-demo. Then, within the directory you cloned, do an "npm install" and a "node app". This will start another express application listening on port 4000 of your local machine. This is the attacking code. It could be running anywhere on the Internet -- that has nothing to do with the attack.
-
-You should have two browser tabs open, one for localhost:3000, and one for localhost:4000. The one at localhost:4000 just shows a button that says Click Me! Don't click it yet. Use the ejs-demo application in the 3000 tab to set the secret string to some value. Then log off. Then click the button in the 4000 tab. Then log back on in the 3000 tab and check the value of the secret string. So far so good -- it still has the value you set. Now, while still logged in, click the button in the 4000 tab. Now, back in the 3000 tab, refresh the /restricted page. Hey, what happened! (By the way, this attack would succeed even if you closed the 3000 tab entirely.)
+Now, without logging off of jobs-ejs , click the button in the 4000 tab.  Then refresh the /secretWord
+page in jobs-ejs. Hey, what happened! (By the way, this attack would
+succeed even if you closed the 3000 tab entirely.)
 
 You see, the other application sends a request to your application in the context of your browser -- and that request automatically includes the cookie. So, the application thinks the request comes from a logged on user, and honors it. If the application, as a result of a form post, makes database changes, or even transfers money, the attacker could do that as well.
 
-So, how to fix this? In the ejs-demo project, do an npm install of host-csrf and also of cookie-parser. Then follow the instructions **[here](https://www.npmjs.com/package/host-csrf)** to integrate the package with your application. You will need to change app.js as well as each of the forms in your ejs files. You can use process.env.SESSION_SECRET as your cookie-parser secret. Note that the app.use for the csrf middleware must come after the cookie parser middleware and after the body parser middleware, but before any of the routes. You will see a message logged to the console that the CSRF protection is not secure. That is because you are using HTTP, not HTTPS, so the package is less secure in this case, but you would be using HTTPS in production. As you will see, it stops the attack.
+So, how to fix this? This is the purpose of the host-csrf package you installed at the start
+of the project.  Follow the instructions **[here](https://www.npmjs.com/package/host-csrf)** to integrate the package with your application. You will need to change app.js as well as each of the forms in your ejs files. You can use process.env.SESSION_SECRET as your cookie-parser secret. Note that the app.use for the csrf middleware must come after the cookie parser middleware and after the body parser middleware, but before any of the routes. You will see a message logged to the console that the CSRF protection is not secure. That is because you are using HTTP, not HTTPS, so the package is less secure in this case, but you would be using HTTPS in production. As you will see, it stops the attack.
 
-Retest, first to see that your application still works, and second, to see that the attack no longer works. (A moral: Always log off of sensitive applications before you surf, in case the sensitive application is vulnerable in this way. Also note that it does not help to close the application, as the cookie is still present in the browser. You have to log off to clear the cookie.)
+Retest, first to see that your application still works, and second, to see that the attack no longer works. (A moral: Always log off of sensitive applications before you surf, in case the sensitive application is vulnerable in this way. Also note that it does not help to close the application, as the cookie is still present in the browser. You have to log off to clear the cookie.  Even restarting the browser does not
+suffice.)
