@@ -6,6 +6,9 @@ description: Material link for lesson 14 of the node/express class
 
 # Node/Express Lesson 14
 
-# Testing with Mocha and Chai
+# Using EJS in a Database Application
 
-Any large development project requires automated testing to ensure that nothing is broken as the application is maintained and as features are added. The testing also ensures that the program works to specifications. Manual testing with Postman or other tools is time consuming and error prone. This lesson gives practice in developing an API and shows how to do automated Express testing.
+You have created a project with EJS that includes various views, user registration and logon,
+and secure routes. What remains is to perform CRUD operations to the database. Once
+you can do that, you can use EJS for a variety of projects. There are no new concepts in
+this lesson. It is just practice of the techniques you have learned.

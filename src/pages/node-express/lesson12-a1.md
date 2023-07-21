@@ -6,451 +6,429 @@ description: Node/Express Lesson 12 Coding Assignment
 
 # Node/Express Lesson 12 Coding Assignment
 
-Create an ejs-demo directory. This should not be inside the node-express-course directory. It should be alongside the node-express-course directory, that is, node-express-course and ejs-demo should have the same parent. Go to the following link and follow the instructions: [https://www.digitalocean.com/community/tutorials/how-to-use-ejs-to-template-your-node-application](https://www.digitalocean.com/community/tutorials/how-to-use-ejs-to-template-your-node-application) . This creates a working application that you should test by opening it with your browser, at localhost:8080.
+In this project (which continues for the next 3 lessons), you create a jobs app an alternate way,
+using server side rendering with the EJS templating language. If you haven't started your final
+project, you can use this project as the basis, using server side rendering instead of the
+front end / back end model. Of course, to satisfy the requirements of the rubric, you would
+need to modify the schema to manage objects different from the jobs model.
 
-## Saving Your Work to Github
+## Creating the Repository
 
-This assignment did not begin with a starter git repository. You must create a new one to be able to submit your work. Within the ejs-demo directory, type the following terminal commands:
+There is no starter repository for this project, so you will need to create one, with the following
+steps. First, create a jobs-ejs directory
+and cd into it. Make sure that it is not in the tree of a previous
+project, that is, git status should return an error after you create the directory. Next,
+create the .gitignore file and the .env file. The .gitignore file is critical to make sure
+your Mongo credentials and the Node libraries are not stored in github. It should have these lines:
 
 ```
-cp ../node-express-course/03-task-manager/starter/.gitignore .
-git init
+/node_modules
+.env
+```
+
+You can just copy the .gitignore file and the .env file from the 06-jobs-api directory.  
+You won't use the JWT values from .env, so you can delete those. The
+.env file is needed for the Mongo credential, and eventually for the session secret.
+
+Next, do git init to make the directory a git repository. Then, log into github and create
+a new repository called jobs-ejs. You create a new repository using the + button in the
+upper right of your github screen. You do not use a template, the repository should be
+public, and you do not create a README or a .gitignore. Once the repository has been
+created, you need to associate the github repository with the repository on your laptop.
+You will see the following screen:
+
+![The github page for a newly created repository](/public/github-new.png)
+
+Click on the clipboard icon next to the URL to copy it. Then, in your laptop session for
+the jobs-ejs repository, type the following, where the URL is the one you copied to your
+clipboard
+
+```
+git remote add origin <URL>
 git add -A
 git commit -m "first commit"
+git push origin main
 ```
 
-Sign in to github and create a new repository called ejs-demo. You do this using the plus icon in the upper right of the screen. It should be a public repository. Do not create a gitignore, README, or license. This then shows you a screen including a section that looks like this:
+The local repository is now associated with your github repository. There isn't much
+in it yet, just the .gitignore. Now create the lesson12 branch, where you will do your
+work.
+
+## Components and Directories
+
+You need to initialize NPM for your repository. So, do an npm init. You can take all
+the defaults when prompted. This creates the package.json, and enables the installation
+of npm packages. You need to add scripts for dev and start to the package.json so that
+you can do "npm run" or "npm run dev", where the dev script runs app.js using nodemon.
+You need to install the following packages:
 
 ```
-git remote add origin https://github.com/<your-git-id>/ejs-demo.git
-git branch -M main
-git push -u origin main
+bcryptjs
+connect-flash
+cookie-parser
+dotenv
+ejs
+express
+express-async-errors
+express-rate-limit
+express-session
+helmet
+host-csrf
+mongoose
+passport
+passport-local
+xss-clean
 ```
 
-except it has your git id in the origin line. Execute each of these commands in your terminal. This creates your github repository and stores the code in it.
+You should also install eslint, prettier, and nodemon as dev dependencies if you haven't installed
+them globally. You've seen some of these packages before, but not others. Each will be explained
+as we use them.
 
-... But we are just getting started.
-
-## Adding Code to Do CRUD Operations with MongoDB
-
-Now you add the code to the ejs-demo application to do database operations, using the task manager database from a previous lesson. Do the following commands:
-
-```
-cp ../node-express-course/03-task-manager/starter/.env .
-cp -r ../node-express-course/03-task-manager/starter/db ./db
-cp -r ../node-express-course/03-task-manager/starter/models ./models
-npm install mongoose
-npm install dotenv
-npm install express-session
-npm install flash
-npm install nodemon --save-dev
-```
-
-Edit the db/connect.js file, which was copied from the earlier project. Mongoose has changed, so some of the options used in that file no longer work. It should read as follows:
+You will write to the Mongo database, so to save time, you can copy two directory trees from
+the 06-jobs-api directory. You can use the following commands (you may have to adjust these
+dependig on your directory structure):
 
 ```
-const mongoose = require('mongoose');
-
-const connectDB = (url) => {
-    return mongoose.connect(url);
-}
-
-module.exports = connectDB;
+cp -r ../06-jobs-api/db .
+cp -r ../06-jobs-api/models .
 ```
 
-Edit the .env file, to add a line like:
+Now create the directory structure you will use, in particular the following directories:
 
 ```
-SESSION_SECRET=q98rpok90845okseutw
+controllers
+routes
+middleware
+utils
+views
+views/partials
 ```
 
-It is not critical what value you use for the session secret, except that it should be a long difficult to guess string. Then edit the package.json file, and add lines to the script stanza, so that it looks like this:
+You do not need a public directory. The pages are rendered by the EJS engine from views.
+
+Next, create the boilerplate app.js. It should look as follows:
 
 ```
-    "scripts": {
-    "test": "echo "Error: no test specified" && exit 1",
-    "start": "node server",
-    "dev": "nodemon server"
-    },
-```
+const express = require("express");
+require("express-async-errors");
 
-Once you have done this, you can do npm start to start the server, but you can also do npm run dev to start the server under nodemon, so that it will automatically restart when you make code changes. You have copied the .env file from the 03-task-manager project, and this contains the MONGO_URI. You have also copied the db directory, which has code to connect to the database. You also need to set up a session, for reasons described further on in this lesson. To get those loaded in, add the following lines to the top of server.js:
+const app = express();
 
-```
-require('dotenv').config();
-const connectDB = require('./db/connect');
-const session = require('express-session');
-```
+app.set("view engine", "ejs");
+app.use(require("body-parser").urlencoded({ extended: true }));
 
-You now fix the startup sequence to automatically connect to the database. In server.js, replace these lines at the bottom of the file:
+// secret word handling
+let secretWord = "syzygy";
+app.get("/secretWord", (req, res) => {
+  res.render("secretWord", { secretWord });
+});
+app.post("/secretWord", (req, res) => {
+  secretWord = req.body.secretWord;
+  res.redirect("/secretWord");
+});
 
-```
-app.listen(8080);
-console.log('Server is listening on port 8080');
-```
+app.use((req, res) => {
+  res.status(404).send(`That page (${req.url}) was not found.`);
+});
 
-with these:
+app.use((err, req, res, next) => {
+  res.status(500).send(err.message);
+  console.log(err);
+});
 
-```
-const port = 8080;
+const port = process.env.PORT || 3000;
+
 const start = async () => {
-    try {
-    await connectDB(process.env.MONGO_URI);
+  try {
     app.listen(port, () =>
-        console.log(`Server is listening on port ${port}...`)
+      console.log(`Server is listening on port ${port}...`),
     );
-    } catch (error) {
+  } catch (error) {
     console.log(error);
-    }
+  }
 };
 
 start();
 ```
 
-At this point, you may want to start the server and make sure it still works. The only real change is that you are connecting to the database.
+This boilerplate has crude page not found handling, as well as error handling. Those functions
+will be moved to middleware eventually. It also has something mysterious to handle the /secretWord
+route. So, if you run this app as is, it will return page not found for all URLs, except for
+/secretWord. That one returns an error -- because we haven't created the secretWord view!
+Once we have created the view, the res.render operation will display it. Note that we also
+need an app.use statement for the body parser.
 
-## Adding Routes, Controllers, and Middleware
+## First EJS file
 
-Under the ejs-demo directory, create a routes directory, a middleware directory, and a controllers directory.
-
-Within the routes directory, create a file tasks.js with the following contents:
-
-```
-const express = require("express");
-
-const router = express.Router();
-const {
-    addTask,
-    createTask,
-    deleteTask,
-    getTasks,
-    updateTask,
-    editTask,
-} = require("../controllers/tasks");
-
-router.route("/").post(createTask).get(getTasks);
-router.route("/edit/:id").get(editTask);
-router.route("/delete/:id").get(deleteTask);
-router.route("/update/:id").post(updateTask);
-router.route("/add").get(addTask);
-
-module.exports = router;
-```
-
-Note that we use only get and post operations. These operations are to be performed by the browser, as a
-result of the HTML it processes. One can't get use HTML to get the browser to do
-put, patch, or delete operations or to send JSON. To do those operations in the browser, you
-would need client-side JavaScript.
-
-Next, create a file also called tasks.js inside the controller directory, with the following contents:
-
-```
-const Task = require('../models/Task');
-
-const addTask = (req, res) => {
-    res.send("in addTask");
-}
-
-const createTask = async (req, res) => {
-        res.send("in createTask");
-}
-
-const deleteTask = async (req, res) => {
-    res.send("in deleteTask");
-}
-
-const editTask = async (req, res) => {
-    res.send("in editTask");
-}
-
-const updateTask = async (req, res) => {
-    res.send("in updateTask");
-}
-
-const getTasks = async (req, res) => {
-    res.send("in getTasks");
-}
-
-module.exports = {
-    addTask,
-    createTask,
-    deleteTask,
-    updateTask,
-    editTask,
-    getTasks
-};
-```
-
-Now we change the server.js to load the routes and middleware, by adding some lines. Add these lines at the top of the file:
-
-```
-const taskRouter = require('./routes/tasks');
-const setMessage = require('./middleware/message');
-```
-
-Then add these lines after the line that sets the view engine to ejs:
-
-```
-app.use(session({ secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: true }));
-app.use(require('flash')();
-app.use(express.urlencoded({extended: false}));
-app.use('/tasks', taskRouter);
-```
-
-First you set up the session. Then, the express.urlencoded line invokes express middleware to parse the data that is returned when the browser posts form results. Next, you load the flash middleware. This stores messages to be displayed to the user on the next window. The messages are stored in the user's session, persistent storage that is either kept in a cookie on the browser, or in a separate session store such as a database. You can log the value of req.session to see what is there, and you can also set values in the req.session hash. The following line invokes the the routes you created.
-
-You should now test the following routes using the browser:
-
-```
-localhost:8080/tasks
-localhost:8080/tasks/add
-localhost:8080/tasks/delete/123
-localhost:8080/tasks/edit/123
-```
-
-You can't test the post routes, because you need to create forms to do the posts. But now we need some views.
-
-## Creating Templates for Views
-
-We want to display the flash messages, so we will add to the partials/header.ejs. Add these lines at the bottom:
-
-```
-    <% flash.forEach(msg) { %>
-        <p><%= msg.type + ": " + msg.message %></p>
-    <% } %>
-```
-
-For each request, the flash middleware retrieves the flash hash from the session and stores it in res.locals.flash. This is a hash of objects, each of which has two string attributes, the type and the message. The res.locals hash is always available in templates.
-
-In the views/pages directory, create a file tasks.ejs with the following contents:
+Create views/secretWord.ejs. The file should look as follows:
 
 ```
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <%- include('../partials/head'); %>
-</head>
-<body class="container">
-
-<header>
-    <%- include('../partials/header'); %>
-</header>
-
-<main>
-    <div class="jumbotron">
-    <% if (tasks.length > 0) { %>
-        <table class="table"
-        <tr><th>Name</th><th>Completed</th><th colspan="2"></th></tr>
-        <% tasks.forEach(function(task){ %>
-            <tr><td><%= task.name %></td><td><%= task.completed %></td>
-            <td><a href=<%= "/tasks/edit/" + task.id %>  class="btn btn-primary">Edit</a></td>
-            <td><a href=<%= "/tasks/delete/" + task.id %>  class="btn btn-primary">Delete</a></td>
-            </tr>
-        <% }) %>
-        </table>
-    <% } else { %>
-        <h2>There are no tasks to display.</h2>
-    <% } %>
-    <a href="/tasks/add" class="btn btn-primary">Add a Task</a>
-    </div>
-</main>
-
-<footer>
-    <%- include('../partials/footer'); %>
-</footer>
-
-</body>
-</html>
-```
-
-Take a close look at the file above to make sure you understand it. There is embedded JavaScript that checks the tasks variable. This is an array of tasks. If the array is empty, there are no tasks in the database, so a message is shown. If the array is not empty a loop is executed, and a row is added for each task. Each row has an edit button and a delete button, which are links styled as buttons. Note that the links include the ID of the task entry, so that the controller knows which task to edit or delete.
-
-Next, create the template for adding a task. Create a file views/pages/addTask.ejs, with the following contents.
-
-```
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <%- include('../partials/head'); %>
-</head>
-<body class="container">
-
-<header>
-    <%- include('../partials/header'); %>
-</header>
-
-<main>
-<form action="/tasks" method="post">
-    <label for="name">Name:</label><br>
-    <input name="name"><br>
-    <label for="complete">Completed: </label>
-    <input type="checkbox" name="isTaskComplete" id="complete-checkbox" value="true"><br><br>
-    <button type="submit">Add</button>
-</form>
-    </div>
-</main>
-
-<footer>
-    <%- include('../partials/footer'); %>
-</footer>
-
-</body>
-</html>
-```
-
-This is simpler. It is a straightforward form with a submit button. There isn't a lot of embedded JavaScript except for the includes and the message. However, for edit, you have to prepopulate the form with the values from an existing task, so that's more complicated. Create a file views/pages/editTask.ejs with the following contents.
-
-```
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <%- include('../partials/head'); %>
-</head>
-
-<body class="container">
-
-    <header>
-    <%- include('../partials/header'); %>
-    </header>
-
-    <main>
-    <form action=<%= "/tasks/update/" + task.id %> method="post">
-        <label for="name">Name:</label> <br>
-        <input name="name" value="<%=task.name %>"><br>
-        <label for="complete-checkbox">Completed: </label>
-        <input type="checkbox" name="isTaskComplete" id="complete-checkbox" value="true"
-           <%= task.completed ? "checked" : "" %>><br><br>
-        <button type="submit">Update</button>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <title>Jobs List</title>
+  </head>
+  <body>
+    <p>The secret word is: <%= secretWord %></p>
+    <p>Would you like to change it?</p>
+    <form method="POST">
+        <label name="secretWord"></label>
+        <input name="secretWord"><br>
+        <button>Submit</button>
     </form>
-    </div>
-    </main>
-
-    <footer>
-    <%- include('../partials/footer'); %>
-    </footer>
-
-</body>
-
+  </body>
 </html>
 ```
 
-This is a little trickier. When the template is loaded, it is passed a task variable for the task being edited. The name of the task is set as the initial value in the entry field for name. There is a checkbox for completed, and this is checked if task.completed is true.
+This is an EJS file, but it looks just like HTML -- except that section in <%= %>. This is
+JavaScript that is executed on the server side to modify the template. In this case, it just
+inserts the value for secretWord. This value is passed on the render statement. Note also
+that the post operation does a redirect, telling the browser which URL should be displayed
+after processing is complete.
 
-## Finishing the Tasks Controller
+Then try the http://localhost:3000/secretWord URL. You see that the secret word is
+displayed, and it can be changed.
 
-To display these new pages and to perform database operations, you must add code to the controller, controllers/tasks.js. Within that file, change the addTask method to read:
+If the application has a lot of boilerplate, headers and footers and so on, we don't want to
+have to duplicate that for every page. So we use partials. Create the following files:
+
+views/partials/head.ejs
 
 ```
-const addTask = (req, res) => {
-    res.render('pages/addTask');
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jobs List</title>
+  </head>
+  <body>
+```
+
+views/partials/header.ejs
+
+```
+<h1>The Jobs EJS Application</h1>
+<hr>
+```
+
+views/partials/footer.ejs
+
+```
+<hr>
+<p>A copyright could go here.</p>
+</body>
+</html>
+```
+
+Then change views/secretWord.ejs to substitute include statements, so that the whole thing reads:
+
+```
+<%- include("partials/head.ejs") %>
+<%- include("partials/header.ejs") %>
+    <p>The secret word is: <%= secretWord %></p>
+    <p>Would you like to change it?</p>
+    <form method="POST">
+        <label name="secretWord"></label>
+        <input name="secretWord"><br>
+        <button>Submit</button>
+    </form>
+<%- include("partials/footer.ejs") %>
+```
+
+You use the <%- %> to include other HTML. Be sure that you only use it with HTML you trust,
+or you could introduce a security exposure. Try the new page out.
+
+The data we are displaying is just the value of the secretWord variable -- but we
+could also insert data into the page that was retrieved from the database, as we'll see.
+
+## Sessions
+
+There are a couple problems with the handling of the secret word. First, the value is
+stored globally -- so every user sees the same value. We want the user to see only their
+own data. Tje second problem is that the data is stored in the memory of the server
+process, so when that process is restarted, the value is lost. We fix this using
+sessions. (Sessions may also be used with front-end/back-end applications.)
+
+Sessions are associated with a cookie, as we'll see, and they are protected with a
+secret. So add a line to .env with this secret, as follows:
+
+```
+SESSION_SECRET=123lkawjg091u82378429
+```
+
+The secret is some hard to guess string -- and you never want to publicize it to github!
+Then, add the following lines to app.js.  
+These lines should be added before any of the lines that
+govern routes, such as the app.get and app.post statements:
+
+```
+require("dotenv").config() // to load the session secret
+const session = require("express-session")
+app.use(session({ secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: true }));
+```
+
+Change the logic so that the secret word is stored and retrieved in the session, as follows:
+
+```
+// let secretWord = "syzygy";
+app.get("/secretWord", (req, res) => {
+  if (!req.session.secretWord) {
+    req.session.secretWord="syzygy"
+  }
+  res.render("secretWord", { secretWord: req.session.secretWord });
+});
+app.post("/secretWord", (req, res) => {
+  req.session.secretWord = req.body.secretWord;
+  res.redirect("/secretWord");
+});
+
+
+Then try the http://localhost:3000/secretWord URL.  You will see that it works as before,
+except that if you have different sessions (from different browsers) the value of the
+secretWord is different.  However, if you restart the server, the value is lost.  This
+is because the value of the secretWord is still being stored in the memory of the server.
+If you go into developer tools in your browser, and click on the network tab, you can
+check that a cookie (connect.sid) has been associated with your browser session.  This
+is the key used to retrieve session data.  You can also see that the HttpOnly flag is
+set, so that browser side code can't access this cookie.
+
+We want to store the session data in a durable way.  To do this, we'll use Mongo as
+a session store.  Replace the one line that does the app.use for session with
+all of these lines:
+```
+
+const MongoDBStore = require("connect-mongodb-session")(session);
+const url = process.env.MONGO_URI;
+const store = new MongoDBStore({
+// may throw an error, which won't be caught
+uri: url,
+collection: "mySessions",
+});
+store.on("error", function (error) {
+console.log(error);
+});
+const session_parms = {
+secret: process.env.SESSION_SECRET,
+resave: true,
+saveUninitialized: true,
+store: store,
+cookie: { secure: false, sameSite: "strict" },
 };
-```
-
-This just renders the addTask.ejs template, with a message if any. Change the createTask method to read:
-
-```
-const createTask = async (req, res) => {
-    try {
-        if (req.body.isTaskComplete === "true") {
-            req.body.completed = true;
-        }
-        await Task.create(req.body);
-        req.flash("info","The task was created.")
-        res.redirect("/tasks");
-    } catch (err) {
-        if (err.name === "ValidationError") {
-            req.flash("error", "Validation error.");
-        } else
-            req.flash("error", "Something went wrong.");
-        }
-        res.render("pages/addTask");
-    }
-};
-```
-
-Here you are using the values posted in req.body to create a task. That may succeed or fail, depending on the validation of values. req.body.complete may have the string value "true" for complete, which must be changed to the boolean value of true for completed. If the create is successful, a flash message (which is displayed after a redirect operation) gives the user feedback, and a redirect is sent back to display the tasks page again. If the create fails, the user is given a message, which might be a schema validation error, and the add page is rendered again. Note that the method must be async so that you can await the result of the create operation.
-
-Now change the editTask method to read as follows:
-
-```
-const editTask = async (req, res) => {
-    try {
-        const task = await Task.findById(req.params.id)
-        if (task) {
-            res.render('pages/editTask', { task })
-        } else {
-            req.flash("error", "No task with id ${req.params.id} was found`);
-            res.redirect("/tasks");
-        }
-    } catch (err) {
-        req.flash("error", 'Something went wrong.');
-        res.redirect('/tasks')
-    }
+if (app.get("env") === "production") {
+app.set("trust proxy", 1); // trust first proxy
+session_parms.cookie.secure = true; // serve secure cookies
 }
-```
-
-To edit a task, you have to load it first, hence the findById call. That may fail in which case the error is reported to the user. If it succeeds, the task variable is passed to the editTask.ejs on the render.
-
-Now change the updateTask method to read:
+app.use(session(session_parms));
 
 ```
-const updateTask = async (req, res) => {
-    const oldTask = false;
-    try {
-    oldTask = await Task.findByID(req.params.id);
-    if (req.body.isTaskComplete === "true") {
-        req.body.completed = true;
-    }
-    const task = await Task.findByIdAndUpdate(req.params.id, req.body, {
-        runValidators: true,
-    });
-    if (task) {
-        req.flash("info", "The task was updated.");
-        res.redirect("/tasks");
-    } else {
-        req.flash("error", `No task with id ${req.params.id} was found.");
-        res.redirect("/tasks");
-    }
-    } catch (err) {
-    if (err.name === "ValidationError") {
-        req.flash("error","Validation error.");
-    } else {
-        req.flash("error", "Something went wrong.");
-    }
-    if (oldTask) {
-        res.render("pages/editTask", {task: oldTask} );
-    } else {
-        res.redirect("/tasks");
-    }
-};
+These lines cause the session to be stored in Mongo.  The bit about session_parms.cookie.secure = true
+is a little obscure.  It is saying that if the application is running in production, the session
+cookie won't work unless SSL is present.  It's a good policy, but as you are not running in
+production, you don't have SSL.
+
+Then try the app again.  Now you see that the secretWord value is preserved even if the server
+is restarted.  If you go to your Mongo database, you can see the session data there -- although it
+is not readable.
+
+## Flash Messages
+
+As the user performs operations, you need to inform them on the result. You do this with the
+connect-flash package.  This stores the result of operations so that they can be subsequently
+displayed to the user.  This information can't be kept in server storage, because otherwise
+each user could see the others' messages.  And it can't be stored in the req or res objects,
+because after an operation, there is typically a redirect, and the information would be lost.
+The connect-flash package relies on the session.  The package also keeps track of whether
+the message has been displayed, so that it is only shown once.  You can store multiple messages
+at different severity.  Add the following code.  Note that this code must follow the app.use
+for sessions, because flash depends on sessions:
 ```
 
-First, you find the task being updated. Then you attempt to update it with the values from the body of the post request. Then, if that fails, you render the page again, passing the message and the task on the render call. If it succeeds, you give the user the success message and redirect to the tasks page.
-
-Next, change the getTasks method to read as follows:
+app.use(require("connect-flash")());
 
 ```
-const getTasks = async (req, res) => {
-    try {
-    const tasks = await Task.find();
-    res.render("pages/tasks", { tasks });
-    } catch (err) {
-    req.flash("error", "Something went wrong.");
-    res.render("/tasks", { tasks: []});
-    }
-};
+We want to set some messages into flash.  To do this, change the post route for secretWord
+to look like this:
 ```
 
-This method retrieves the list of tasks. It may be an empty array, or a list of tasks, which is passed on the render call to the tasks.ejs template on the render call. In this case, you do not want to pass a
-res.redirect() if an error occurs, because that would loop without end.
-
-Finally, make this small change to views/partials/header.ejs: Add these lines to the navbar between the nav-items for home and about:
+app.post("/secretWord", (req, res) => {
+if (req.body.secretWord.toUpperCase()[0] == "P") {
+req.flash("error","That word won't work!")
+req.flash("error", "You can't use words that start with p.")
+} else {
+req.session.secretWord = req.body.secretWord;
+req.flash("info","The secret word was changed.")
+}
+res.redirect("/secretWord");
+});
 
 ```
-        <li class="nav-item">
-        <a class="nav-link" href="/tasks">Tasks</a>
-        </li>
+These messages should be displayed on the next screen.  Note that you can have
+multiple info or error messages.  In order for them to be displayed, we need
+to add code in the view (we use the header partial) as follows:
 ```
 
-At this point, try the application out. You should be able to view, add, and edit tasks. Delete still does not work. That is left for you to complete. You need to change the deleteTask method in the controller to issue a findByIdAndDelete. Then it should should display a message on the success or failure of the operation and then redirect to the tasks page. (The way delete is done here is very bad practice, because when you click on the delete link get operation causes a change to the database. This shouldn't ever be done in a production application. The right way to do it is to create a delete button, not a link, and to have JavaScript that sends a delete request to the back end.)
+<h1>The Jobs EJS Application</h1>
+<% if (errors) {
+    errors.forEach((err) => { %>
+      <div>
+        Error: <%= err %>
+      </div>
+    <% })
+  } %>
+  <% if (info) {
+    info.forEach((msg) => { %>
+      <div>
+        Info: <%= msg %>
+      </div>
+    <% })
+  } %>
+<hr>
+```
+Whoa! you may be saying.  That doesn't look like HTML! What will the browser do with it?
+The answer is that the browser never sees this stuff.  The things in <% %> are JavaScript,
+executed on the server side, and the render process removes this and replaces it with
+the result of the code.  There is logic, which is executed but not displayed, in the <% %>
+parts.  Then, there is substution of values, in the <%= %> parts, where the equals sign
+indicates that a value is to be displayed.  So, this code checks the info and errors
+arrays, displaying values from them if any are present.
+
+But, the problem is that the info and errors arrays need to get passed when the
+render is called. This could be done as follows:
+
+```
+res.render("secretWord", { secretWord, errors: flash("errors), info: flash("info")})
+```
+
+But this is a little clumsy, because if we have a bunch of pages we render, every
+render statement would have to be modified. So, instead, we put the values in
+res.locals. That hash contains values that are always available to the EJS rendering
+engine. As follows:
+
+```
+app.get("/secretWord", (req, res) => {
+  if (!req.session.secretWord) {
+    req.session.secretWord="syzygy"
+  }
+  res.locals.info = req.flash("info")
+  res.locals.errors = req.flash("error")
+  res.render("secretWord", { secretWord: req.session.secretWord });
+});
+```
+
+This is how res.locals is loaded with the right stuff. However, we'd
+want to move the res.locals statements into a middleware routine that always
+runs (after the flash middleware, but before any of the routes), and we'll
+do that eventually.
+
+## Submitting Your Work
+
+To submit your work, you add, commit, and push your branch as usual, create a pull request,
+and include a link to your pull request in the homework submission. In the next
+lesson, we will implement authentication using Passport, and in the final lesson, we'll
+manage Jobs entries in the database.

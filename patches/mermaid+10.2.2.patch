@@ -1,0 +1,283 @@
+diff --git a/node_modules/mermaid/dist/c4Diagram-4015ed94.js b/node_modules/mermaid/dist/c4Diagram-4015ed94.js
+index a09262d..cd768b4 100644
+--- a/node_modules/mermaid/dist/c4Diagram-4015ed94.js
++++ b/node_modules/mermaid/dist/c4Diagram-4015ed94.js
+@@ -4,7 +4,7 @@ import { d as drawRect$1, g as getNoteRect } from "./svgDrawCommon-f26cad39.js";
+ import { sanitizeUrl } from "@braintree/sanitize-url";
+ import "ts-dedent";
+ import "dayjs";
+-import "dompurify";
++import "isomorphic-dompurify";
+ import "khroma";
+ import "lodash-es/memoize.js";
+ import "stylis";
+diff --git a/node_modules/mermaid/dist/classDiagram-f9088573.js b/node_modules/mermaid/dist/classDiagram-f9088573.js
+index 7fe866a..7c1cef4 100644
+--- a/node_modules/mermaid/dist/classDiagram-f9088573.js
++++ b/node_modules/mermaid/dist/classDiagram-f9088573.js
+@@ -7,7 +7,7 @@ import { s as svgDraw } from "./svgDraw-14f13a51.js";
+ import "ts-dedent";
+ import "dayjs";
+ import "@braintree/sanitize-url";
+-import "dompurify";
++import "isomorphic-dompurify";
+ import "khroma";
+ import "lodash-es/memoize.js";
+ import "stylis";
+diff --git a/node_modules/mermaid/dist/classDiagram-v2-56d00918.js b/node_modules/mermaid/dist/classDiagram-v2-56d00918.js
+index 3a3f340..4af8c69 100644
+--- a/node_modules/mermaid/dist/classDiagram-v2-56d00918.js
++++ b/node_modules/mermaid/dist/classDiagram-v2-56d00918.js
+@@ -6,7 +6,7 @@ import { r as render } from "./index-7484f147.js";
+ import "ts-dedent";
+ import "dayjs";
+ import "@braintree/sanitize-url";
+-import "dompurify";
++import "isomorphic-dompurify";
+ import "khroma";
+ import "lodash-es/memoize.js";
+ import "stylis";
+diff --git a/node_modules/mermaid/dist/config.type.d.ts b/node_modules/mermaid/dist/config.type.d.ts
+index afa22af..0f7f34e 100644
+--- a/node_modules/mermaid/dist/config.type.d.ts
++++ b/node_modules/mermaid/dist/config.type.d.ts
+@@ -1,4 +1,4 @@
+-import DOMPurify from 'dompurify';
++import DOMPurify from 'isomorphic-dompurify';
+ export interface MermaidConfig {
+     theme?: string;
+     themeVariables?: any;
+diff --git a/node_modules/mermaid/dist/erDiagram-3f713c6a.js b/node_modules/mermaid/dist/erDiagram-3f713c6a.js
+index 4393042..64516c5 100644
+--- a/node_modules/mermaid/dist/erDiagram-3f713c6a.js
++++ b/node_modules/mermaid/dist/erDiagram-3f713c6a.js
+@@ -6,7 +6,7 @@ import { v5 } from "uuid";
+ import "ts-dedent";
+ import "dayjs";
+ import "@braintree/sanitize-url";
+-import "dompurify";
++import "isomorphic-dompurify";
+ import "khroma";
+ import "lodash-es/memoize.js";
+ import "stylis";
+diff --git a/node_modules/mermaid/dist/flowDiagram-a2b06433.js b/node_modules/mermaid/dist/flowDiagram-a2b06433.js
+index 6740f56..ffc1526 100644
+--- a/node_modules/mermaid/dist/flowDiagram-a2b06433.js
++++ b/node_modules/mermaid/dist/flowDiagram-a2b06433.js
+@@ -11,7 +11,7 @@ import { f as flowRendererV2, a as flowStyles } from "./styles-aea5c17b.js";
+ import "ts-dedent";
+ import "dayjs";
+ import "@braintree/sanitize-url";
+-import "dompurify";
++import "isomorphic-dompurify";
+ import "khroma";
+ import "lodash-es/memoize.js";
+ import "stylis";
+diff --git a/node_modules/mermaid/dist/flowDiagram-v2-9f8fab07.js b/node_modules/mermaid/dist/flowDiagram-v2-9f8fab07.js
+index 8d6a1b4..4eac2b9 100644
+--- a/node_modules/mermaid/dist/flowDiagram-v2-9f8fab07.js
++++ b/node_modules/mermaid/dist/flowDiagram-v2-9f8fab07.js
+@@ -15,7 +15,7 @@ import "dagre-d3-es/src/dagre-js/label/add-html-label.js";
+ import "khroma";
+ import "dayjs";
+ import "@braintree/sanitize-url";
+-import "dompurify";
++import "isomorphic-dompurify";
+ import "lodash-es/memoize.js";
+ import "stylis";
+ import "lodash-es/isEmpty.js";
+diff --git a/node_modules/mermaid/dist/flowchart-elk-definition-5cf0e905.js b/node_modules/mermaid/dist/flowchart-elk-definition-5cf0e905.js
+index 6bd50ab..8caea96 100644
+--- a/node_modules/mermaid/dist/flowchart-elk-definition-5cf0e905.js
++++ b/node_modules/mermaid/dist/flowchart-elk-definition-5cf0e905.js
+@@ -10,7 +10,7 @@ import "ts-dedent";
+ import "./svgDraw-14f13a51.js";
+ import "dayjs";
+ import "@braintree/sanitize-url";
+-import "dompurify";
++import "isomorphic-dompurify";
+ import "khroma";
+ import "lodash-es/memoize.js";
+ import "stylis";
+diff --git a/node_modules/mermaid/dist/ganttDiagram-4e00717f.js b/node_modules/mermaid/dist/ganttDiagram-4e00717f.js
+index 544b5bb..9b15e07 100644
+--- a/node_modules/mermaid/dist/ganttDiagram-4e00717f.js
++++ b/node_modules/mermaid/dist/ganttDiagram-4e00717f.js
+@@ -6,7 +6,7 @@ import dayjsAdvancedFormat from "dayjs/plugin/advancedFormat.js";
+ import { c as getConfig, s as setAccTitle, g as getAccTitle, r as setDiagramTitle, t as getDiagramTitle, b as setAccDescription, a as getAccDescription, m as mermaidAPI, v as clear$1, u as utils, l as log, i as configureSvgSize, e as common } from "./mermaid-ddfd1cde.js";
+ import { select, scaleTime, min, max, scaleLinear, interpolateHcl, axisBottom, timeFormat, timeMonth, timeWeek, timeDay, timeHour, timeMinute, axisTop } from "d3";
+ import "ts-dedent";
+-import "dompurify";
++import "isomorphic-dompurify";
+ import "khroma";
+ import "lodash-es/memoize.js";
+ import "stylis";
+diff --git a/node_modules/mermaid/dist/gitGraphDiagram-ac8b1a85.js b/node_modules/mermaid/dist/gitGraphDiagram-ac8b1a85.js
+index 3c9b50b..d79bea5 100644
+--- a/node_modules/mermaid/dist/gitGraphDiagram-ac8b1a85.js
++++ b/node_modules/mermaid/dist/gitGraphDiagram-ac8b1a85.js
+@@ -3,7 +3,7 @@ import { select } from "d3";
+ import "ts-dedent";
+ import "dayjs";
+ import "@braintree/sanitize-url";
+-import "dompurify";
++import "isomorphic-dompurify";
+ import "khroma";
+ import "lodash-es/memoize.js";
+ import "stylis";
+diff --git a/node_modules/mermaid/dist/infoDiagram-bc0d5d92.js b/node_modules/mermaid/dist/infoDiagram-bc0d5d92.js
+index e155b77..6bb9a52 100644
+--- a/node_modules/mermaid/dist/infoDiagram-bc0d5d92.js
++++ b/node_modules/mermaid/dist/infoDiagram-bc0d5d92.js
+@@ -3,7 +3,7 @@ import { select } from "d3";
+ import "ts-dedent";
+ import "dayjs";
+ import "@braintree/sanitize-url";
+-import "dompurify";
++import "isomorphic-dompurify";
+ import "khroma";
+ import "lodash-es/memoize.js";
+ import "stylis";
+diff --git a/node_modules/mermaid/dist/journeyDiagram-b5476ffb.js b/node_modules/mermaid/dist/journeyDiagram-b5476ffb.js
+index deaecfb..717e4a7 100644
+--- a/node_modules/mermaid/dist/journeyDiagram-b5476ffb.js
++++ b/node_modules/mermaid/dist/journeyDiagram-b5476ffb.js
+@@ -4,7 +4,7 @@ import { d as drawRect$1, f as drawText$1, a as drawBackgroundRect$1, g as getNo
+ import "ts-dedent";
+ import "dayjs";
+ import "@braintree/sanitize-url";
+-import "dompurify";
++import "isomorphic-dompurify";
+ import "khroma";
+ import "lodash-es/memoize.js";
+ import "stylis";
+diff --git a/node_modules/mermaid/dist/mermaid-ddfd1cde.js b/node_modules/mermaid/dist/mermaid-ddfd1cde.js
+index 94c7f8f..0bdb170 100644
+--- a/node_modules/mermaid/dist/mermaid-ddfd1cde.js
++++ b/node_modules/mermaid/dist/mermaid-ddfd1cde.js
+@@ -2,7 +2,7 @@ import { dedent } from "ts-dedent";
+ import dayjs from "dayjs";
+ import { sanitizeUrl } from "@braintree/sanitize-url";
+ import { select, curveBasis, curveBasisClosed, curveBasisOpen, curveBumpX, curveBumpY, curveBundle, curveCardinalClosed, curveCardinalOpen, curveCardinal, curveCatmullRomClosed, curveCatmullRomOpen, curveCatmullRom, curveLinear, curveLinearClosed, curveMonotoneX, curveMonotoneY, curveNatural, curveStep, curveStepAfter, curveStepBefore } from "d3";
+-import DOMPurify from "dompurify";
++import DOMPurify from "isomorphic-dompurify";
+ import { adjust, invert, darken, lighten, isDark, rgba } from "khroma";
+ import memoize from "lodash-es/memoize.js";
+ import { serialize, compile, stringify } from "stylis";
+diff --git a/node_modules/mermaid/dist/mermaid.core.mjs b/node_modules/mermaid/dist/mermaid.core.mjs
+index c244295..63155bd 100644
+--- a/node_modules/mermaid/dist/mermaid.core.mjs
++++ b/node_modules/mermaid/dist/mermaid.core.mjs
+@@ -3,7 +3,7 @@ import { K } from "./mermaid-ddfd1cde.js";
+ import "dayjs";
+ import "@braintree/sanitize-url";
+ import "d3";
+-import "dompurify";
++import "isomorphic-dompurify";
+ import "khroma";
+ import "lodash-es/memoize.js";
+ import "stylis";
+diff --git a/node_modules/mermaid/dist/mindmap-definition-7c7f5519.js b/node_modules/mermaid/dist/mindmap-definition-7c7f5519.js
+index 7022e15..1f644e5 100644
+--- a/node_modules/mermaid/dist/mindmap-definition-7c7f5519.js
++++ b/node_modules/mermaid/dist/mindmap-definition-7c7f5519.js
+@@ -7,7 +7,7 @@ import { isDark, lighten, darken } from "khroma";
+ import "ts-dedent";
+ import "dayjs";
+ import "@braintree/sanitize-url";
+-import "dompurify";
++import "isomorphic-dompurify";
+ import "lodash-es/memoize.js";
+ import "stylis";
+ import "lodash-es/isEmpty.js";
+diff --git a/node_modules/mermaid/dist/pieDiagram-c9e1e65d.js b/node_modules/mermaid/dist/pieDiagram-c9e1e65d.js
+index f543d67..be267d1 100644
+--- a/node_modules/mermaid/dist/pieDiagram-c9e1e65d.js
++++ b/node_modules/mermaid/dist/pieDiagram-c9e1e65d.js
+@@ -3,7 +3,7 @@ import { select, scaleOrdinal, pie, arc } from "d3";
+ import "ts-dedent";
+ import "dayjs";
+ import "@braintree/sanitize-url";
+-import "dompurify";
++import "isomorphic-dompurify";
+ import "khroma";
+ import "lodash-es/memoize.js";
+ import "stylis";
+diff --git a/node_modules/mermaid/dist/quadrantDiagram-1ee9b076.js b/node_modules/mermaid/dist/quadrantDiagram-1ee9b076.js
+index 8e2baad..292f42b 100644
+--- a/node_modules/mermaid/dist/quadrantDiagram-1ee9b076.js
++++ b/node_modules/mermaid/dist/quadrantDiagram-1ee9b076.js
+@@ -3,7 +3,7 @@ import { scaleLinear, select } from "d3";
+ import "ts-dedent";
+ import "dayjs";
+ import "@braintree/sanitize-url";
+-import "dompurify";
++import "isomorphic-dompurify";
+ import "khroma";
+ import "lodash-es/memoize.js";
+ import "stylis";
+diff --git a/node_modules/mermaid/dist/requirementDiagram-a1feb0ba.js b/node_modules/mermaid/dist/requirementDiagram-a1feb0ba.js
+index 5074f21..fedb442 100644
+--- a/node_modules/mermaid/dist/requirementDiagram-a1feb0ba.js
++++ b/node_modules/mermaid/dist/requirementDiagram-a1feb0ba.js
+@@ -5,7 +5,7 @@ import * as graphlib from "dagre-d3-es/src/graphlib/index.js";
+ import "ts-dedent";
+ import "dayjs";
+ import "@braintree/sanitize-url";
+-import "dompurify";
++import "isomorphic-dompurify";
+ import "khroma";
+ import "lodash-es/memoize.js";
+ import "stylis";
+diff --git a/node_modules/mermaid/dist/sequenceDiagram-4a53e255.js b/node_modules/mermaid/dist/sequenceDiagram-4a53e255.js
+index d71a146..ee8e82a 100644
+--- a/node_modules/mermaid/dist/sequenceDiagram-4a53e255.js
++++ b/node_modules/mermaid/dist/sequenceDiagram-4a53e255.js
+@@ -4,7 +4,7 @@ import { d as drawRect$1, a as drawBackgroundRect$1, b as drawEmbeddedImage, c a
+ import { sanitizeUrl } from "@braintree/sanitize-url";
+ import "ts-dedent";
+ import "dayjs";
+-import "dompurify";
++import "isomorphic-dompurify";
+ import "khroma";
+ import "lodash-es/memoize.js";
+ import "stylis";
+diff --git a/node_modules/mermaid/dist/stateDiagram-a0ac330a.js b/node_modules/mermaid/dist/stateDiagram-a0ac330a.js
+index 321ab22..8f61ad0 100644
+--- a/node_modules/mermaid/dist/stateDiagram-a0ac330a.js
++++ b/node_modules/mermaid/dist/stateDiagram-a0ac330a.js
+@@ -6,7 +6,7 @@ import { c as getConfig, u as utils, e as common, l as log, i as configureSvgSiz
+ import "ts-dedent";
+ import "dayjs";
+ import "@braintree/sanitize-url";
+-import "dompurify";
++import "isomorphic-dompurify";
+ import "khroma";
+ import "lodash-es/memoize.js";
+ import "stylis";
+diff --git a/node_modules/mermaid/dist/stateDiagram-v2-cfe94687.js b/node_modules/mermaid/dist/stateDiagram-v2-cfe94687.js
+index df65179..d678ab2 100644
+--- a/node_modules/mermaid/dist/stateDiagram-v2-cfe94687.js
++++ b/node_modules/mermaid/dist/stateDiagram-v2-cfe94687.js
+@@ -6,7 +6,7 @@ import { r as render } from "./index-7484f147.js";
+ import "ts-dedent";
+ import "dayjs";
+ import "@braintree/sanitize-url";
+-import "dompurify";
++import "isomorphic-dompurify";
+ import "khroma";
+ import "lodash-es/memoize.js";
+ import "stylis";
+diff --git a/node_modules/mermaid/dist/timeline-definition-4cdb07ca.js b/node_modules/mermaid/dist/timeline-definition-4cdb07ca.js
+index 02744fc..352f5e2 100644
+--- a/node_modules/mermaid/dist/timeline-definition-4cdb07ca.js
++++ b/node_modules/mermaid/dist/timeline-definition-4cdb07ca.js
+@@ -4,7 +4,7 @@ import { isDark, lighten, darken } from "khroma";
+ import "ts-dedent";
+ import "dayjs";
+ import "@braintree/sanitize-url";
+-import "dompurify";
++import "isomorphic-dompurify";
+ import "lodash-es/memoize.js";
+ import "stylis";
+ import "lodash-es/isEmpty.js";
