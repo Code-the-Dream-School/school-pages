@@ -12,7 +12,7 @@ When you are creating APIs, you can perform authentication using JavaScript Web 
 
 This way of handling security can be used for APIs as well, if the APIs are to be called from a browser.
 And, when using a browser, the cookie based approach is more secure, because sensitive information
-such as the JWT is not stored in local storage.  However, when one server calls another, the
+such as the JWT is not stored in local storage. However, when one server calls another, the
 cookie based approach can't be used, as cookies only have meaning for browsers.
 
 This is the flow: The browser requests the logon page from the server, and then posts the id and
