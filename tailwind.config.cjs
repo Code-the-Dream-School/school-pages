@@ -26,6 +26,20 @@ module.exports = {
           900: "#851f00",
         },
       },
+      typography: ({theme}) => ({
+        DEFAULT: {
+          css: {
+            code: {
+              backgroundColor: theme("colors.gray.200"),
+              color: "#DD1144",
+              fontWeight: "400",
+              "border-radius": "0.20rem",
+              paddingInlineStart: "0.30rem",
+              paddingInlineEnd: "0.30rem",
+            },
+          }
+        }
+      })
     },
   },
   plugins: [require("@tailwindcss/typography")],
