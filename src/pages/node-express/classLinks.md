@@ -4,8 +4,8 @@ title: classLinks
 description: Links to all the files in this directory
 ---
 
-- [lesson1-a1.md](lesson1-a1)
-- [lesson1-m1.md](lesson1-m1)
+- [Lesson 1](lesson1-m1)
+- [Lesson 1 - Assignment 1](lesson1-a1)
 - [lesson10-a1.md](lesson10-a1)
 - [lesson10-m1.md](lesson10-m1)
 - [lesson11-a1.md](lesson11-a1)
