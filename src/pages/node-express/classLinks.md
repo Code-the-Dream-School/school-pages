@@ -4,34 +4,34 @@ title: classLinks
 description: Links to all the files in this directory
 ---
 
-- [Lesson 1](lesson1-m1)
-- [Lesson 1 - Assignment 1](lesson1-a1)
-- [lesson10-a1.md](lesson10-a1)
-- [lesson10-m1.md](lesson10-m1)
-- [lesson11-a1.md](lesson11-a1)
-- [lesson11-m1.md](lesson11-m1)
-- [lesson12-a1.md](lesson12-a1)
-- [lesson12-m1.md](lesson12-m1)
-- [lesson13-a1.md](lesson13-a1)
-- [lesson13-m1.md](lesson13-m1)
-- [lesson14-a1.md](lesson14-a1)
-- [lesson14-m1.md](lesson14-m1)
-- [lesson2-a1.md](lesson2-a1)
-- [lesson2-m1.md](lesson2-m1)
-- [lesson3-a1.md](lesson3-a1)
-- [lesson3-m1.md](lesson3-m1)
-- [lesson4-a1.md](lesson4-a1)
-- [lesson4-m1.md](lesson4-m1)
-- [lesson5-a1.md](lesson5-a1)
-- [lesson5-m1.md](lesson5-m1)
-- [lesson6-a1.md](lesson6-a1)
-- [lesson6-m1.md](lesson6-m1)
-- [lesson7-a1.md](lesson7-a1)
-- [lesson7-m1.md](lesson7-m1)
-- [lesson8-a1.md](lesson8-a1)
-- [lesson8-m1.md](lesson8-m1)
-- [lesson9-a1.md](lesson9-a1)
-- [lesson9-m1.md](lesson9-m1)
+- [Lesson 1 - Learning Materials](lesson1-m1)
+- [Lesson 1 - Assignment](lesson1-a1)<br/><br/>
+- [Lesson 2 - Learning Materials](lesson2-m1)
+- [Lesson 2 - Assignment](lesson2-a1)<br/><br/>
+- [Lesson 3 - Learning Materials](lesson3-m1)
+- [Lesson 3 - Assignment](lesson3-a1)<br/><br/>
+- [Lesson 4 - Learning Materials](lesson4-m1)
+- [Lesson 4 - Assignment](lesson4-a1)<br/><br/>
+- [Lesson 5 - Learning Materials](lesson5-m1)
+- [Lesson 5 - Assignment](lesson5-a1)<br/><br/>
+- [Lesson 6 - Learning Materials](lesson6-m1)
+- [Lesson 6 - Assignment](lesson6-a1)<br/><br/>
+- [Lesson 7 - Learning Materials](lesson7-m1)
+- [Lesson 7 - Assignment](lesson7-a1)<br/><br/>
+- [Lesson 8 - Learning Materials](lesson8-m1)
+- [Lesson 8 - Assignment](lesson8-a1)<br/><br/>
+- [Lesson 9 - Learning Materials](lesson9-m1)
+- [Lesson 9 - Assignment](lesson9-a1)<br/><br/>
+- [Lesson 10 - Learning Materials](lesson10-m1)
+- [Lesson 10 - Assignment](lesson10-a1)<br/><br/>
+- [Lesson 11 - Learning Materials](lesson11-m1)
+- [Lesson 11 - Assignment](lesson11-a1)<br/><br/>
+- [Lesson 12 - Learning Materials](lesson12-m1)
+- [Lesson 12 - Assignment](lesson12-a1)<br/><br/>
+- [Lesson 13 - Learning Materials](lesson13-m1)
+- [Lesson 13 - Assignment](lesson13-a1)<br/><br/>
+- [Lesson 14 - Learning Materials](lesson14-m1)
+- [Lesson 14 - Assignment](lesson14-a1)<br/><br/>
 - [node-cheatsheet.md](node-cheatsheet)
 - [node-setup.md](node-setup)
 - [reviewer-notes-week-1.md](reviewer-notes-week-1)
