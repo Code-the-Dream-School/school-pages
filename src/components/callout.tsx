@@ -1,4 +1,6 @@
-const CalloutAlertBox: React.FC<{ title: string, text: string, color: string }> = ({title, text, color}) => (
+import type { ReactNode } from "react"
+
+const CalloutAlertBox: React.FC<{ title: string, children?: ReactNode, color: string }> = ({title, children, color}) => (
     <div className={`bg-${color}-100 border-t-4 border-${color}-500 rounded-b text-${color}-900 px-4 py-2 shadow-md`}
          role="alert">
         <div className="flex">
@@ -11,18 +13,18 @@ const CalloutAlertBox: React.FC<{ title: string, text: string, color: string }> 
             </div>
             <div className="not-prose">
                 <p className="font-bold">{title}</p>
-                <p className="text-sm">{text}</p>
+                <p className="text-sm">{children}</p>
             </div>
         </div>
     </div>
 )
 
 
-export const InfoCallout: React.FC<{ title: string, text: string }> = ({title, text}) => (
-    <CalloutAlertBox title={title} text={text} color='teal'/>
+export const InfoCallout: React.FC<{ title: string, children?: ReactNode }> = ({title, children}) => (
+    <CalloutAlertBox title={title} color='teal'>{children}</CalloutAlertBox>
 
 )
 
-export const WarningCallout: React.FC<{ title: string, text: string }> = ({title, text}) => (
-    <CalloutAlertBox title={title} text={text} color='yellow'/>
+export const WarningCallout: React.FC<{ title: string, children?: ReactNode }> = ({title, children}) => (
+    <CalloutAlertBox title={title} color='yellow'>{children}</CalloutAlertBox>
 )

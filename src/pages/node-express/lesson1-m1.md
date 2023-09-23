@@ -4,7 +4,7 @@ title: "Node/Express Lesson 1: Introducing Node Programming"
 description: Material link for lesson 1 of the node/express class
 ---
 
-# Node/Express Lesson1: Introducing Node Programming
+# Node/Express Lesson 1: Introducing Node Programming
 
 A simple introduction to Node is available at **[this link](https://www.youtube.com/watch?v=uVwtVBpw7RQ)**. Just watch the first video in the series.
 
