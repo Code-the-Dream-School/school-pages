@@ -29,6 +29,8 @@ module.exports = {
       typography: ({theme}) => ({
         DEFAULT: {
           css: {
+            '--tw-prose-hr': theme('colors.pink[300]'),
+            '--tw-prose-bullets': theme('colors.gray.400'),
             code: {
               backgroundColor: theme("colors.gray.200"),
               color: "#DD1144",
@@ -37,6 +39,9 @@ module.exports = {
               paddingInlineStart: "0.30rem",
               paddingInlineEnd: "0.30rem",
             },
+            kbd: {
+              backgroundColor: theme("colors.gray.100"),
+            }
           }
         }
       })
