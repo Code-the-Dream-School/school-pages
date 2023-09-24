@@ -3,6 +3,11 @@ layout: "../../layouts/genericMarkdownFile.astro"
 title: "Node Express Lesson 3: Introduction to Express"
 description: Material link for lesson 3 of the node/express class
 ---
+import {
+  AssignmentLinkButton,
+  NextLinkButton,
+  PrevLinkButton
+} from "../../components/navButtons.js";
 
 # Node Express Lesson 3
 
@@ -21,3 +26,9 @@ The useful parts of the video resume about 3:58:00. At about 5:18:13 of the vide
 - Delete
 
 Each operation goes to a particular URL, and there may be parameters in the URL as is explained in the lesson. In addition, the `POST`, `PUT`, and `PATCH` operations may pass along JSON data in the body of the request. JSON data is returned from the server in the body of the response. (It is possible to write APIs that don't use JSON, but in this class JSON is always used.) If you need to learn or review JSON, a basic introduction is at this link: [https://www.digitalocean.com/community/tutorials/an-introduction-to-json](https://www.digitalocean.com/community/tutorials/an-introduction-to-json)
+
+<div className="flex justify-evenly">
+  <PrevLinkButton link="/node-express/lesson2-m1" />
+  <AssignmentLinkButton link="/node-express/lesson3-a1" />
+  <NextLinkButton link="/node-express/lesson4-m1" />
+</div>
