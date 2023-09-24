@@ -8,16 +8,6 @@ description: Material link for lesson 4 of the node/express class
 
 # Middleware, REST Methods, and Postman
 
-You continue watching **[this video\](https://youtu.be/Oe421EPjeBE?t=13246)**. This week, you watch from 3:40:48 of the video to 6:10:46. This section of the video starts with some slides on how the web works. You do not need to write any code for these slides. Then, at about 3:56 of the video, the instructor starts talking about how you download the repository containing the code. **Do not do this.** You already have the code you need, as it is included in the same repository you are using.
+You will finish watching **[the video from the last few weeks](https://youtu.be/Oe421EPjeBE?t=13246)**. This week, you watch from 6:10:46 of the video to the end. The initial focus is on middleware. Then each of the HTTP methods involved in API development are covered: `GET`, `POST`, `PUT`, `PATCH`, and `DELETE`. As routes for each of these API methods are implemented, you will test them using Postman. You then refactor the code, to separate out the router and controller functions.
 
-The instructor also directs you to remove the .git directory. **Do not remove the .git directory.** Because you forked the original repository, you continue to use the git configuration.
-
-The useful parts of the video resume about 3:58. At about 5:18:13 of the video, the instructor discusses APIs compared with Server Side Rendering. Server Side Rendering is covered towards the end of this course. This section of the course focuses on simple responses, serving static files, and developing APIs. The APIs you develop in this class are built according to an approach called REST, which stands for Representational State Transfer. In addition, the implementation this class teaches for REST uses HTTP requests:
-
-- Get
-- Post
-- Put
-- Patch
-- Delete
-
-Each operation goes to a particular URL, and there may be parameters in the URL as is explained in the lesson. In addition, the POST, PUT, and PATCH operations may convey JSON data in the body of the request. JSON data is returned from the server in the body of the response. (It is possible to write APIs that don’t use JSON, but in this class JSON is always used.) If you need to learn or review JSON, a basic introduction is at this link: **[https://www.digitalocean.com/community/tutorials/an-introduction-to-json\](https://www.digitalocean.com/community/tutorials/an-introduction-to-json)**
+The front end calls the APIs in two ways, first as browser `GET` and `POST` requests coming from a standard HTML page, and second via JavaScript in the browser that issues `GET`, `POST`, `PUT`, and `DELETE` requests. You can find the front end in the `methods-public` directory. Study the two HTML files in this directory. They show you how to call the back end from the front end, using either ordinary HTML or JavaScript. When ordinary HTML is used, only GET and POST requests are supported, because those are the only operations a browser can natively do; and the `POST` request sends form-encoded data. When JavaScript is used, all HTTP operations are supported, and JSON is used to send and receive data. Parsing of the body of the request, for form-encoded and JSON data, is explained in the video.
