@@ -26,11 +26,11 @@ module.exports = {
           900: "#851f00",
         },
       },
-      typography: ({theme}) => ({
+      typography: ({ theme }) => ({
         DEFAULT: {
           css: {
-            '--tw-prose-hr': theme('colors.pink[300]'),
-            '--tw-prose-bullets': theme('colors.gray.400'),
+            "--tw-prose-hr": theme("colors.pink[300]"),
+            "--tw-prose-bullets": theme("colors.gray.400"),
             code: {
               backgroundColor: theme("colors.gray.200"),
               color: "#DD1144",
@@ -41,10 +41,10 @@ module.exports = {
             },
             kbd: {
               backgroundColor: theme("colors.gray.100"),
-            }
-          }
-        }
-      })
+            },
+          },
+        },
+      }),
     },
   },
   plugins: [require("@tailwindcss/typography")],
