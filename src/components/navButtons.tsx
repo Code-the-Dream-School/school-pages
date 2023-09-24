@@ -1,18 +1,18 @@
-const AssignmentIcon = () => (
+const AssignmentIcon: React.FC<any> = () => (
   <svg
     fill="#000000"
-    height="200px"
-    width="200px"
+    height="25px"
+    width="25px"
     version="1.1"
     id="Capa_1"
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 612 612"
   >
-    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+    <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
     <g
       id="SVGRepo_tracerCarrier"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     ></g>
     <g id="SVGRepo_iconCarrier">
       <g>
@@ -43,18 +43,18 @@ const AssignmentIcon = () => (
 const NextIcon: React.FC<React.PropsWithoutRef<any>> = () => (
   <svg
     fill="#000000"
-    height="200px"
-    width="200px"
+    height="25px"
+    width="25px"
     version="1.1"
     id="Capa_1"
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 611.998 611.998"
   >
-    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+    <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
     <g
       id="SVGRepo_tracerCarrier"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     ></g>
     <g id="SVGRepo_iconCarrier">
       <g>
@@ -71,32 +71,44 @@ const NextIcon: React.FC<React.PropsWithoutRef<any>> = () => (
   </svg>
 );
 
-const PrevIcon = () => <NextIcon className="transform -scale-x-1" />;
+const PrevIcon = () => <div className="transform -scale-x-[1]"><NextIcon /></div>;
+
+const LessonLinkButton: React.FC<{
+  link: string;
+  text: string;
+  icon: React.ReactNode;
+}> = ({ link, text, icon }) => (
+  <a
+    href={link}
+    className="h-8 max-w-fit bg-gray-50 hover:bg-gray-100 font-bold py-6 px-4 rounded inline-flex"
+  >
+    <button className="inline-flex items-center justify-between">
+      {icon}
+      <span className="ml-2">{text}</span>
+    </button>
+  </a>
+);
 
 export const AssignmentLinkButton: React.FC<{ link: string }> = ({ link }) => (
-  <button className="bg-grey-light hover:bg-grey text-grey-darkest font-bold py-2 px-4 rounded inline-flex items-center">
-    <AssignmentIcon />
-    <a href={link}>Proceed to Assignment</a>
-  </button>
+  <LessonLinkButton
+    icon={<AssignmentIcon />}
+    text="Proceed to Assignment"
+    link={link}
+  />
 );
 
 export const NextLinkButton: React.FC<{ link: string }> = ({ link }) => (
-  <button className="bg-grey-light hover:bg-grey text-grey-darkest font-bold py-2 px-4 rounded inline-flex items-center">
-    <NextIcon />
-    <a href={link}>Next Lesson</a>
-  </button>
+  <LessonLinkButton icon={<NextIcon />} text="Next Lesson" link={link} />
 );
 
 export const PrevLinkButton: React.FC<{ link: string }> = ({ link }) => (
-  <button className="bg-grey-light hover:bg-grey text-grey-darkest font-bold py-2 px-4 rounded inline-flex items-center">
-    <PrevIcon />
-    <a href={link}>Previous Lesson</a>
-  </button>
+  <LessonLinkButton icon={<PrevIcon />} text="Previous Lesson" link={link} />
 );
 
 export const ReviewLessonButton: React.FC<{ link: string }> = ({ link }) => (
-  <button className="bg-grey-light hover:bg-grey text-grey-darkest font-bold py-2 px-4 rounded inline-flex items-center">
-    <AssignmentIcon />
-    <a href={link}>Review Lesson Material</a>
-  </button>
+  <LessonLinkButton
+    icon={<AssignmentIcon />}
+    text="Review Lesson Material"
+    link={link}
+  />
 );

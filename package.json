@@ -13,7 +13,9 @@
     "check:fmt": "prettier --check .",
     "check:types": "tsc --noEmit",
     "lint": "eslint",
+    "lint:fix": "eslint --fix",
     "check": "astro check && npm run check:fmt && npm run check:types && npm run lint",
+    "check:fix": "npm run fmt && npm run lint:fix",
     "postinstall": "patch-package"
   },
   "dependencies": {
