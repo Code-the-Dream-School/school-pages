@@ -3,6 +3,11 @@ layout: "../../layouts/genericMarkdownFile.astro"
 title: "Node/Express Lesson 7: Using Query Parameters"
 description: Material link for lesson 7 of the node/express class
 ---
+import {
+  AssignmentLinkButton,
+  NextLinkButton,
+  PrevLinkButton
+} from "../../components/navButtons.js";
 
 # Node/Express Lesson 7
 
@@ -41,3 +46,9 @@ In this course, we will not teach the use of regular
 expressions, but you should be aware of their purpose. To complete your homework, you
 can just copy the regular expressions used by the instructor from their location in the
 final directory.
+
+<div className="flex justify-evenly">
+  <PrevLinkButton link="/node-express/lesson6-m1" />
+  <AssignmentLinkButton link="/node-express/lesson7-a1" />
+  <NextLinkButton link="/node-express/lesson8-m1" />
+</div>
