@@ -3,6 +3,11 @@ layout: "../../layouts/genericMarkdownFile.astro"
 title: "Node/Express Lesson 10: Jobs API Part 2"
 description: Material link for lesson 10 of the node/express class
 ---
+import {
+  AssignmentLinkButton,
+  NextLinkButton,
+  PrevLinkButton
+} from "../../components/navButtons.js";
 
 # Node/Express Lesson 10
 
@@ -25,10 +30,16 @@ The instructor shows how to deploy to Heroku. However, since this video was made
 
 When you deploy to the Internet, you need to be confident that your application is secure. In your case, the risk is very small, because you aren't storing or retrieving sensitive information. This is fortunate, because security is hard -- very hard. The packages the instructor specifies are good starting points. 
 
-CORS is not really about security. It stands for cross origin resource sharing, and it is what allows one web application to call another, subject to configuration limits. 
+CORS is not really about security. It stands for cross-origin resource sharing, and it is what allows one web application to call another, subject to configuration limits.
 
 The xss-clean package is to avert an attack called cross site scripting. This occurs when an attacker is able to insert some JavaScript into your application and have your application run that script, potentially getting access to resources managed by the application. This can happen when a script is inserted into a URL that calls the application, or into a REST request, or into an HTML form. The xss-clean package strips those scripts out. 
 
-The helmet package provides additional protection against cross site scripting. It sets headers on your HTML pages to limit what script the pages will load. Helmet can get a bit complicted to configure for a front end, particularly if the front end uses resources to style the application such as Bootstrap. 
+The helmet package provides additional protection against cross site scripting. It sets headers on your HTML pages to limit what script the pages will load. Helmet can get a bit complicated to configure for a front end, particularly if the front end uses resources to style the application such as Bootstrap.
 
 The express-rate-limit package limits the number of requests that can be issued per minute from a given client, so that attackers can't cause application problems by brute force.
+
+<div className="flex justify-evenly">
+  <PrevLinkButton link="/node-express/lesson9-m1" />
+  <AssignmentLinkButton link="/node-express/lesson10-a1" />
+  <NextLinkButton link="/node-express/lesson11-m1" />
+</div>
