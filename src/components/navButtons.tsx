@@ -71,7 +71,11 @@ const NextIcon: React.FC<React.PropsWithoutRef<any>> = () => (
   </svg>
 );
 
-const PrevIcon = () => <div className="transform -scale-x-[1]"><NextIcon /></div>;
+const PrevIcon = () => (
+  <div className="transform -scale-x-[1]">
+    <NextIcon />
+  </div>
+);
 
 const LessonLinkButton: React.FC<{
   link: string;
