@@ -3,6 +3,7 @@ layout: "../../layouts/genericMarkdownFile.astro"
 title: Node/Express Lesson 11 Coding Assignment
 description: Node/Express Lesson 11 Coding Assignment
 ---
+
 import { ReviewLessonButton } from "../../components/navButtons.js";
 
 # Node/Express Lesson 11 Coding Assignment
@@ -17,95 +18,94 @@ This lesson does not involve the creation of any new Node or Express functions. 
 ```html
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Jobs List</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <h1>Jobs List</h1>
-    <hr>
+    <hr />
     <p id="message"></p>
-    <hr>
+    <hr />
     <div id="logon-register" style="display:none;">
-        <button type="button" id="logon">logon</button>
-        <button type="button" id="register">register</button>
+      <button type="button" id="logon">logon</button>
+      <button type="button" id="register">register</button>
     </div>
     <div id="logon-div" style="display:none;">
-        <form>
-            <div>
-                <label for="email">email:</label>
-                <input type="email" id="email">
-            </div>
-            <div>
-                <label for="password">password:</label>
-                <input type="password" id="password">
-            </div>
-            <button type="button" id="logon-button">logon</button>
-            <button type="button" id="logon-cancel">cancel</button>
-        </form>
+      <form>
+        <div>
+          <label for="email">email:</label>
+          <input type="email" id="email" />
+        </div>
+        <div>
+          <label for="password">password:</label>
+          <input type="password" id="password" />
+        </div>
+        <button type="button" id="logon-button">logon</button>
+        <button type="button" id="logon-cancel">cancel</button>
+      </form>
     </div>
     <div id="register-div" style="display:none;">
-        <form>
-            <div>
-                <label for="name">name:</label>
-                <input type="text" id="name">
-            </div>
-            <div>
-                <label for="email1">email:</label>
-                <input type="email" id="email1">
-            </div>
-            <div>
-                <label for="password1">password:</label>
-                <input type="password" id="password1">
-            </div>
-            <div>
-                <label for="password2">verify password:</label>
-                <input type="password" id="password2">
-            </div>
-            <button type="button" id="register-button">register</button>
-            <button type="button" id="register-cancel">cancel</button>
-        </form>
+      <form>
+        <div>
+          <label for="name">name:</label>
+          <input type="text" id="name" />
+        </div>
+        <div>
+          <label for="email1">email:</label>
+          <input type="email" id="email1" />
+        </div>
+        <div>
+          <label for="password1">password:</label>
+          <input type="password" id="password1" />
+        </div>
+        <div>
+          <label for="password2">verify password:</label>
+          <input type="password" id="password2" />
+        </div>
+        <button type="button" id="register-button">register</button>
+        <button type="button" id="register-cancel">cancel</button>
+      </form>
     </div>
     <div id="jobs" style="display:none;">
-        <p id="jobs-message"></p>
-        <table id="jobs-table">
-            <tr id="jobs-table-header">
-                <th>Company</th>
-                <th>Position</th>
-                <th>Status</th>
-                <th colspan="2"></th>
-            </tr>
-        </table>
-        <button type="button" id="add-job">add job</button>
-        <button type="button" id="logoff">log off</button>
+      <p id="jobs-message"></p>
+      <table id="jobs-table">
+        <tr id="jobs-table-header">
+          <th>Company</th>
+          <th>Position</th>
+          <th>Status</th>
+          <th colspan="2"></th>
+        </tr>
+      </table>
+      <button type="button" id="add-job">add job</button>
+      <button type="button" id="logoff">log off</button>
     </div>
     <div id="edit-job" style="display:none;">
-        <form>
-            <div>
-                <label for="company">company:</label>
-                <input type="text" id="company">
-            </div>
-            <div>
-                <label for="position">position:</label>
-                <input type="text" id="position">
-            </div>
-            <div>
-                <label for="status">status:</label>
-                <select id="status">
-                    <option value="pending">pending</option>
-                    <option value="interview">interview</option>
-                    <option value="declined">declined</option>
-                </select>
-            </div>
-            <button type="button" id="adding-job">add</button>
-            <button type="button" id="edit-cancel">cancel</button>
-        </form>
+      <form>
+        <div>
+          <label for="company">company:</label>
+          <input type="text" id="company" />
+        </div>
+        <div>
+          <label for="position">position:</label>
+          <input type="text" id="position" />
+        </div>
+        <div>
+          <label for="status">status:</label>
+          <select id="status">
+            <option value="pending">pending</option>
+            <option value="interview">interview</option>
+            <option value="declined">declined</option>
+          </select>
+        </div>
+        <button type="button" id="adding-job">add</button>
+        <button type="button" id="edit-cancel">cancel</button>
+      </form>
     </div>
-</body>
+  </body>
 </html>
 ```
 
@@ -114,15 +114,15 @@ This front end uses a single-page style. There are multiple views in the page, i
 Edit `app.js`. Comment out the following lines:
 
 ```js
-app.get('/', (req, res) => {
-    res.send('<h1>Jobs API</h1><a href="/api-docs">Documentation</a>');
+app.get("/", (req, res) => {
+  res.send('<h1>Jobs API</h1><a href="/api-docs">Documentation</a>');
 });
 ```
 
 Add the following line below these commented out lines:
 
 ```js
-app.use(express.static('public'))
+app.use(express.static("public"));
 ```
 
 Start the server and go to `localhost:3000` in your browser. You see the page, but it does not do anything. This is because there is no JavaScript to go with it. You create that now. This is the JavaScript for the front end. **Front end JavaScript does not run in Node. Instead, it is delivered to the browser and runs in the browser context, with full access to the `document`, `window`, and `DOM` variables.**
@@ -130,11 +130,12 @@ Start the server and go to `localhost:3000` in your browser. You see the page, b
 There are various divs to be manipulated by this JavaScript. (Again, you have to change this code to match your data model.) The keep the code organized, we will separate them into various modules (files). There is one module,
 index.js, to initialize window handling. All the other modules can be imported from there.
 There are five divs, only one of which will show at a time:
-- one to select logon or register, 
-- one to do logon, 
-- one to do register, 
-- one to display the jobs, 
-- and one to add or edit a job. 
+
+- one to select logon or register,
+- one to do logon,
+- one to do register,
+- one to display the jobs,
+- and one to add or edit a job.
 
 For each of these divs, there is a separate module controlling its operation.
 
@@ -156,14 +157,14 @@ export const setDiv = (newDiv) => {
       activeDiv.style.display = "none";
     }
     newDiv.style.display = "block";
-    activeDiv = newDiv
+    activeDiv = newDiv;
   }
 };
 
 export let inputEnabled = true;
 export const enableInput = (state) => {
-  inputEnabled = state
-}
+  inputEnabled = state;
+};
 
 export let token = null;
 export const setToken = (value) => {
@@ -173,7 +174,7 @@ export const setToken = (value) => {
   } else {
     localStorage.removeItem("token");
   }
-}
+};
 
 export let message = null;
 
@@ -200,76 +201,83 @@ document.addEventListener("DOMContentLoaded", () => {
 ```
 
 Remember that this code is running in the browser, and not in Node. That means you must use `import`
-and not `require`. 
+and not `require`.
 
-We need to keep track of the active div so that we know which one to disable when switching between them, 
+We need to keep track of the active div so that we know which one to disable when switching between them,
 and that is stored in the variable `activeDiv`. We don't need to export that variable since it's only used here in the index
-script by the `setDiv` function. We export a function that sets the active div, making it visible and hiding the previous active div. 
+script by the `setDiv` function. We export a function that sets the active div, making it visible and hiding the previous active div.
 
 We also have to have a means of enabling or disabling input. This is because we will use asynchronous functions,
 and the application can get confused if more input comes in while the previous requests are in progress.
 
-We also have to keep track of whether the user is logged in. 
+We also have to keep track of whether the user is logged in.
 We do that in a `token` variable that we store in the browser's local storage (although this creates security risks as
 previously described.) When local storage is used, the user remains logged in even if the page
 is refreshed. If the function is called with a `null` token, then we _remove_ the token from local storage instead.
 
-When the user takes actions we may want to display a message on the page. We store the value of that message here in 
+When the user takes actions we may want to display a message on the page. We store the value of that message here in
 the index script in the `message` variable, so that it can easily be updated by any of the other modules.
 
 Once the DOM is loaded, we load the token (if it exists already) from the browser's local storage and
-initialize the handlers for each of the divs. 
+initialize the handlers for each of the divs.
 
 Then, if the user is logged in, we display the list of jobs. If the user is not logged in, we display
 the initial panel with a button for logon and a button for register. Note that we need
 to provide and to export functions to set the enabled flag and the token. This is because
 one can't write directly to variables from other modules. Once a variable is `import`ed in a module, it is treated as a
-`const` variable in that module, so you cannot reassign values to that variable directly. 
+`const` variable in that module, so you cannot reassign values to that variable directly.
 
 You will need to create `loginRegister.js`, `register.js`, `login.js`, `jobs.js`, and `addEdit.js` files, all
-in the public directory. 
+in the public directory.
 
 The `loginRegister.js` module is as follows:
 
 ```js
-import { inputEnabled, setDiv } from "./index.js"
-import { showLogin } from "./login.js"
-import { showRegister } from "./register.js"
+import { inputEnabled, setDiv } from "./index.js";
+import { showLogin } from "./login.js";
+import { showRegister } from "./register.js";
 
-let loginRegisterDiv = null
+let loginRegisterDiv = null;
 
 export const handleLoginRegister = () => {
-  loginRegisterDiv = document.getElementById("logon-register")
-  const login = document.getElementById("logon")
-  const register = document.getElementById("register")
-  
+  loginRegisterDiv = document.getElementById("logon-register");
+  const login = document.getElementById("logon");
+  const register = document.getElementById("register");
+
   loginRegisterDiv.addEventListener("click", (e) => {
     if (inputEnabled && e.target.nodeName === "BUTTON") {
-        if (e.target === login) {
-            showLogin()
-        } else if (e.target === register) {
-            showRegister()
-        }
+      if (e.target === login) {
+        showLogin();
+      } else if (e.target === register) {
+        showRegister();
+      }
     }
-  })
-}
+  });
+};
 
 export const showLoginRegister = () => {
-    setDiv(loginRegisterDiv)
-}
+  setDiv(loginRegisterDiv);
+};
 ```
 
 Each of the div handling modules follow this pattern. Required imports (used when one div handler
-calls another) are resolved up front. Then, within the handler function, the div and its controls are defined. 
+calls another) are resolved up front. Then, within the handler function, the div and its controls are defined.
 Also, within the handler function, an event handler is declared to handle mouse clicks
-within the div. 
+within the div.
 
 A separate function handles display of the div. (React works in similar fashion, if you know that framework -- but this lesson does not use React.)
 
 The `register.js` module is as follows:
 
 ```js
-import { inputEnabled, setDiv, message, token, enableInput, setToken } from "./index.js";
+import {
+  inputEnabled,
+  setDiv,
+  message,
+  token,
+  enableInput,
+  setToken,
+} from "./index.js";
 import { showLoginRegister } from "./loginRegister.js";
 import { showJobs } from "./jobs.js";
 
@@ -287,7 +295,7 @@ export const handleRegister = () => {
   password2 = document.getElementById("password2");
   const registerButton = document.getElementById("register-button");
   const registerCancel = document.getElementById("register-cancel");
-  
+
   registerDiv.addEventListener("click", (e) => {
     if (inputEnabled && e.target.nodeName === "BUTTON") {
       if (e.target === registerButton) {
@@ -310,7 +318,14 @@ export const showRegister = () => {
 The `login.js` module is as follows:
 
 ```js
-import { inputEnabled, setDiv, token, message, enableInput, setToken } from "./index.js";
+import {
+  inputEnabled,
+  setDiv,
+  token,
+  message,
+  enableInput,
+  setToken,
+} from "./index.js";
 import { showLoginRegister } from "./loginRegister.js";
 import { showJobs } from "./jobs.js";
 
@@ -324,7 +339,7 @@ export const handleLogin = () => {
   password = document.getElementById("password");
   const logonButton = document.getElementById("logon-button");
   const logonCancel = document.getElementById("logon-cancel");
-  
+
   loginDiv.addEventListener("click", (e) => {
     if (inputEnabled && e.target.nodeName === "BUTTON") {
       if (e.target === logonButton) {
@@ -346,7 +361,14 @@ export const showLogin = () => {
 The `jobs.js` module is as follows:
 
 ```js
-import { inputEnabled, setDiv, message, setToken, token, enableInput } from "./index.js";
+import {
+  inputEnabled,
+  setDiv,
+  message,
+  setToken,
+  token,
+  enableInput,
+} from "./index.js";
 import { showLoginRegister } from "./loginRegister.js";
 import { showAddEdit } from "./addEdit.js";
 
@@ -360,7 +382,7 @@ export const handleJobs = () => {
   const addJob = document.getElementById("add-job");
   jobsTable = document.getElementById("jobs-table");
   jobsTableHeader = document.getElementById("jobs-table-header");
-  
+
   jobsDiv.addEventListener("click", (e) => {
     if (inputEnabled && e.target.nodeName === "BUTTON") {
       if (e.target === addJob) {
@@ -370,7 +392,7 @@ export const handleJobs = () => {
       }
     }
   });
-}
+};
 
 export const showJobs = async () => {
   setDiv(jobsDiv);
@@ -396,7 +418,7 @@ export const handleAddEdit = () => {
   status = document.getElementById("status");
   addingJob = document.getElementById("adding-job");
   const editCancel = document.getElementById("edit-cancel");
-  
+
   addEditDiv.addEventListener("click", (e) => {
     if (inputEnabled && e.target.nodeName === "BUTTON") {
       if (e.target === addingJob) {
@@ -410,8 +432,8 @@ export const handleAddEdit = () => {
 
 export const showAddEdit = (job) => {
   message.textContent = "";
-  setDiv(addEditDiv)
-}
+  setDiv(addEditDiv);
+};
 ```
 
 Create all these files and then try the application out. You will find that
@@ -419,17 +441,17 @@ the application is now allows for user interaction, and you can navigate between
 
 However, the application still does not do much, because, of course, there
 is no code there to communicate with the back end. This is to be added using the
-`fetch()` function. Fetch makes AJAX (Asynchronous JavaScript And XML) calls, so it returns 
+`fetch()` function. Fetch makes AJAX (Asynchronous JavaScript And XML) calls, so it returns
 results asynchronously. In the code that follows, we
 use the `async/await` pattern, so of course whenever that is used, the
-surrounding function must be declared as an `async` function. 
+surrounding function must be declared as an `async` function.
 
 Also, we need to disable input during the period in which the `async` operation is in progress. We do
 this by setting the `inputEnabled` flag using the `enableInput` function that is exported from `index.js`.
 Our click handlers ignore clicks if
-they occur while the `inputEnabled` flag is `false`. 
+they occur while the `inputEnabled` flag is `false`.
 
-We may get an error when making the request to the server, so the async 
+We may get an error when making the request to the server, so the async
 operations must be surrounded with a `try/catch`. If an error
 occurs, we notify the user by displaying a message in the page, but we also log the error to the console. You
 may not want to log all errors to the console in a production application,
@@ -443,7 +465,14 @@ stored for use in accessing jobs records.
 Adding these capabilities to `register.js` gives the following:
 
 ```js
-import { inputEnabled, setDiv, message, token, enableInput, setToken } from "./index.js";
+import {
+  inputEnabled,
+  setDiv,
+  message,
+  token,
+  enableInput,
+  setToken,
+} from "./index.js";
 import { showLoginRegister } from "./loginRegister.js";
 import { showJobs } from "./jobs.js";
 
@@ -461,7 +490,7 @@ export const handleRegister = () => {
   password2 = document.getElementById("password2");
   const registerButton = document.getElementById("register-button");
   const registerCancel = document.getElementById("register-cancel");
-  
+
   registerDiv.addEventListener("click", async (e) => {
     if (inputEnabled && e.target.nodeName === "BUTTON") {
       if (e.target === registerButton) {
@@ -469,7 +498,7 @@ export const handleRegister = () => {
           message.textContent = "The passwords entered do not match.";
         } else {
           enableInput(false);
-          
+
           try {
             const response = await fetch("/api/v1/auth/register", {
               method: "POST",
@@ -482,7 +511,7 @@ export const handleRegister = () => {
                 password: password1.value,
               }),
             });
-            
+
             const data = await response.json();
             if (response.status === 201) {
               message.textContent = `Registration successful.  Welcome ${data.user.name}`;
@@ -492,7 +521,7 @@ export const handleRegister = () => {
               email1.value = "";
               password1.value = "";
               password2.value = "";
-              
+
               showJobs();
             } else {
               message.textContent = data.msg;
@@ -501,7 +530,7 @@ export const handleRegister = () => {
             console.error(err);
             message.textContent = "A communications error occurred.";
           }
-          
+
           enableInput(true);
         }
       } else if (e.target === registerCancel) {
@@ -525,11 +554,11 @@ export const showRegister = () => {
 
 Notice that we've now made the click event listener callback function `async`.
 We then check to see if the user entered matching passwords in the two inputs. If they did,
-disable clicking on the buttons and then make the `fetch()` call to the register endpoint. 
+disable clicking on the buttons and then make the `fetch()` call to the register endpoint.
 
-If the call is successful, we parse the data from the response, display a message to the user, 
+If the call is successful, we parse the data from the response, display a message to the user,
 and save the token to local storage using the function exported from `index.js`. We can then display the jobs page.
-If the call was not successful we will continue to show the register page and will dipslay the error message from the 
+If the call was not successful we will continue to show the register page and will dipslay the error message from the
 response to the user. If any errors occur, then we catch them and continue eto show the register page
 and show a generic error message to the user.
 
@@ -541,7 +570,14 @@ to live on in memory.
 The `login.js` module becomes:
 
 ```js
-import { inputEnabled, setDiv, token, message, enableInput, setToken } from "./index.js";
+import {
+  inputEnabled,
+  setDiv,
+  token,
+  message,
+  enableInput,
+  setToken,
+} from "./index.js";
 import { showLoginRegister } from "./loginRegister.js";
 import { showJobs } from "./jobs.js";
 
@@ -555,12 +591,12 @@ export const handleLogin = () => {
   password = document.getElementById("password");
   const logonButton = document.getElementById("logon-button");
   const logonCancel = document.getElementById("logon-cancel");
-  
+
   loginDiv.addEventListener("click", async (e) => {
     if (inputEnabled && e.target.nodeName === "BUTTON") {
       if (e.target === logonButton) {
         enableInput(false);
-        
+
         try {
           const response = await fetch("/api/v1/auth/login", {
             method: "POST",
@@ -572,15 +608,15 @@ export const handleLogin = () => {
               password: password.value,
             }),
           });
-          
+
           const data = await response.json();
           if (response.status === 200) {
             message.textContent = `Logon successful.  Welcome ${data.user.name}`;
             setToken(data.token);
-            
+
             email.value = "";
             password.value = "";
-            
+
             showJobs();
           } else {
             message.textContent = data.msg;
@@ -589,7 +625,7 @@ export const handleLogin = () => {
           console.error(err);
           message.textContent = "A communications error occurred.";
         }
-        
+
         enableInput(true);
       } else if (e.target === logonCancel) {
         email.value = "";
@@ -614,18 +650,18 @@ can be corrected in `jobs.js` with the following change:
 ```js
       } else if (e.target === logoff) {
         setToken(null);
-        
+
         message.textContent = "You have been logged off.";
-        
+
         jobsTable.replaceChildren([jobsTableHeader]);
-        
+
         showLoginRegister();
       }
 ```
 
 Note that logoff involves no communication with the back end. The user is
 logged off by deleting the JWT from memory. We also have to clear the jobs
-data from memory, for security reasons, so that a non-logged-in user can't see 
+data from memory, for security reasons, so that a non-logged-in user can't see
 the previously logged-in user's jobs. That's what the replaceChildren does here, it replaes the contents
 of the `<table id="jobs-table">` element with just the `<tr id="jobs-header">` element and nothing else.
 
@@ -637,7 +673,7 @@ addEditDiv.addEventListener("click", async (e) => {
   if (inputEnabled && e.target.nodeName === "BUTTON") {
     if (e.target === addingJob) {
       enableInput(false);
-      
+
       let method = "POST";
       let url = "/api/v1/jobs";
       try {
@@ -653,16 +689,16 @@ addEditDiv.addEventListener("click", async (e) => {
             status: status.value,
           }),
         });
-        
+
         const data = await response.json();
         if (response.status === 201) {
           // 200 indicates a successful update
           message.textContent = "The job entry was updated.";
-          
+
           company.value = "";
           position.value = "";
           status.value = "pending";
-          
+
           showJobs();
         } else {
           message.textContent = data.msg;
@@ -671,7 +707,7 @@ addEditDiv.addEventListener("click", async (e) => {
         console.log(err);
         message.textContent = "A communication error occurred.";
       }
-      
+
       enableInput(true);
     } else if (e.target === editCancel) {
       message.textContent = "";
@@ -693,7 +729,7 @@ when it is clicked, how do we know which entry is to be edited? This is done as 
 The edit buttons are given a class of `"editButton"`, and similarly, the delete buttons are
 given a class of `"deleteButton"`. We can also add an `data-<something>` attribute to the buttons.
 These are called [data attributes](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/dataset) and in Javascript
-they correspond to a DOM hash/object called `dataset`. By adding a `data-id` attribute to the elemnet, we can access it 
+they correspond to a DOM hash/object called `dataset`. By adding a `data-id` attribute to the elemnet, we can access it
 via the `dataset.id` property. We want to set that id to be the id of that job (or your custom object), as returned from the database.
 
 It looks like this in `jobs.js`:
@@ -702,7 +738,7 @@ It looks like this in `jobs.js`:
 export const showJobs = async () => {
   try {
     enableInput(false);
-    
+
     const response = await fetch("/api/v1/jobs", {
       method: "GET",
       headers: {
@@ -710,17 +746,17 @@ export const showJobs = async () => {
         Authorization: `Bearer ${token}`,
       },
     });
-    
+
     const data = await response.json();
     let children = [jobsTableHeader];
-    
+
     if (response.status === 200) {
       if (data.count === 0) {
         jobsTable.replaceChildren(...children); // clear this for safety
       } else {
         for (let i = 0; i < data.jobs.length; i++) {
           let rowEntry = document.createElement("tr");
-          
+
           let editButton = `<td><button type="button" class="editButton" data-id=${data.jobs[i]._id}>edit</button></td>`;
           let deleteButton = `<td><button type="button" class="deleteButton" data-id=${data.jobs[i]._id}>delete</button></td>`;
           let rowHTML = `
@@ -728,7 +764,7 @@ export const showJobs = async () => {
             <td>${data.jobs[i].position}</td>
             <td>${data.jobs[i].status}</td>
             <div>${editButton}${deleteButton}</div>`;
-          
+
           rowEntry.innerHTML = rowHTML;
           children.push(rowEntry);
         }
@@ -760,7 +796,7 @@ in `jobs.js` isn't set to look for them yet. We can add a section to the click h
 ```
 
 The `dataset.id` contains the id of the entry to be edited. That is then passed on to the showAddEdit
-function. So we need to change that function to do something with this parameter. 
+function. So we need to change that function to do something with this parameter.
 
 This function is in `addEdit.js`, and should be changed as follows:
 
@@ -806,7 +842,7 @@ export const showAddEdit = async (jobId) => {
       message.textContent = "A communications error has occurred.";
       showJobs();
     }
-    
+
     enableInput(true);
   }
 };
@@ -824,54 +860,54 @@ case, we need to do a PATCH instead of a POST, and we need to include the id of 
 entry to be updated in the URL. So we need the following additional changes to addEdit.js:
 
 ```js
-      if (e.target === addingJob) {
-        enableInput(false);
-        
-        let method = "POST";
-        let url = "/api/v1/jobs";
-        
-        if (addingJob.textContent === "update") {
-          method = "PATCH";
-          url = `/api/v1/jobs/${addEditDiv.dataset.id}`;
-        }
-        
-        try {
-          const response = await fetch(url, {
-            method: method,
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({
-              company: company.value,
-              position: position.value,
-              status: status.value,
-            }),
-          });
-          
-          const data = await response.json();
-          if (response.status === 200 || response.status === 201) {
-            if (response.status === 200) {
-              // a 200 is expected for a successful update
-              message.textContent = "The job entry was updated.";
-            } else {
-              // a 201 is expected for a successful create
-              message.textContent = "The job entry was created.";
-            }
-            
-            company.value = "";
-            position.value = "";
-            status.value = "pending";
-            showJobs();
-          } else {
-            message.textContent = data.msg;
-          }
-        } catch (err) {
-          console.log(err);
-          message.textContent = "A communication error occurred.";
-        }
-        enableInput(true);
+if (e.target === addingJob) {
+  enableInput(false);
+
+  let method = "POST";
+  let url = "/api/v1/jobs";
+
+  if (addingJob.textContent === "update") {
+    method = "PATCH";
+    url = `/api/v1/jobs/${addEditDiv.dataset.id}`;
+  }
+
+  try {
+    const response = await fetch(url, {
+      method: method,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        company: company.value,
+        position: position.value,
+        status: status.value,
+      }),
+    });
+
+    const data = await response.json();
+    if (response.status === 200 || response.status === 201) {
+      if (response.status === 200) {
+        // a 200 is expected for a successful update
+        message.textContent = "The job entry was updated.";
+      } else {
+        // a 201 is expected for a successful create
+        message.textContent = "The job entry was created.";
       }
+
+      company.value = "";
+      position.value = "";
+      status.value = "pending";
+      showJobs();
+    } else {
+      message.textContent = data.msg;
+    }
+  } catch (err) {
+    console.log(err);
+    message.textContent = "A communication error occurred.";
+  }
+  enableInput(true);
+}
 ```
 
 Make these changes, and editing jobs should work. Make sure that adding a new job still work correctly.
@@ -879,8 +915,8 @@ Make these changes, and editing jobs should work. Make sure that adding a new jo
 This completes all CRUD operations except for delete. You will notice that the delete buttons don't work yet. Fix this on your own
 by following the pattern used for the edit button.
 
-You'll call the jobs delete API, and in the URL you will include the ID of the entry to be deleted. Then display the job list page 
-if the delete was successful. 
+You'll call the jobs delete API, and in the URL you will include the ID of the entry to be deleted. Then display the job list page
+if the delete was successful.
 
 **Note:** There is an error in the implementation of the delete operation in the jobs controller. The instructor's guidance is to use this line:
 
