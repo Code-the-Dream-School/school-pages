@@ -3,6 +3,11 @@ layout: "../../layouts/genericMarkdownFile.astro"
 title: "Node/Express Lesson 8: JWT Basics"
 description: Material link for lesson 8 of the node/express class
 ---
+import {
+  AssignmentLinkButton,
+  NextLinkButton,
+  PrevLinkButton
+} from "../../components/navButtons.js";
 
 # Node/Express Lesson 8
 
@@ -26,7 +31,7 @@ For the next few assignments, you will follow the approach the instructor recomm
 
 ## Protecting Routes
 
-To protect routes in your Express application, you create authentication middleware, which runs before the route handler for each protected request. The authentication middleware checks that the token is present with the HTTP request, typically as the Bearer token in the `Authentication` header. Then it validates the token cryptographically, making sure the signature matches the secret. Then, it stores the user ID and perhaps other information about that user in the `req.user` property as a hash/object, so that it can be used by the controller functions handling each request. For example, this allows you to write a controller function that returns only the information that the logged on user is authorized to see.
+To protect routes in your Express application, you create authentication middleware, which runs before the route handler for each protected request. The authentication middleware checks that the token is present with the HTTP request, typically as the Bearer token in the `Authorization` header. Then it validates the token cryptographically, making sure the signature matches the secret. Then, it stores the user ID and perhaps other information about that user in the `req.user` property as a hash/object, so that it can be used by the controller functions handling each request. For example, this allows you to write a controller function that returns only the information that the logged on user is authorized to see.
 
 Some routes are not protected by the authentication middleware, including in particular the logon route and registration routes and any other pages we want all users to be able to see whether or not they are logged in.
 
@@ -68,4 +73,10 @@ Then you add appropriate code to the error handler to handle this case, sending 
 
 ## Continuing with the Video
 
-The video instruction for this lesson starts at 5:05:30 of **[this video](https://www.youtube.com/watch?v=rltfdjcXjmk&t=23313s)** and continues to 6:28:35.
+The video instruction for this lesson starts at 5:05:30 of **[this video](https://youtu.be/rltfdjcXjmk?t=18325)** and continues to 6:28:35.
+
+<div className="flex justify-evenly">
+  <PrevLinkButton link="/node-express/lesson7-m1" />
+  <AssignmentLinkButton link="/node-express/lesson8-a1" />
+  <NextLinkButton link="/node-express/lesson9-m1" />
+</div>
