@@ -3,6 +3,11 @@ layout: "../../layouts/genericMarkdownFile.astro"
 title: "Node/Express Lesson 11:  A Front End for the Jobs API"
 description: Material link for lesson 11 of the node/express class
 ---
+import {
+  AssignmentLinkButton,
+  NextLinkButton,
+  PrevLinkButton
+} from "../../components/navButtons.js";
 
 # Node/Express Lesson 11
 
@@ -13,3 +18,9 @@ In this lesson, you create a front end for the Jobs API you created in the previ
 **There is no video for this lesson. Instead, there are detailed instructions in the Assignment section.**
 
 **Note:** This lesson appears to be mostly copy/paste -- but it may not be depending on what you did the last few weeks! You create forms and tables, but if you used a data model different from Job, as was recommended in lessons 9 and 10, you must modify the HTML and JavaScript so that the forms, tables, and JavaScript variables match your data model. This may seem like a lot of work, and perhaps it is, but once you have completed it, if you used a data model different from the Job model used by the instructor (or you at least substantially extended that model) then you are well on your way to completing your class final project.
+
+<div className="flex justify-evenly">
+  <PrevLinkButton link="/node-express/lesson10-m1" />
+  <AssignmentLinkButton link="/node-express/lesson11-a1" />
+  <NextLinkButton link="/node-express/lesson12-m1" />
+</div>
