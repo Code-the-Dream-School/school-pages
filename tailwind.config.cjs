@@ -26,6 +26,25 @@ module.exports = {
           900: "#851f00",
         },
       },
+      typography: ({ theme }) => ({
+        DEFAULT: {
+          css: {
+            "--tw-prose-hr": theme("colors.pink[300]"),
+            "--tw-prose-bullets": theme("colors.gray.400"),
+            code: {
+              backgroundColor: theme("colors.gray.200"),
+              color: "#DD1144",
+              fontWeight: "400",
+              "border-radius": "0.20rem",
+              paddingInlineStart: "0.30rem",
+              paddingInlineEnd: "0.30rem",
+            },
+            kbd: {
+              backgroundColor: theme("colors.gray.100"),
+            },
+          },
+        },
+      }),
     },
   },
   plugins: [require("@tailwindcss/typography")],
