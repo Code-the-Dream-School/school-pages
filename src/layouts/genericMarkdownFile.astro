@@ -29,8 +29,12 @@ export interface Props {
     <div
       class="flex flex-grow pt-8 bg-salmon-50 sm:bg-white justify-center w-screen"
     >
-      <div class="prose m-2 sm:bg-salmon-50 sm:p-2 rounded">
-        <slot />
+      <div
+        class="flex justify-center m-2 sm:bg-salmon-50 p-8 rounded sm:w-full lg:w-7/12"
+      >
+        <div class="prose">
+          <slot />
+        </div>
       </div>
     </div>
     <WipBanner />
@@ -43,6 +47,9 @@ export interface Props {
 </script>
 
 <style is:global>
+  body {
+    @apply prose-code:before:hidden prose-code:after:hidden;
+  }
   @media (max-width: 600px) {
     pre {
       width: 90vw !important;
