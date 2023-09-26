@@ -920,14 +920,14 @@ if the delete was successful.
 
 **Note:** There is an error in the implementation of the delete operation in the jobs controller. The instructor's guidance is to use this line:
 
-```
-    res.status(StatusCodes.OK).send()
+```js
+res.status(StatusCodes.OK).send();
 ```
 
 This is incorrect, because an empty body is not valid JSON. Change it to:
 
-```
-    res.status(StatusCodes.OK).json({msg: "The entry was deleted."})
+```js
+res.status(StatusCodes.OK).json({ msg: "The entry was deleted." });
 ```
 
 If you do not make this change, an exception is thrown on the front end when you attempt to parse the response body with response.json().
