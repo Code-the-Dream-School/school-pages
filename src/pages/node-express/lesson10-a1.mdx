@@ -3,6 +3,7 @@ layout: "../../layouts/genericMarkdownFile.astro"
 title: Node/Express Lesson 10 Coding Assignment
 description: Node/Express Lesson 10 Coding Assignment
 ---
+
 import { ReviewLessonButton } from "../../components/navButtons.js";
 
 # Node/Express Lesson 10 Coding Assignment
@@ -28,10 +29,12 @@ To deploy to Render.com, follow these steps:
 7.  Scroll to the bottom and click on Create Web Service. Render.com then builds the application for deployment. The process takes a while. Once the process completes, you see a link in the upper right for your new web service. The URL will be something like `https://jobs-api-<your name>.onrender.com`.
 8.  Copy that URL and put it into your Postman tests for the assignment. Then test with Postman. Your application is live!
 
-<video controls title="Deploying backend on Render.com" src="/lesson10-deploying-on-render.mp4" />
+<video
+  controls
+  title="Deploying backend on Render.com"
+  src="/lesson10-deploying-on-render.mp4"
+/>
 
 ## Swagger / OpenAPI documentation
 
 The section of the video from 9:34:30 to the end discusses setting up a Swagger configuration. When you have an API, you need to document it so that implementers of applications that call the API (like the frontend) know what the available endpoints and operations are. Swagger is the best way to do that. It also creates a graphical user interface so that one can call the APIs directly from the UI. You should watch this section so that you understand how a Swagger configuration may be created and what functions it provides. However, this section of the video gets a bit complicated, so you are not required to implement Swagger for your application, but it's a great idea to watch this section and familiarize yourself with the concept of Swagger. If possible, try to implement it as a bonus task this week.
-
-
