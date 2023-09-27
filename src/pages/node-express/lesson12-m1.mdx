@@ -4,6 +4,12 @@ title: "Node/Express Lesson 12: Server Side Rendering with EJS"
 description: Material link for lesson 12 of the node/express class
 ---
 
+import {
+  AssignmentLinkButton,
+  NextLinkButton,
+  PrevLinkButton,
+} from "../../components/navButtons.js";
+
 # Node/Express Lesson 12
 
 # Server Side Rendering with EJS
@@ -41,3 +47,9 @@ The JavaScript for your controllers, routes, middleware, etc. executes on the se
 
 However, you can also put JavaScript into an HTML or EJS page, or load it from a script, where the JavaScript is _not_ within the EJS `<% %>` enclosure. That JavaScript is loaded by the browser and runs in the browser context, which means that it has access to the window and the DOM, but it does not have access to server side data and the database. Anything logged by `console.log` in that
 case would appear in the browser DevTools console.
+
+<div className="flex justify-evenly">
+  <PrevLinkButton link="/node-express/lesson11-m1" />
+  <AssignmentLinkButton link="/node-express/lesson12-a1" />
+  <NextLinkButton link="/node-express/lesson13-m1" />
+</div>
