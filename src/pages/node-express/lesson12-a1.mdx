@@ -271,7 +271,7 @@ could also insert data into the page that was retrieved from the database, as we
 
 There are a couple problems with the handling of the secret word. First, the value is
 stored globally -- so every user sees the same value. We want the user to see only their
-own data. Tje second problem is that the data is stored in the memory of the server
+own data. The second problem is that the data is stored in the memory of the server
 process, so when that server is restarted, the value is lost. We fix this using
 sessions. (Sessions may also be used with front-end+back-end applications.)
 
