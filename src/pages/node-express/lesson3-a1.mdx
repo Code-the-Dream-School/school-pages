@@ -14,16 +14,16 @@ The basic elements of an Express.js program are as follows:
 
 - The `require` statement to import the `express` module
 - Creation of the app as returned from calling `express()`
-- `app.use` statements for the middleware. You"ll eventually use many kinds of middleware, but for now the only middleware we are using is `express.static()`.
+- `app.use` statements for the middleware. You'll eventually use many kinds of middleware, but for now the only middleware we are using is `express.static()`.
 - `app.get` and `app.post` statements for the routes you will handle. Eventually these will be refactored into router modules, but for now you can put them inline.
 - An `app.all` statement after these to handle page not found conditions.
 - An `app.listen` statement to tell the server to listen for requests on a particular port.
 
 You continue working in the node-express-course repository, but for this week, you switch to the 02-express-tutorial directory. This week introduces the Express npm package, which makes web development much quicker than using Node alone. There is no need to use an answers folder. You just put your work in the 02-express-tutorial folder. Complete the following steps:
 
-1. While the `week2` branch is active, create a `week3` branch, for this week"s work (`git checkout -b week3`).
-2. While you are in the `02-express-tutorial` folder, run `npm install`. The instructor has provided a `package.json` and a `.gitignore`. The `package.json` already has the express package defined in it, so running the command `npm install` will do the installation of that package, as needed for this week"s work.
-3. Create a folder named `public` within `02-express-tutorial`. Create an HTML file within it called `index.html`. It"s not critical what you put in the HTML file – just something simple.
+1. While the `week2` branch is active, create a `week3` branch, for this week's work (`git checkout -b week3`).
+2. While you are in the `02-express-tutorial` folder, run `npm install`. The instructor has provided a `package.json` and a `.gitignore`. The `package.json` already has the express package defined in it, so running the command `npm install` will do the installation of that package, as needed for this week's work.
+3. Create a folder named `public` within `02-express-tutorial`. Create an HTML file within it called `index.html`. It's not critical what you put in the HTML file – just something simple.
 4. Edit `app.js` to add all the elements of an Express application as listed above, in the right order. You won't have any `app.get` or `app.post` statements yet. You should have the statement `app.use(express.static("./public"))` so that your HTML file will load. Use port 3000 in the listen statement.
 5. Start the server, with `npm start`. Then use your browser to load [http://localhost:3000](). You should see the HTML page you created.
 6. Try the URL [http://localhost:3000/not-there](). You should see that your `app.all` for page not found returns a 404 error.
@@ -68,7 +68,7 @@ const product = products.find((p) => p.id === idToFind);
     What this means, in this case, is that the user wants to see all products where the name starts with "al", but the user wants to see no more than 5 products. When the `app.get` for `/api/v1/query` path is called, `req.query` is a hash that may contain values for "search" or "limit" or both or neither, depending on what the user puts in the query string. Again, there are array methods you can use to find that list. They are `Array.filter()` and `Array.slice()`. Add a new `app.get` statement for `/api/v1/query`, and include logic to handle these query strings. Then test it out.
 
 13. Add some more logic: you choose! For example, the user might want to send a regular expression instead of search for starting letters. Or the user may only want products that cost less than 20.00.
-14. Optional additional item: Add a button to your `index.html`. Add JavaScript, either within a `<script>` tag in `index.html` or in a JavaScript file it references (which would also be in the public directory.) When you click the button, your JavaScript would issue a fetch call for `/api/v1/products`. Then you"d add the data you get back to a div in your HTML.
+14. Optional additional item: Add a button to your `index.html`. Add JavaScript, either within a `<script>` tag in `index.html` or in a JavaScript file it references (which would also be in the public directory.) When you click the button, your JavaScript would issue a fetch call for `/api/v1/products`. Then you'd add the data you get back to a div in your HTML.
 
 ## Bonus Assignment
 
