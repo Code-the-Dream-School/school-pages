@@ -184,7 +184,7 @@ Ok, that’s the summary. Be sure that you understand this. We will do a lot of 
 
 Now for the programs to write for this assignment:
 
-1.  Create a program named `writeWithPromisesAwait.js`. We are going to use the fs.promises package. `fs` is the built-in "File system" set of functions in [Node](https://nodejs.org/api/fs.html#promises-api). By adding `.promises` we're going to access the versions of those built-in functions that return a Promise as their result. You’d start with the following code:
+1.  Create a program named `writeWithPromisesAwait.js` inside the `01-node-tutorial/answers` folder. We are going to use the fs.promises package. `fs` is the built-in "File system" set of functions in [Node](https://nodejs.org/api/fs.html#promises-api). By adding `.promises` we're going to access the versions of those built-in functions that return a Promise as their result. You’d start with the following code:
 
 ```js
 const { writeFile, readFile } = require("fs").promises;
@@ -219,7 +219,7 @@ const { writeFile, readFile } = require("fs").promises;
   </p>
 </div>
 
-2.  Write another program called `writeWithPromisesThen.js`. You start it the same way, but this time, you use the `.then` style of asynchronous programming. You don’t need to create any functions. Instead you just use cascading .then statements in your mainline, like this:
+2.  Write another program called `writeWithPromisesThen.js` also in the `01-node-tutorial/answers` folder. You start it the same way, but this time, you use the `.then` style of asynchronous programming. You don’t need to create any functions. Instead, you just use cascading .then statements in your mainline, like this:
 
 ```js
  writeFile(...) // write line 1
@@ -254,7 +254,7 @@ server.on("request", (req) => {
   events the server is emitting.
 </p>
 
-4.  Write a program named `customEmitter.js`. In it, create one or several emitters. Then use the emitter `.on` function to handle the events you will emit, logging the parameters to the screen. Then use the emitter `.emit` function to emit several events, with one or several parameters, and make sure that the events are logged by your event handlers. This is your chance to be creative! You could have an event handler that emits a different event to be picked up by a different handler, for example. Here’s a couple tricks to try. You can trigger events with a timer, as follows:
+4.  Write a program named `customEmitter.js` in the `01-node-tutorial/answers` folder. In it, create one or several emitters. Then use the emitter `.on` function to handle the events you will emit, logging the parameters to the screen. Then use the emitter `.emit` function to emit several events, with one or several parameters, and make sure that the events are logged by your event handlers. This is your chance to be creative! You could have an event handler that emits a different event to be picked up by a different handler, for example. Here’s a couple tricks to try. You can trigger events with a timer, as follows:
 
 ```js
 const EventEmitter = require("events");
@@ -295,9 +295,11 @@ emitter.emit("happens", "Hello World!");
   haven’t talked about creating promises yet.)
 </p>
 
-5. Change back to the `01-node-tutorial` directory and run `15-create-big-file.js`. This creates a big file in the content directory. You’ll note that the instructor has a `.gitignore` that includes the file name that's created by that code so that it isn’t stored in Github.
+5. Change back to the `01-node-tutorial` directory and run `15-create-big-file.js`. This creates a big file in the content directory. You’ll note that the instructor has a `.gitignore` that includes the file name that's created by that code so that it isn’t stored in Github. You should also add the file (or files) that you wrote to in the previous steps to your `.gitignore` file.
 6. Now, change back to the `answers` directory, and write a program called `16-streams.js`. It should create a read stream for the big file (.`./content/big.txt`) with encoding of `"utf8"` and a `highWaterMark` of `200`. The `highWaterMark` is the maximum amount of bytes that node will read with each chunk of the stream. The program should initialize a counter to 0. Then it should handle the `“data”` event for the stream by incrementing the counter and logging the event result to the screen. Then it should handle the `“end”` event by reporting the number of chunks received. Finally, it should handle the stream `“error”` event by logging the error to the console. Test the program for several values of highWaterMark. You can look at `01-node-tutorial/16-streams.js` file to help you as needed.
 7. Have a look at `17-http-stream.js`. You don’t need to write a program, but observe how the chunks that are read from the stream are piped to the `res` object that is returned from the http request. Try to understand this program. Usually, if you are sending back voluminous data in response to an HTTP request, you want to break it up into chunks.
+
+That's all for this week, great job! Note, that while the `01-node-tutorial` folder has files for `13-event-emitter.js` and `14-request-event.js`, we've substituted those with the event emitter work in this week's assignment and the `prompter.js` work in the previous assignment. You can still feel free to follow along with the video and complete those files if you'd like.
 
 When you have completed your programming assignment, do a `git add` for all your changes to the branch,
 commit the changes, and push the changes to your repository. Then create a pull request. A link
