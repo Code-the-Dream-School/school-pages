@@ -4,7 +4,11 @@ title: Node/Express Lesson 13 Coding Assignment
 description: Node/Express Lesson 13 Coding Assignment
 ---
 
+import { ReviewLessonButton } from "../../components/navButtons.js";
+
 # Node/Express Lesson 13 Coding Assignment
+
+<ReviewLessonButton link="/node-express/lesson13-m1" />
 
 In this lesson, you use the `passport` and `passport-local` npm packages to handle user authentication, from within a server-side rendered application.
 
@@ -33,39 +37,34 @@ the name of the logged on user, and to add a logoff button if a user is logged o
 `views/index.ejs`:
 
 ```html
-<%- include("partials/head.ejs") %>
-<%- include("partials/header.ejs") %>
-
-<% if (user) { %>
-  <a href="/secretWord">Click this link to view/change the secret word.</a>
+<%- include("partials/head.ejs") %> <%- include("partials/header.ejs") %> <% if
+(user) { %>
+<a href="/secretWord">Click this link to view/change the secret word.</a>
 <% } else { %>
-  <a href="/sessions/logon">Click this link to logon.</a>
-  <a href="/sessions/register">Click this link to register.</a>
-<% } %>
-
-<%- include("partials/footer.ejs") %>
+<a href="/sessions/logon">Click this link to logon.</a>
+<a href="/sessions/register">Click this link to register.</a>
+<% } %> <%- include("partials/footer.ejs") %>
 ```
 
 `views/logon.ejs`:
 
 ```html
-<%- include("partials/head.ejs") %>
-<%- include("partials/header.ejs") %>
+<%- include("partials/head.ejs") %> <%- include("partials/header.ejs") %>
 <form method="POST">
-    <div>
-        <label name="email">Enter your email:</label>
-        <input name="email"/>
-    </div>
-    <div>
-        <label name="password">Enter your password:</label>
-        <input type=password name="password"/>
-    </div>
-    <div>
-        <button>Logon</button>
-        <a href="/">
-            <button type="button">Cancel</button>
-        </a>
-    </div>
+  <div>
+    <label name="email">Enter your email:</label>
+    <input name="email" />
+  </div>
+  <div>
+    <label name="password">Enter your password:</label>
+    <input type="password" name="password" />
+  </div>
+  <div>
+    <button>Logon</button>
+    <a href="/">
+      <button type="button">Cancel</button>
+    </a>
+  </div>
 </form>
 <%- include("partials/footer.ejs") %>
 ```
@@ -73,31 +72,30 @@ the name of the logged on user, and to add a logoff button if a user is logged o
 `views/register.js`
 
 ```html
-<%- include("partials/head.ejs") %>
-<%- include("partials/header.ejs") %>
+<%- include("partials/head.ejs") %> <%- include("partials/header.ejs") %>
 <form method="POST">
-    <div>
-        <label name="name">Enter your name:</label>
-        <input name="name">
-    </div>
-    <div>
-        <label name="email">Enter your email:</label>
-        <input name="email">
-    </div>
-    <div>
-        <label name="password">Enter your password:</label>
-        <input type=password name="password">
-    </div>
-    <div>
-        <label name="password1">Confirm your password:</label>
-        <input type=password name="password1">
-    </div>
-    <div>
-        <button>Register</button>
-        <a href="/">
-            <button type="button">Cancel</button>
-        </a>
-    </div>
+  <div>
+    <label name="name">Enter your name:</label>
+    <input name="name" />
+  </div>
+  <div>
+    <label name="email">Enter your email:</label>
+    <input name="email" />
+  </div>
+  <div>
+    <label name="password">Enter your password:</label>
+    <input type="password" name="password" />
+  </div>
+  <div>
+    <label name="password1">Confirm your password:</label>
+    <input type="password" name="password1" />
+  </div>
+  <div>
+    <button>Register</button>
+    <a href="/">
+      <button type="button">Cancel</button>
+    </a>
+  </div>
 </form>
 <%- include("partials/footer.ejs") %>
 ```
@@ -107,26 +105,16 @@ Revised `views/partials/header.ejs`:
 ```html
 <h1>The Jobs EJS Application</h1>
 <% if (user) { %>
-   <p>User <%= user.name %> is logged on.</p>
-   <form method="POST" action="/sessions/logoff">
-   <button>Logoff</button>
-   </form>
-<% } %>
-<% if (errors) {
-    errors.forEach((err) => { %>
-      <div>
-        Error: <%= err %>
-      </div>
-    <% })
-  } %>
-  <% if (info) {
-    info.forEach((msg) => { %>
-      <div>
-        Info: <%= msg %>
-      </div>
-    <% })
-  } %>
-<hr>
+<p>User <%= user.name %> is logged on.</p>
+<form method="POST" action="/sessions/logoff">
+  <button>Logoff</button>
+</form>
+<% } %> <% if (errors) { errors.forEach((err) => { %>
+<div>Error: <%= err %></div>
+<% }) } %> <% if (info) { info.forEach((msg) => { %>
+<div>Info: <%= msg %></div>
+<% }) } %>
+<hr />
 ```
 
 These changes won't suffice to do anything in the application, until routes are added to match.
@@ -160,7 +148,7 @@ router
     }),
     (req, res) => {
       res.send("Not yet implemented.");
-    },
+    }
   );
 router.route("/logoff").post(logoff);
 
@@ -232,7 +220,7 @@ We have two endpoints that handle just rendering an EJS page, `registerShow` and
 We then have endpoints for actually performing the logoff and register actions. We don't need a controller handler for login, because Passport handles that for us.
 
 The `registerDo` handler will check if the two passwords the user entered match, and refresh the page otherwise.
-If all is good there, it will create a user in the database and redirect to the home page. 
+If all is good there, it will create a user in the database and redirect to the home page.
 The creation of the user entry in Mongo is just the same as it was for the Jobs API. We also have some error handling cases here.
 
 If there is a Mongoose validation error
@@ -315,24 +303,25 @@ const passportInit = () => {
     new LocalStrategy(
       { usernameField: "email", passwordField: "password" },
       async (email, password, done) => {
-      try {
-        const user = await User.findOne({ email: email });
-        if (!user) {
-          return done(null, false, { message: "Incorrect credentials." });
+        try {
+          const user = await User.findOne({ email: email });
+          if (!user) {
+            return done(null, false, { message: "Incorrect credentials." });
+          }
+
+          const result = await user.comparePassword(password);
+          if (result) {
+            return done(null, user);
+          } else {
+            return done(null, false, { message: "Incorrect credentials." });
+          }
+        } catch (e) {
+          return done(e);
         }
-        
-        const result = await user.comparePassword(password);
-        if (result) {
-          return done(null, user);
-        } else {
-          return done(null, false, { message: "Incorrect credentials." });
-        }
-      } catch (e) {
-        return done(e);
       }
-    })
+    )
   );
-  
+
   passport.serializeUser(async function (user, done) {
     done(null, user.id);
   });
@@ -353,7 +342,7 @@ const passportInit = () => {
 module.exports = passportInit;
 ```
 
-Here we are registering a "strategy" to tell Passport how to handle requests that we pass to it. 
+Here we are registering a "strategy" to tell Passport how to handle requests that we pass to it.
 `passport.use` is a function that takes the name you want to give this passport strategy (here we're using `"local"`) and
 the strategy as the second argument, where we're passing in a `new LocalStrategy` from the `passport-local` library.
 
@@ -361,14 +350,15 @@ The `LocalStrategy` constructor takes two arguments: an options object, and a ca
 us to tell the strategy what field on the request will have the user identifier, and what field will have the password. Here, we tell it to look for `"email"` as the identifier, and `password` for the password.
 
 The second argument passed to the `LocalStrategy` constructor is the callback function that will be called when we do `passport.authenticate(...)` in the login route in `sessionRoutes.js`. The `local-strategy` library will extract the `email` and `password` fields that we defined
-in the options/first argument, from the `req.body`. If it doesn't find those fields, it will return a 400 error. If it does find them, then it will then pass those (along with a `done` callback) to the function we've defined above.  It's up to us then to write the code specific to our application, that handles checking if the user exists and has used to correct password. 
+in the options/first argument, from the `req.body`. If it doesn't find those fields, it will return a 400 error. If it does find them, then it will then pass those (along with a `done` callback) to the function we've defined above. It's up to us then to write the code specific to our application, that handles checking if the user exists and has used to correct password.
 
 The `done` callback accepts three arguments:
+
 1. An error, if there is one, otherwise just pass in `null`
 2. The user object, if the user is found and used valid credentials, otherwise `false`
 3. An object with a `message` property and `type`, this can be used in both error and success cases to show flash messages. Here we'e only using it in non-error failure cases (user not found or wrong credentials used).
 
-In addition to registering our local strategy, we also define `serializeUser` and `deserializeUser` functions on the `passport` object. `serializeUser` is used when saving a user to the request session object. We can't save an object to the session cookie, so we need to "serialize" it a.k.a. encode it as a string.  In the above function, we're doing that by telling Passport to save just the user id to the session cookie. Then when Passport is handling a protected route, it will use the `deserializeUser` function to retrieve the user from the database, using the id that was saved to the session cookie.
+In addition to registering our local strategy, we also define `serializeUser` and `deserializeUser` functions on the `passport` object. `serializeUser` is used when saving a user to the request session object. We can't save an object to the session cookie, so we need to "serialize" it a.k.a. encode it as a string. In the above function, we're doing that by telling Passport to save just the user id to the session cookie. Then when Passport is handling a protected route, it will use the `deserializeUser` function to retrieve the user from the database, using the id that was saved to the session cookie.
 
 ---
 
@@ -398,7 +388,7 @@ router
     passport.authenticate("local", {
       successRedirect: "/",
       failureRedirect: "/sessions/logon",
-      failureFlash: true
+      failureFlash: true,
     })
   );
 ```
@@ -436,7 +426,7 @@ const authMiddleware = (req, res, next) => {
   }
 };
 
-module.exports = authMiddleware
+module.exports = authMiddleware;
 ```
 
 `req.user` is injected into the `req` object by `passport.session()`. We can check if it exists (a.k.a. if the user is logged-in)
@@ -456,7 +446,7 @@ router.get("/", (req, res) => {
   if (!req.session.secretWord) {
     req.session.secretWord = "syzygy";
   }
-  
+
   res.render("secretWord", { secretWord: req.session.secretWord });
 });
 
@@ -468,7 +458,7 @@ router.post("/", (req, res) => {
     req.session.secretWord = req.body.secretWord;
     req.flash("info", "The secret word was changed.");
   }
-  
+
   res.redirect("/secretWord");
 });
 
@@ -479,13 +469,13 @@ We could further refactor this by moving the code for handling the routes (`(req
 done for the session routes, but we'll leave it like this for now.
 
 You'll want to update `views/secretWord.ejs` to display the `req.flash`.
-You can follow a similar pattern as what's used in `views/partials/header.ejs`. You'll also want to add a  button for
+You can follow a similar pattern as what's used in `views/partials/header.ejs`. You'll also want to add a button for
 logging off on that page (create a `<form>` element that makes a `POST` call to `/sessions/logoff`).
 
 Then replace the `app.get` and `app.post` statements for the `"/secretWord"` routes in `app.js` with these lines.
 
 ```js
-const secretWordRouter = require('./routes/secretWord');
+const secretWordRouter = require("./routes/secretWord");
 app.use("/secretWord", secretWordRouter);
 ```
 
@@ -493,7 +483,7 @@ Then try out the secretWord page to make sure it still works. Turning on protect
 You add the authentication middleware to the route above as follows:
 
 ```js
-const auth = require('./middleware/auth');
+const auth = require("./middleware/auth");
 app.use("/secretWord", auth, secretWordRouter);
 ```
 
@@ -509,9 +499,9 @@ To see this, clone **[this repository](https://github.com/Code-the-Dream-School/
 
 You should have two browser tabs open, one for localhost:3000, and one for localhost:4000. The one at localhost:4000 just shows a button that says Click Me! **Don't click it yet**. Use the `jobs-ejs`
 application in the 3000 tab to set the secret string to some value. Then log off.
-Then click the button in the 4000 tab. Then log back on in the 3000 tab and check the value of the secret string. So far so good -- it still has the value you set. 
+Then click the button in the 4000 tab. Then log back on in the 3000 tab and check the value of the secret string. So far so good -- it still has the value you set.
 
-[//]: # (# TODO: Verify this exercise because logging off will delete from session)
+[//]: # "# TODO: Verify this exercise because logging off will delete from session"
 
 Now, without logging off of jobs-ejs , click the button in the 4000 tab. Then refresh the /secretWord
 page in `jobs-ejs`. Hey, what happened! (By the way, this attack would
