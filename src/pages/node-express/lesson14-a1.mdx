@@ -4,7 +4,11 @@ title: Node/Express Lesson 14 Coding Assignment
 description: Node/Express Lesson 14 Coding Assignment
 ---
 
+import { ReviewLessonButton } from "../../components/navButtons.js";
+
 # Node/Express Lesson 14 Coding Assignment
+
+<ReviewLessonButton link="/node-express/lesson14-m1" />
 
 You continue to work in the `jobs-ejs` repository. Create a branch called `lesson14` for this
 week's work.
@@ -13,7 +17,7 @@ week's work.
 
 This lesson shows how to build a dynamic database application with **no client-side JavaScript.**
 Of course, in real-world applications, you'll often have client side JavaScript, but this
-lesson shows that you can do a lot of things without it. 
+lesson shows that you can do a lot of things without it.
 
 However, it does necessitate
 some differences in approach. If all you have on the client side is HTML, the client
@@ -57,8 +61,8 @@ As follows:
 
 ```html
 <form method="POST" action="/jobs/delete/0qw9a09as0d9f" style="display: inline">
-<button>delete</button>
-<input type="hidden" name="_csrf" value="<%= _csrf %>">
+  <button>delete</button>
+  <input type="hidden" name="_csrf" value="<%= _csrf %>" />
 </form>
 ```
 
@@ -71,7 +75,7 @@ calls a function in your controller to pull all the job listings for that user f
 into a jobs array (which might be empty). Then the controller function makes the following call:
 
 ```js
-res.render("jobs", { jobs })
+res.render("jobs", { jobs });
 ```
 
 This render call is going to load and parse` /views/jobs.ejs`, passing the array as a local variable to that template.
@@ -106,7 +110,9 @@ the buttons aren't going to do anything yet. So you need to substitute this for
 the edit button:
 
 ```js
-<a href="/jobs/edit/<%= job.id %>"><button type="button">edit</button></a>
+<a href="/jobs/edit/<%= job.id %>">
+  <button type="button">edit</button>
+</a>
 ```
 
 That puts the actual id of the job listing into the URL. Similarly, for
@@ -133,11 +139,13 @@ Enough on the tips. Here are the steps to complete the project.
     might look like:
 
 ```js
-app.use("/jobs", auth, jobs)
+app.use("/jobs", auth, jobs);
 ```
 
-<p class="ml-8">You need to include the auth middleware in the <code>app.use</code>, because these
-         are protected routes and the requester must be a logged on user.</p>
+<p class="ml-8">
+  You need to include the auth middleware in the <code>app.use</code>, because
+  these are protected routes and the requester must be a logged on user.
+</p>
 
 3.  Test your routes. You can test the `GET` routes from the browser.
     For the `POST` routes, you'll need to use Postman.
