@@ -422,7 +422,7 @@ to add code in the view, in the `header.js` partial template, as follows:
 ```
 
 Whoa! you may be saying. That doesn't look like HTML! What will the browser do with it?
-The answer is that the browser never sees this stuff. The things in `<% %> `are JavaScript,
+The answer is that the browser never sees this stuff. The things in `<% %>` are JavaScript,
 executed on the server side, and the render process removes this and replaces it with
 the result of the code. There is logic, which is executed but not displayed, in the `<% %>`
 parts. Then, there is `substution` of values, in the `<%= %>` parts, where the equals sign
