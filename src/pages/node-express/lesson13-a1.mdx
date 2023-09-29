@@ -36,20 +36,23 @@ the name of the logged on user, and to add a logoff button if a user is logged o
 
 `views/index.ejs`:
 
-```html
-<%- include("partials/head.ejs") %> <%- include("partials/header.ejs") %> <% if
-(user) { %>
-<a href="/secretWord">Click this link to view/change the secret word.</a>
+```ejs
+<%- include("partials/head.ejs") %>
+<%- include("partials/header.ejs") %>
+<% if (user) { %>
+    <a href="/secretWord">Click this link to view/change the secret word.</a>
 <% } else { %>
-<a href="/sessions/logon">Click this link to logon.</a>
-<a href="/sessions/register">Click this link to register.</a>
-<% } %> <%- include("partials/footer.ejs") %>
+    <a href="/sessions/logon">Click this link to logon.</a>
+    <a href="/sessions/register">Click this link to register.</a>
+<% } %>
+<%- include("partials/footer.ejs") %>
 ```
 
 `views/logon.ejs`:
 
-```html
-<%- include("partials/head.ejs") %> <%- include("partials/header.ejs") %>
+```ejs
+<%- include("partials/head.ejs") %>
+<%- include("partials/header.ejs") %>
 <form method="POST">
   <div>
     <label name="email">Enter your email:</label>
@@ -71,8 +74,9 @@ the name of the logged on user, and to add a logoff button if a user is logged o
 
 `views/register.js`
 
-```html
-<%- include("partials/head.ejs") %> <%- include("partials/header.ejs") %>
+```ejs
+<%- include("partials/head.ejs") %>
+<%- include("partials/header.ejs") %>
 <form method="POST">
   <div>
     <label name="name">Enter your name:</label>
@@ -102,18 +106,28 @@ the name of the logged on user, and to add a logoff button if a user is logged o
 
 Revised `views/partials/header.ejs`:
 
-```html
+```ejs
 <h1>The Jobs EJS Application</h1>
 <% if (user) { %>
-<p>User <%= user.name %> is logged on.</p>
-<form method="POST" action="/sessions/logoff">
-  <button>Logoff</button>
-</form>
-<% } %> <% if (errors) { errors.forEach((err) => { %>
-<div>Error: <%= err %></div>
-<% }) } %> <% if (info) { info.forEach((msg) => { %>
-<div>Info: <%= msg %></div>
-<% }) } %>
+   <p>User <%= user.name %> is logged on.</p>
+   <form method="POST" action="/sessions/logoff">
+   <button>Logoff</button>
+   </form>
+<% } %>
+<% if (errors) {
+    errors.forEach((err) => { %>
+      <div>
+        Error: <%= err %>
+      </div>
+    <% })
+  } %>
+  <% if (info) {
+    info.forEach((msg) => { %>
+      <div>
+        Info: <%= msg %>
+      </div>
+    <% })
+  } %>
 <hr />
 ```
 
@@ -126,7 +140,7 @@ Create a file `routes/sessionRoutes.js`, as follows:
 
 ```js
 const express = require("express");
-const passport = require("passport");
+// const passport = require("passport");
 const router = express.Router();
 
 const {
@@ -141,11 +155,11 @@ router
   .route("/logon")
   .get(logonShow)
   .post(
-    passport.authenticate("local", {
-      successRedirect: "/",
-      failureRedirect: "/sessions/logon",
-      failureFlash: true,
-    }),
+    // passport.authenticate("local", {
+    //   successRedirect: "/",
+    //   failureRedirect: "/sessions/logon",
+    //   failureFlash: true,
+    // })
     (req, res) => {
       res.send("Not yet implemented.");
     }
@@ -358,7 +372,14 @@ The `done` callback accepts three arguments:
 2. The user object, if the user is found and used valid credentials, otherwise `false`
 3. An object with a `message` property and `type`, this can be used in both error and success cases to show flash messages. Here we'e only using it in non-error failure cases (user not found or wrong credentials used).
 
-In addition to registering our local strategy, we also define `serializeUser` and `deserializeUser` functions on the `passport` object. `serializeUser` is used when saving a user to the request session object. We can't save an object to the session cookie, so we need to "serialize" it a.k.a. encode it as a string. In the above function, we're doing that by telling Passport to save just the user id to the session cookie. Then when Passport is handling a protected route, it will use the `deserializeUser` function to retrieve the user from the database, using the id that was saved to the session cookie.
+In addition to registering our local strategy, we also define `serializeUser` and `deserializeUser` functions on the `passport` object.
+
+`serializeUser` is used when saving a user to the request session object.
+We can't save an object to the session cookie, so we need to "serialize" it a.k.a. encode it as a string.
+In the above function, we're doing that by telling Passport to save just the user id to the session cookie.
+
+Then when Passport is handling a protected route, it will use the `deserializeUser` function to retrieve the user from the database,
+using the id that was saved to the session cookie.
 
 ---
 
@@ -375,7 +396,11 @@ app.use(passport.session());
 ```
 
 First we call the `passportInit` function that we created in the previous section. This registers our `local` Passport strategy,
-and sets up the `serializeUser` and `deserializeUser` functions onto the `passport` object. Then we call `passport.initialize()` (which sets up Passport to work with Express and sessions) and `passport.session()` (which sets up an Express middleware that runs on all requests, checks the session cookie for a user id, and if it finds one, deserializes and attaches it to the `req.user` property).
+and sets up the `serializeUser` and `deserializeUser` functions onto the `passport` object.
+
+Then we call `passport.initialize()` (which sets up Passport to work with Express and sessions) and `passport.session()`
+(which sets up an Express middleware that runs on all requests, checks the session cookie for a user id, and if it finds one,
+deserializes and attaches it to the `req.user` property).
 
 Finally, you can now uncomment the lines having to do with Passport in `routes/sessionRoutes.js`,
 so that the require statement for Passport is included, and so that the route for logon looks like
@@ -468,11 +493,7 @@ module.exports = router;
 We could further refactor this by moving the code for handling the routes (`(req, res) => {...}`) a controller file, like we've
 done for the session routes, but we'll leave it like this for now.
 
-You'll want to update `views/secretWord.ejs` to display the `req.flash`.
-You can follow a similar pattern as what's used in `views/partials/header.ejs`. You'll also want to add a button for
-logging off on that page (create a `<form>` element that makes a `POST` call to `/sessions/logoff`).
-
-Then replace the `app.get` and `app.post` statements for the `"/secretWord"` routes in `app.js` with these lines.
+Next let's replace the `app.get` and `app.post` statements for the `"/secretWord"` routes in `app.js` with these lines:
 
 ```js
 const secretWordRouter = require("./routes/secretWord");
