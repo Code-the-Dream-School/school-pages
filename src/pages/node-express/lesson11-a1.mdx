@@ -692,8 +692,8 @@ addEditDiv.addEventListener("click", async (e) => {
 
         const data = await response.json();
         if (response.status === 201) {
-          // 200 indicates a successful update
-          message.textContent = "The job entry was updated.";
+          // 201 indicates a successful create
+          message.textContent = "The job entry was created.";
 
           company.value = "";
           position.value = "";
