@@ -425,11 +425,11 @@ Whoa! you may be saying. That doesn't look like HTML! What will the browser do w
 The answer is that the browser never sees this stuff. The things in `<% %>` are JavaScript,
 executed on the server side, and the render process removes this and replaces it with
 the result of the code. There is logic, which is executed but not displayed, in the `<% %>`
-parts. Then, there is `substution` of values, in the `<%= %>` parts, where the equals sign
+parts. Then, there is substitution of values, in the `<%= %>` parts, where the equals sign
 indicates that a value is to be displayed. So, this code checks the `info` and `errors`
 arrays, displaying values from them if any are present.
 
-But, the problem is that the `info` and `errors` arrays need to get passed in to the EJS file, when the
+But, the problem is that the `info` and `errors` arrays need to get passed into the EJS file, when the
 render is called. This could be done as follows:
 
 ```js
