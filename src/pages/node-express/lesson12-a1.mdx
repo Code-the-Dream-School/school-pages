@@ -320,7 +320,8 @@ app.post("/secretWord", (req, res) => {
 Then try the http://localhost:3000/secretWord URL. You will see that it works as before,
 except that if you have different sessions (from different browsers; or from a regular tab and an incognito tab)
 the value of the secretWord is different. However, if you restart the server, the value is lost. This
-is because the value of the secretWord is still being stored in the memory of the server.
+is because while we're no longer storing `secretWord` as a global variable,
+it is still being stored in the memory of the server.
 
 If you go into developer tools in your browser, and click on the `Application` tab, you can
 check that a cookie with the name of `connect.sid` has been associated with your browser session.
