@@ -249,14 +249,15 @@ have to duplicate that for every page. So we use "partials". Create the followin
 Then change `views/secretWord.ejs` to substitute include statements, so that the whole thing reads:
 
 ```html
-<%- include("partials/head.ejs") %> <%- include("partials/header.ejs") %>
-<p>The secret word is: <%= secretWord %></p>
-<p>Would you like to change it?</p>
-<form method="POST">
-  <label name="secretWord"></label>
-  <input name="secretWord" /><br />
-  <button>Submit</button>
-</form>
+<%- include("partials/head.ejs") %>
+<%- include("partials/header.ejs") %>
+  <p>The secret word is: <%= secretWord %></p>
+  <p>Would you like to change it?</p>
+  <form method="POST">
+    <label name="secretWord"></label>
+    <input name="secretWord" /><br />
+    <button>Submit</button>
+  </form>
 <%- include("partials/footer.ejs") %>
 ```
 
