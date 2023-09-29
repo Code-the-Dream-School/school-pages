@@ -73,6 +73,7 @@ You need to install the following packages:
 ```
 bcryptjs
 connect-flash
+connect-mongodb-session
 cookie-parser
 dotenv
 ejs
@@ -218,7 +219,7 @@ have to duplicate that for every page. So we use "partials". Create the followin
 
 `views/partials/head.ejs`
 
-```html
+```ejs
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -227,8 +228,7 @@ have to duplicate that for every page. So we use "partials". Create the followin
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Jobs List</title>
   </head>
-  <body></body>
-</html>
+  <body>
 ```
 
 `views/partials/header.ejs`
@@ -249,15 +249,16 @@ have to duplicate that for every page. So we use "partials". Create the followin
 
 Then change `views/secretWord.ejs` to substitute include statements, so that the whole thing reads:
 
-```html
-<%- include("partials/head.ejs") %> <%- include("partials/header.ejs") %>
-<p>The secret word is: <%= secretWord %></p>
-<p>Would you like to change it?</p>
-<form method="POST">
-  <label name="secretWord"></label>
-  <input name="secretWord" /><br />
-  <button>Submit</button>
-</form>
+```ejs
+<%- include("partials/head.ejs") %>
+<%- include("partials/header.ejs") %>
+  <p>The secret word is: <%= secretWord %></p>
+  <p>Would you like to change it?</p>
+  <form method="POST">
+    <label name="secretWord"></label>
+    <input name="secretWord" /><br />
+    <button>Submit</button>
+  </form>
 <%- include("partials/footer.ejs") %>
 ```
 
@@ -348,7 +349,7 @@ store.on("error", function (error) {
   console.log(error);
 });
 
-const session_parms = {
+const sessionParms = {
   secret: process.env.SESSION_SECRET,
   resave: true,
   saveUninitialized: true,
@@ -358,13 +359,13 @@ const session_parms = {
 
 if (app.get("env") === "production") {
   app.set("trust proxy", 1); // trust first proxy
-  session_parms.cookie.secure = true; // serve secure cookies
+  sessionParms.cookie.secure = true; // serve secure cookies
 }
 
-app.use(session(session_parms));
+app.use(session(sessionParms));
 ```
 
-These lines cause the session to be stored in Mongo. The bit about `session_parms.cookie.secure = true`
+These lines cause the session to be stored in Mongo. The bit about `sessionParms.cookie.secure = true`
 is important but may not be immediately obvious. It is saying that, if the application is running in production, the session
 cookie won't work unless SSL is present. It's a good policy, but as you are not running in
 production, you don't have SSL.
@@ -411,12 +412,15 @@ These messages should be displayed on the next screen. Note that you can have
 multiple info or error messages. In order for them to be displayed, we need
 to add code in the view, in the `header.js` partial template, as follows:
 
-```html
+```ejs
 <h1>The Jobs EJS Application</h1>
-<% if (errors) { errors.forEach((err) => { %>
-<div>Error: <%= err %></div>
-<% }) } %> <% if (info) { info.forEach((msg) => { %>
-<div>Info: <%= msg %></div>
+<% if (errors) {
+  errors.forEach((err) => { %>
+    <div>Error: <%= err %></div>
+<% }) } %>
+<% if (info) {
+  info.forEach((msg) => { %>
+    <div>Info: <%= msg %></div>
 <% }) } %>
 <hr />
 ```
