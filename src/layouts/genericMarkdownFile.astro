@@ -25,7 +25,7 @@ export interface Props {
   thumbnail={Astro.props.thumbnail}
 >
   <div class="flex flex-col min-h-screen">
-    <Header />
+    <Header currentPath={Astro.url.pathname} />
     <div
       class="flex flex-grow pt-8 bg-salmon-50 sm:bg-white justify-center w-screen"
     >

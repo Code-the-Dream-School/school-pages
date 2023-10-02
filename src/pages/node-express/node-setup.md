@@ -49,7 +49,7 @@ You should also configure VSCode to handle line ends as Linux does, and to use G
 code .
 ```
 
-You can then bring up the settings for VSCode by typing Ctrl, (the ctrl key plus the comma). The settings has a Search settings entry field. Type line end in that entry field. You will then be able to set the Eol to /n which is what you want. Then do a Search settings for: terminal integrated default profile windows. This brings up a dropdown, from which you should choose Git Bash.
+You can then bring up the settings for VSCode by typing Ctrl, (the Ctrl key plus the comma). The settings has a Search settings entry field. Type line end in that entry field. You will then be able to set the Eol to /n which is what you want. Then do a Search settings for: terminal integrated default profile windows. This brings up a dropdown, from which you should choose Git Bash.
 
 That completes Windows specific setup.
 
